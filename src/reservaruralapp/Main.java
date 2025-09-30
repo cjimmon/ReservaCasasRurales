@@ -12,7 +12,7 @@ public class Main {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM cliente");
 
-            System.out.println("📋 Lista de clientes:");
+            System.out.println("Lista de clientes:");
             while (rs.next()) {
                 System.out.println(rs.getInt("id_cliente") + " - " +
                                    rs.getString("nombre") + " " +

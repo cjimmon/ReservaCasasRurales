@@ -14,12 +14,12 @@ public class DBConnection {
             Class.forName("org.sqlite.JDBC"); // fuerza la carga del driver
             if (conn == null || conn.isClosed()) {
                 conn = DriverManager.getConnection(URL);
-                System.out.println("✅ Conexión establecida con SQLite");
+                System.out.println("Conexión establecida con BD");
             }
         } catch (ClassNotFoundException e) {
-            System.err.println("❌ Driver SQLite no encontrado: " + e.getMessage());
+            System.err.println("Driver SQLite no encontrado: " + e.getMessage());
         } catch (SQLException e) {
-            System.err.println("❌ Error de conexión: " + e.getMessage());
+            System.err.println("Error de conexión: " + e.getMessage());
         }
         return conn;
     }
@@ -28,10 +28,10 @@ public class DBConnection {
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
-                System.out.println("🔌 Conexión terminada");
+                System.out.println("Conexión finalizada");
             }
         } catch (SQLException e) {
-            System.err.println("❌ Error al cerrar conexión: " + e.getMessage());
+            System.err.println("Error al finalizar conexión: " + e.getMessage());
         }
     }
 }
