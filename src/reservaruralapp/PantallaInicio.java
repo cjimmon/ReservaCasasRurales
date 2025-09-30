@@ -2,14 +2,14 @@ package reservaruralapp;
 
 import javax.swing.*;
 import java.awt.*;
-
+import reservaruralapp.Login;
 
 public class PantallaInicio extends JWindow {
 
     private final JProgressBar progressBar = new JProgressBar(0, 100);
     private final JLabel lblLogo = new JLabel();
-    private final int WIDTH = 520;
-    private final int HEIGHT = 320;
+    private final int WIDTH = 1175;
+    private final int HEIGHT = 800;
 
     public PantallaInicio() {
         initUI();
