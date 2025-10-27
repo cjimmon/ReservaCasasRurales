@@ -1,6 +1,8 @@
 package reservaruralapp;
 
 import java.awt.CardLayout;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,18 +45,18 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        BotonReservas = new javax.swing.JButton();
+        BotonNuevaReserva = new javax.swing.JButton();
         BotonClientes = new javax.swing.JButton();
         BotonCasas = new javax.swing.JButton();
         BotonInformes = new javax.swing.JButton();
         BotonOpciones = new javax.swing.JButton();
         logo2 = new javax.swing.JLabel();
+        botonBuscarReserva = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         PanelBienvenida = new javax.swing.JPanel();
         Bienvenida = new javax.swing.JLabel();
+        PanelNuevaReservas = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        PanelReservas = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         PanelClientes = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         PanelCasas = new javax.swing.JPanel();
@@ -63,13 +65,23 @@ public class Principal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         PanelOpciones = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        PanelBuscarReserva = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        boxBuscarReserva = new javax.swing.JComboBox<>();
+        campoBusqueda = new javax.swing.JTextField();
+        botonEjecutarBusqueda = new javax.swing.JButton();
+        scrollTablaReservas = new javax.swing.JScrollPane();
+        tablaReservas = new javax.swing.JTable();
+        botonGuardarCambios = new javax.swing.JButton();
+        botoneliminarReservas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        BotonReservas.setText("Reservas");
-        BotonReservas.addActionListener(new java.awt.event.ActionListener() {
+        BotonNuevaReserva.setText("Nueva Reserva");
+        BotonNuevaReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonReservasActionPerformed(evt);
+                BotonNuevaReservaActionPerformed(evt);
             }
         });
 
@@ -103,6 +115,13 @@ public class Principal extends javax.swing.JFrame {
 
         logo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logo2.png"))); // NOI18N
 
+        botonBuscarReserva.setText("Buscar Reserva");
+        botonBuscarReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarReservaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -112,16 +131,17 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(BotonOpciones)
-                        .addGap(23, 23, 23))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BotonClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(BotonCasas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(botonBuscarReserva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonCasas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(logo2)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(BotonReservas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(BotonInformes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(BotonNuevaReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonInformes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(15, 15, 15))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -129,15 +149,17 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(logo2)
-                .addGap(28, 28, 28)
-                .addComponent(BotonReservas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addComponent(botonBuscarReserva)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BotonNuevaReserva)
+                .addGap(18, 18, 18)
                 .addComponent(BotonClientes)
                 .addGap(18, 18, 18)
                 .addComponent(BotonCasas)
                 .addGap(18, 18, 18)
                 .addComponent(BotonInformes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                .addGap(75, 75, 75)
                 .addComponent(BotonOpciones)
                 .addGap(14, 14, 14))
         );
@@ -146,57 +168,45 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.setLayout(new java.awt.CardLayout());
 
-        jLabel1.setText("Comenzar");
-
         javax.swing.GroupLayout PanelBienvenidaLayout = new javax.swing.GroupLayout(PanelBienvenida);
         PanelBienvenida.setLayout(PanelBienvenidaLayout);
         PanelBienvenidaLayout.setHorizontalGroup(
             PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBienvenidaLayout.createSequentialGroup()
-                .addGap(281, 281, 281)
-                .addComponent(jLabel1)
-                .addContainerGap(386, Short.MAX_VALUE))
-            .addGroup(PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(PanelBienvenidaLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Bienvenida)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 422, Short.MAX_VALUE)
+                .addComponent(Bienvenida)
+                .addGap(0, 423, Short.MAX_VALUE))
         );
         PanelBienvenidaLayout.setVerticalGroup(
             PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBienvenidaLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jLabel1)
-                .addContainerGap(441, Short.MAX_VALUE))
-            .addGroup(PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(PanelBienvenidaLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Bienvenida)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 275, Short.MAX_VALUE)
+                .addComponent(Bienvenida)
+                .addGap(0, 275, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelBienvenida, "card7");
 
-        jLabel2.setText("reservas");
+        jLabel1.setText("nueva reserva");
 
-        javax.swing.GroupLayout PanelReservasLayout = new javax.swing.GroupLayout(PanelReservas);
-        PanelReservas.setLayout(PanelReservasLayout);
-        PanelReservasLayout.setHorizontalGroup(
-            PanelReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelReservasLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jLabel2)
-                .addContainerGap(628, Short.MAX_VALUE))
+        javax.swing.GroupLayout PanelNuevaReservasLayout = new javax.swing.GroupLayout(PanelNuevaReservas);
+        PanelNuevaReservas.setLayout(PanelNuevaReservasLayout);
+        PanelNuevaReservasLayout.setHorizontalGroup(
+            PanelNuevaReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelNuevaReservasLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1)
+                .addContainerGap(737, Short.MAX_VALUE))
         );
-        PanelReservasLayout.setVerticalGroup(
-            PanelReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelReservasLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel2)
-                .addContainerGap(466, Short.MAX_VALUE))
+        PanelNuevaReservasLayout.setVerticalGroup(
+            PanelNuevaReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelNuevaReservasLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel1)
+                .addContainerGap(511, Short.MAX_VALUE))
         );
 
-        jPanel3.add(PanelReservas, "card2");
+        jPanel3.add(PanelNuevaReservas, "card2");
 
         jLabel3.setText("Clientes");
 
@@ -207,14 +217,14 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(PanelClientesLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addComponent(jLabel3)
-                .addContainerGap(584, Short.MAX_VALUE))
+                .addContainerGap(708, Short.MAX_VALUE))
         );
         PanelClientesLayout.setVerticalGroup(
             PanelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelClientesLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jLabel3)
-                .addContainerGap(449, Short.MAX_VALUE))
+                .addContainerGap(495, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelClientes, "card3");
@@ -228,14 +238,14 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(PanelCasasLayout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(jLabel4)
-                .addContainerGap(620, Short.MAX_VALUE))
+                .addContainerGap(744, Short.MAX_VALUE))
         );
         PanelCasasLayout.setVerticalGroup(
             PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelCasasLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jLabel4)
-                .addContainerGap(448, Short.MAX_VALUE))
+                .addContainerGap(494, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelCasas, "card4");
@@ -249,14 +259,14 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(PanelInformesLayout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(jLabel5)
-                .addContainerGap(604, Short.MAX_VALUE))
+                .addContainerGap(728, Short.MAX_VALUE))
         );
         PanelInformesLayout.setVerticalGroup(
             PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInformesLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(jLabel5)
-                .addContainerGap(456, Short.MAX_VALUE))
+                .addContainerGap(502, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelInformes, "card5");
@@ -270,17 +280,120 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(PanelOpcionesLayout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(jLabel6)
-                .addContainerGap(601, Short.MAX_VALUE))
+                .addContainerGap(725, Short.MAX_VALUE))
         );
         PanelOpcionesLayout.setVerticalGroup(
             PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelOpcionesLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jLabel6)
-                .addContainerGap(449, Short.MAX_VALUE))
+                .addContainerGap(495, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelOpciones, "card6");
+
+        jLabel2.setText("BUSCAR RESERVA");
+
+        jLabel7.setText("Buscar por: ");
+
+        boxBuscarReserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id_Reserva 1", "Nombre Cliente", "DNI", "Casa", "Telefono" }));
+        boxBuscarReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxBuscarReservaActionPerformed(evt);
+            }
+        });
+
+        campoBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoBusquedaActionPerformed(evt);
+            }
+        });
+
+        botonEjecutarBusqueda.setText("Buscar");
+        botonEjecutarBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEjecutarBusquedaActionPerformed(evt);
+            }
+        });
+
+        tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Id_Reserva ", "Nombre", "Apellidos", "DNI", "Telefono", "Email", "Casa", "Fecha", "Estado"
+            }
+        ));
+        scrollTablaReservas.setViewportView(tablaReservas);
+
+        botonGuardarCambios.setText("Guardar Cambios");
+        botonGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarCambiosActionPerformed(evt);
+            }
+        });
+
+        botoneliminarReservas.setText("Eliminar Reserva");
+        botoneliminarReservas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoneliminarReservasActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelBuscarReservaLayout = new javax.swing.GroupLayout(PanelBuscarReserva);
+        PanelBuscarReserva.setLayout(PanelBuscarReservaLayout);
+        PanelBuscarReservaLayout.setHorizontalGroup(
+            PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBuscarReservaLayout.createSequentialGroup()
+                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(boxBuscarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                                .addGap(228, 228, 228)
+                                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonEjecutarBusqueda)
+                            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                                .addComponent(botonGuardarCambios)
+                                .addGap(18, 18, 18)
+                                .addComponent(botoneliminarReservas)))
+                        .addGap(143, 143, 143))))
+        );
+        PanelBuscarReservaLayout.setVerticalGroup(
+            PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel2)
+                .addGap(20, 20, 20)
+                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(boxBuscarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonEjecutarBusqueda))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonGuardarCambios)
+                    .addComponent(botoneliminarReservas))
+                .addGap(21, 21, 21)
+                .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jPanel3.add(PanelBuscarReserva, "card8");
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -291,9 +404,9 @@ public class Principal extends javax.swing.JFrame {
          mostrarPanel("card4"); 
     }//GEN-LAST:event_BotonCasasActionPerformed
 
-    private void BotonReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonReservasActionPerformed
+    private void BotonNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevaReservaActionPerformed
           mostrarPanel("card2"); 
-    }//GEN-LAST:event_BotonReservasActionPerformed
+    }//GEN-LAST:event_BotonNuevaReservaActionPerformed
 
     private void BotonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonClientesActionPerformed
          mostrarPanel("card3"); 
@@ -307,6 +420,52 @@ public class Principal extends javax.swing.JFrame {
          mostrarPanel("card6"); 
     }//GEN-LAST:event_BotonOpcionesActionPerformed
 
+    private void botonBuscarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarReservaActionPerformed
+         mostrarPanel("card8");
+    }//GEN-LAST:event_botonBuscarReservaActionPerformed
+
+    private void boxBuscarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxBuscarReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boxBuscarReservaActionPerformed
+
+    private void campoBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoBusquedaActionPerformed
+
+    private void botonEjecutarBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonEjecutarBusquedaActionPerformed
+
+    private void botoneliminarReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoneliminarReservasActionPerformed
+          int filaSeleccionada = scrollTablaReservas.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        DefaultTableModel model = (DefaultTableModel) scrollTablaReservas.getModel();
+        int idReserva = Integer.parseInt(model.getValueAt(filaSeleccionada, 0).toString());
+        model.removeRow(filaSeleccionada);
+        System.out.println("Reserva eliminada -> ID: " + idReserva);
+        // Más adelante haremos DELETE FROM reservas WHERE id_reserva = idReserva;
+    } else {
+        JOptionPane.showMessageDialog(null, "Seleccione una reserva para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+    }
+
+    }//GEN-LAST:event_botoneliminarReservasActionPerformed
+
+    private void botonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarCambiosActionPerformed
+         DefaultTableModel model = (DefaultTableModel) scrollTablaReservas.getModel();
+    for (int i = 0; i < model.getRowCount(); i++) {
+        int idReserva = Integer.parseInt(model.getValueAt(i, 0).toString());
+        String idCliente = model.getValueAt(i, 1).toString();
+        String idCasa = model.getValueAt(i, 2).toString();
+        String fechaInicio = model.getValueAt(i, 3).toString();
+        String fechaFin = model.getValueAt(i, 4).toString();
+        
+        System.out.println("Reserva modificada -> " + idReserva + " " + idCliente + " " + idCasa + " " + fechaInicio + " " + fechaFin);
+    }
+
+    }//GEN-LAST:event_botonGuardarCambiosActionPerformed
+
+
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -314,22 +473,33 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton BotonCasas;
     private javax.swing.JButton BotonClientes;
     private javax.swing.JButton BotonInformes;
+    private javax.swing.JButton BotonNuevaReserva;
     private javax.swing.JButton BotonOpciones;
-    private javax.swing.JButton BotonReservas;
     private javax.swing.JPanel PanelBienvenida;
+    private javax.swing.JPanel PanelBuscarReserva;
     private javax.swing.JPanel PanelCasas;
     private javax.swing.JPanel PanelClientes;
     private javax.swing.JPanel PanelInformes;
+    private javax.swing.JPanel PanelNuevaReservas;
     private javax.swing.JPanel PanelOpciones;
-    private javax.swing.JPanel PanelReservas;
+    private javax.swing.JButton botonBuscarReserva;
+    private javax.swing.JButton botonEjecutarBusqueda;
+    private javax.swing.JButton botonGuardarCambios;
+    private javax.swing.JButton botoneliminarReservas;
+    private javax.swing.JComboBox<String> boxBuscarReserva;
+    private javax.swing.JTextField campoBusqueda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel logo2;
+    private javax.swing.JScrollPane scrollTablaReservas;
+    private javax.swing.JTable tablaReservas;
     // End of variables declaration//GEN-END:variables
+
 }
