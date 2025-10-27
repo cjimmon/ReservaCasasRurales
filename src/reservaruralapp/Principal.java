@@ -1,5 +1,7 @@
 package reservaruralapp;
 
+import java.awt.CardLayout;
+
 /**
  *
  * @author jimen
@@ -26,9 +28,16 @@ public class Principal extends javax.swing.JFrame {
         // Cambiar etiqueta de bienvenida
         Bienvenida.setText("Bienvenido " + usuario + " (" + rol + ")");
     }
-    // </editor-fold>
     
     
+     // Método para mostrar un panel según el botón pulsado
+    private void mostrarPanel(String nombrePanel) {
+        CardLayout layout = (CardLayout) jPanel3.getLayout();
+        layout.show(jPanel3, nombrePanel);
+    
+    
+    }
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -43,11 +52,17 @@ public class Principal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         PanelBienvenida = new javax.swing.JPanel();
         Bienvenida = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         PanelReservas = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         PanelClientes = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         PanelCasas = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         PanelInformes = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         PanelOpciones = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,11 +146,16 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.setLayout(new java.awt.CardLayout());
 
+        jLabel1.setText("Comenzar");
+
         javax.swing.GroupLayout PanelBienvenidaLayout = new javax.swing.GroupLayout(PanelBienvenida);
         PanelBienvenida.setLayout(PanelBienvenidaLayout);
         PanelBienvenidaLayout.setHorizontalGroup(
             PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGroup(PanelBienvenidaLayout.createSequentialGroup()
+                .addGap(281, 281, 281)
+                .addComponent(jLabel1)
+                .addContainerGap(386, Short.MAX_VALUE))
             .addGroup(PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PanelBienvenidaLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -144,7 +164,10 @@ public class Principal extends javax.swing.JFrame {
         );
         PanelBienvenidaLayout.setVerticalGroup(
             PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 504, Short.MAX_VALUE)
+            .addGroup(PanelBienvenidaLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel1)
+                .addContainerGap(441, Short.MAX_VALUE))
             .addGroup(PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PanelBienvenidaLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -154,67 +177,107 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.add(PanelBienvenida, "card7");
 
+        jLabel2.setText("reservas");
+
         javax.swing.GroupLayout PanelReservasLayout = new javax.swing.GroupLayout(PanelReservas);
         PanelReservas.setLayout(PanelReservasLayout);
         PanelReservasLayout.setHorizontalGroup(
             PanelReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGroup(PanelReservasLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jLabel2)
+                .addContainerGap(628, Short.MAX_VALUE))
         );
         PanelReservasLayout.setVerticalGroup(
             PanelReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 504, Short.MAX_VALUE)
+            .addGroup(PanelReservasLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel2)
+                .addContainerGap(466, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelReservas, "card2");
+
+        jLabel3.setText("Clientes");
 
         javax.swing.GroupLayout PanelClientesLayout = new javax.swing.GroupLayout(PanelClientes);
         PanelClientes.setLayout(PanelClientesLayout);
         PanelClientesLayout.setHorizontalGroup(
             PanelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGroup(PanelClientesLayout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addComponent(jLabel3)
+                .addContainerGap(584, Short.MAX_VALUE))
         );
         PanelClientesLayout.setVerticalGroup(
             PanelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 504, Short.MAX_VALUE)
+            .addGroup(PanelClientesLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel3)
+                .addContainerGap(449, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelClientes, "card3");
+
+        jLabel4.setText("Casas");
 
         javax.swing.GroupLayout PanelCasasLayout = new javax.swing.GroupLayout(PanelCasas);
         PanelCasas.setLayout(PanelCasasLayout);
         PanelCasasLayout.setHorizontalGroup(
             PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGroup(PanelCasasLayout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jLabel4)
+                .addContainerGap(620, Short.MAX_VALUE))
         );
         PanelCasasLayout.setVerticalGroup(
             PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 504, Short.MAX_VALUE)
+            .addGroup(PanelCasasLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jLabel4)
+                .addContainerGap(448, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelCasas, "card4");
+
+        jLabel5.setText("Informes");
 
         javax.swing.GroupLayout PanelInformesLayout = new javax.swing.GroupLayout(PanelInformes);
         PanelInformes.setLayout(PanelInformesLayout);
         PanelInformesLayout.setHorizontalGroup(
             PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGroup(PanelInformesLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(jLabel5)
+                .addContainerGap(604, Short.MAX_VALUE))
         );
         PanelInformesLayout.setVerticalGroup(
             PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 504, Short.MAX_VALUE)
+            .addGroup(PanelInformesLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel5)
+                .addContainerGap(456, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelInformes, "card5");
+
+        jLabel6.setText("Opciones");
 
         javax.swing.GroupLayout PanelOpcionesLayout = new javax.swing.GroupLayout(PanelOpciones);
         PanelOpciones.setLayout(PanelOpcionesLayout);
         PanelOpcionesLayout.setHorizontalGroup(
             PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(jLabel6)
+                .addContainerGap(601, Short.MAX_VALUE))
         );
         PanelOpcionesLayout.setVerticalGroup(
             PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 504, Short.MAX_VALUE)
+            .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel6)
+                .addContainerGap(449, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelOpciones, "card6");
@@ -225,23 +288,23 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCasasActionPerformed
-        // TODO add your handling code here:
+         mostrarPanel("card4"); 
     }//GEN-LAST:event_BotonCasasActionPerformed
 
     private void BotonReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonReservasActionPerformed
-        // TODO add your handling code here:
+          mostrarPanel("card2"); 
     }//GEN-LAST:event_BotonReservasActionPerformed
 
     private void BotonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonClientesActionPerformed
-        // TODO add your handling code here:
+         mostrarPanel("card3"); 
     }//GEN-LAST:event_BotonClientesActionPerformed
 
     private void BotonInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInformesActionPerformed
-        // TODO add your handling code here:
+         mostrarPanel("card5"); 
     }//GEN-LAST:event_BotonInformesActionPerformed
 
     private void BotonOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonOpcionesActionPerformed
-        // TODO add your handling code here:
+         mostrarPanel("card6"); 
     }//GEN-LAST:event_BotonOpcionesActionPerformed
 
     
@@ -259,6 +322,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel PanelInformes;
     private javax.swing.JPanel PanelOpciones;
     private javax.swing.JPanel PanelReservas;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel logo2;
