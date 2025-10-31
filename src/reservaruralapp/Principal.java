@@ -76,8 +76,17 @@ public class Principal extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         SpinnerNumeropersonaNuevaReserva = new javax.swing.JSpinner();
         BotonGuardarNuevaReserva = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         PanelClientes = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        BotonAgregarCliente = new javax.swing.JButton();
+        BotonEditarCliente = new javax.swing.JButton();
+        BotonVerDetalles = new javax.swing.JButton();
+        BotonBuscarCliente = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        jPanel4 = new javax.swing.JPanel();
+        scrolltablaclientes = new javax.swing.JScrollPane();
+        TablaClientes = new javax.swing.JTable();
         PanelCasas = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         PanelInformes = new javax.swing.JPanel();
@@ -94,6 +103,7 @@ public class Principal extends javax.swing.JFrame {
         tablaReservas = new javax.swing.JTable();
         botonGuardarCambios = new javax.swing.JButton();
         botoneliminarReservas = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -192,9 +202,9 @@ public class Principal extends javax.swing.JFrame {
         PanelBienvenidaLayout.setHorizontalGroup(
             PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBienvenidaLayout.createSequentialGroup()
-                .addGap(0, 422, Short.MAX_VALUE)
+                .addGap(0, 431, Short.MAX_VALUE)
                 .addComponent(Bienvenida)
-                .addGap(0, 423, Short.MAX_VALUE))
+                .addGap(0, 431, Short.MAX_VALUE))
         );
         PanelBienvenidaLayout.setVerticalGroup(
             PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,6 +280,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jSeparator1.setBackground(new java.awt.Color(0, 153, 51));
+        jSeparator1.setForeground(new java.awt.Color(0, 102, 51));
+
         javax.swing.GroupLayout PanelNuevaReservasLayout = new javax.swing.GroupLayout(PanelNuevaReservas);
         PanelNuevaReservas.setLayout(PanelNuevaReservasLayout);
         PanelNuevaReservasLayout.setHorizontalGroup(
@@ -316,15 +329,20 @@ public class Principal extends javax.swing.JFrame {
                                 .addGroup(PanelNuevaReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(CalendarioFinNuevaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(CalendarioInicioNuevaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(BotonGuardarNuevaReserva))))
-                .addContainerGap(202, Short.MAX_VALUE))
+                            .addComponent(BotonGuardarNuevaReserva)))
+                    .addGroup(PanelNuevaReservasLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 839, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         PanelNuevaReservasLayout.setVerticalGroup(
             PanelNuevaReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelNuevaReservasLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addGap(58, 58, 58)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addGroup(PanelNuevaReservasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(BoxNombreNuevaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -367,23 +385,117 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.add(PanelNuevaReservas, "card2");
 
-        jLabel3.setText("Clientes");
+        BotonAgregarCliente.setText("Agregar Cliente");
+        BotonAgregarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonAgregarClienteActionPerformed(evt);
+            }
+        });
+
+        BotonEditarCliente.setText("Editar");
+        BotonEditarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonEditarClienteActionPerformed(evt);
+            }
+        });
+
+        BotonVerDetalles.setText("Ver Detalles");
+        BotonVerDetalles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonVerDetallesActionPerformed(evt);
+            }
+        });
+
+        BotonBuscarCliente.setText("Buscar");
+        BotonBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonBuscarClienteActionPerformed(evt);
+            }
+        });
+
+        jSeparator2.setBackground(new java.awt.Color(0, 102, 51));
+        jSeparator2.setForeground(new java.awt.Color(0, 102, 51));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(BotonAgregarCliente)
+                .addGap(45, 45, 45)
+                .addComponent(BotonEditarCliente)
+                .addGap(52, 52, 52)
+                .addComponent(BotonVerDetalles)
+                .addGap(54, 54, 54)
+                .addComponent(BotonBuscarCliente)
+                .addContainerGap(334, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jSeparator2)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BotonAgregarCliente)
+                    .addComponent(BotonEditarCliente)
+                    .addComponent(BotonVerDetalles)
+                    .addComponent(BotonBuscarCliente))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        TablaClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Apellidos", "DNI", "Telefono", "Email", "Comentarios "
+            }
+        ));
+        scrolltablaclientes.setViewportView(TablaClientes);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrolltablaclientes)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrolltablaclientes, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout PanelClientesLayout = new javax.swing.GroupLayout(PanelClientes);
         PanelClientes.setLayout(PanelClientesLayout);
         PanelClientesLayout.setHorizontalGroup(
             PanelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelClientesLayout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(jLabel3)
-                .addContainerGap(708, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(PanelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
         PanelClientesLayout.setVerticalGroup(
             PanelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelClientesLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jLabel3)
-                .addContainerGap(495, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel3.add(PanelClientes, "card3");
@@ -397,7 +509,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(PanelCasasLayout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(jLabel4)
-                .addContainerGap(744, Short.MAX_VALUE))
+                .addContainerGap(761, Short.MAX_VALUE))
         );
         PanelCasasLayout.setVerticalGroup(
             PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,7 +530,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(PanelInformesLayout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(jLabel5)
-                .addContainerGap(728, Short.MAX_VALUE))
+                .addContainerGap(745, Short.MAX_VALUE))
         );
         PanelInformesLayout.setVerticalGroup(
             PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,7 +551,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(PanelOpcionesLayout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(jLabel6)
-                .addContainerGap(725, Short.MAX_VALUE))
+                .addContainerGap(742, Short.MAX_VALUE))
         );
         PanelOpcionesLayout.setVerticalGroup(
             PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,6 +614,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jSeparator3.setBackground(new java.awt.Color(0, 102, 51));
+        jSeparator3.setForeground(new java.awt.Color(0, 102, 51));
+
         javax.swing.GroupLayout PanelBuscarReservaLayout = new javax.swing.GroupLayout(PanelBuscarReserva);
         PanelBuscarReserva.setLayout(PanelBuscarReservaLayout);
         PanelBuscarReservaLayout.setHorizontalGroup(
@@ -510,9 +625,6 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBuscarReservaLayout.createSequentialGroup()
                         .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                                 .addComponent(jLabel7)
@@ -523,14 +635,19 @@ public class Principal extends javax.swing.JFrame {
                                 .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                         .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(botonEjecutarBusqueda)
                             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                                 .addComponent(botonGuardarCambios)
                                 .addGap(18, 18, 18)
                                 .addComponent(botoneliminarReservas)))
-                        .addGap(143, 143, 143))))
+                        .addGap(143, 143, 143))
+                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scrollTablaReservas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 818, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         PanelBuscarReservaLayout.setVerticalGroup(
             PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -547,8 +664,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonGuardarCambios)
                     .addComponent(botoneliminarReservas))
-                .addGap(21, 21, 21)
-                .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -651,18 +770,38 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonGuardarNuevaReservaActionPerformed
 
+    private void BotonAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonAgregarClienteActionPerformed
+
+    private void BotonEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEditarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonEditarClienteActionPerformed
+
+    private void BotonVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVerDetallesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonVerDetallesActionPerformed
+
+    private void BotonBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonBuscarClienteActionPerformed
+
 
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Bienvenida;
+    private javax.swing.JButton BotonAgregarCliente;
+    private javax.swing.JButton BotonBuscarCliente;
     private javax.swing.JButton BotonCasas;
     private javax.swing.JButton BotonClientes;
+    private javax.swing.JButton BotonEditarCliente;
     private javax.swing.JButton BotonGuardarNuevaReserva;
     private javax.swing.JButton BotonInformes;
     private javax.swing.JButton BotonNuevaReserva;
     private javax.swing.JButton BotonOpciones;
+    private javax.swing.JButton BotonVerDetalles;
     private javax.swing.JTextField BoxApellidosNuevaReserva;
     private javax.swing.JComboBox<String> BoxCasaNuevaReserva;
     private javax.swing.JTextField BoxDniNuevaReserva;
@@ -679,6 +818,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel PanelNuevaReservas;
     private javax.swing.JPanel PanelOpciones;
     private javax.swing.JSpinner SpinnerNumeropersonaNuevaReserva;
+    private javax.swing.JTable TablaClientes;
     private javax.swing.JButton botonBuscarReserva;
     private javax.swing.JButton botonEjecutarBusqueda;
     private javax.swing.JButton botonGuardarCambios;
@@ -694,17 +834,22 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel logo2;
     private javax.swing.JScrollPane scrollTablaReservas;
+    private javax.swing.JScrollPane scrolltablaclientes;
     private javax.swing.JTable tablaReservas;
     // End of variables declaration//GEN-END:variables
 

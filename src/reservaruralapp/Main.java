@@ -28,7 +28,7 @@ public class Main {
         try {
             Connection conn = DBConnection.getConnection();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM cliente");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM clientes");
             System.out.println("Lista de clientes:");
             while (rs.next()) {
                 System.out.println(rs.getInt("id_cliente") + " - " + rs.getString("nombre") + " " + rs.getString("apellidos"));
