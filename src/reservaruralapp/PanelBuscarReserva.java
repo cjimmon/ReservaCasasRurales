@@ -4,6 +4,9 @@
  */
 package reservaruralapp;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author jimen
@@ -183,29 +186,29 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
     }//GEN-LAST:event_botonEjecutarBusquedaActionPerformed
 
     private void botonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarCambiosActionPerformed
-        DefaultTableModel model = (DefaultTableModel) scrollTablaReservas.getModel();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            int idReserva = Integer.parseInt(model.getValueAt(i, 0).toString());
-            String idCliente = model.getValueAt(i, 1).toString();
-            String idCasa = model.getValueAt(i, 2).toString();
-            String fechaInicio = model.getValueAt(i, 3).toString();
-            String fechaFin = model.getValueAt(i, 4).toString();
+        DefaultTableModel model = (DefaultTableModel) tablaReservas.getModel();
+    for (int i = 0; i < model.getRowCount(); i++) {
+        int idReserva = Integer.parseInt(model.getValueAt(i, 0).toString());
+        String idCliente = model.getValueAt(i, 1).toString();
+        String idCasa = model.getValueAt(i, 2).toString();
+        String fechaInicio = model.getValueAt(i, 3).toString();
+        String fechaFin = model.getValueAt(i, 4).toString();
 
-            System.out.println("Reserva modificada -> " + idReserva + " " + idCliente + " " + idCasa + " " + fechaInicio + " " + fechaFin);
-        }
+        System.out.println("Reserva modificada -> " + idReserva + " " + idCliente + " " + idCasa + " " + fechaInicio + " " + fechaFin);
+    }
     }//GEN-LAST:event_botonGuardarCambiosActionPerformed
 
     private void botoneliminarReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoneliminarReservasActionPerformed
-        int filaSeleccionada = scrollTablaReservas.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            DefaultTableModel model = (DefaultTableModel) scrollTablaReservas.getModel();
-            int idReserva = Integer.parseInt(model.getValueAt(filaSeleccionada, 0).toString());
-            model.removeRow(filaSeleccionada);
-            System.out.println("Reserva eliminada -> ID: " + idReserva);
-            // Más adelante haremos DELETE FROM reservas WHERE id_reserva = idReserva;
-        } else {
-            JOptionPane.showMessageDialog(null, "Seleccione una reserva para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
-        }
+        int filaSeleccionada = tablaReservas.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        DefaultTableModel model = (DefaultTableModel) tablaReservas.getModel();
+        int idReserva = Integer.parseInt(model.getValueAt(filaSeleccionada, 0).toString());
+        model.removeRow(filaSeleccionada);
+        System.out.println("Reserva eliminada -> ID: " + idReserva);
+        // Aquí más adelante haremos DELETE FROM reservas WHERE id_reserva = idReserva;
+    } else {
+        JOptionPane.showMessageDialog(null, "Seleccione una reserva para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+    }
     }//GEN-LAST:event_botoneliminarReservasActionPerformed
 
 

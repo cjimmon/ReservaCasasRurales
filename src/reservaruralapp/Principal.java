@@ -48,6 +48,7 @@ public class Principal extends javax.swing.JFrame {
         BotonOpciones = new javax.swing.JButton();
         logo2 = new javax.swing.JLabel();
         botonBuscarReserva = new javax.swing.JButton();
+        CerrarSesion = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         PanelBienvenida = new javax.swing.JPanel();
         Bienvenida = new javax.swing.JLabel();
@@ -98,6 +99,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        CerrarSesion.setText("Cerrar Sesion");
+        CerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarSesionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -108,7 +116,7 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(BotonOpciones)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(botonBuscarReserva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(BotonClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -119,13 +127,17 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(BotonNuevaReserva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(BotonInformes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(15, 15, 15))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(CerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(logo2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addGap(56, 56, 56)
                 .addComponent(botonBuscarReserva)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BotonNuevaReserva)
@@ -135,7 +147,9 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(BotonCasas)
                 .addGap(18, 18, 18)
                 .addComponent(BotonInformes)
-                .addGap(75, 75, 75)
+                .addGap(51, 51, 51)
+                .addComponent(CerrarSesion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(BotonOpciones)
                 .addGap(14, 14, 14))
         );
@@ -207,7 +221,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonCasasActionPerformed
 
     private void BotonNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevaReservaActionPerformed
-          mostrarPanel("cardBuscar"); 
+          mostrarPanel("cardReserva"); 
     }//GEN-LAST:event_BotonNuevaReservaActionPerformed
 
     private void BotonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonClientesActionPerformed
@@ -219,17 +233,32 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonInformesActionPerformed
 
     private void BotonOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonOpcionesActionPerformed
-         mostrarPanel("cardOpciones"); 
+          if ("admin".equals(rol)) {
+        mostrarPanel("cardOpciones");
+    } else {
+        JOptionPane.showMessageDialog(this, 
+            "Acceso denegado: Solo administradores pueden acceder a esta sección.", 
+            "Aviso", JOptionPane.WARNING_MESSAGE);
+    }
     }//GEN-LAST:event_BotonOpcionesActionPerformed
 
     private void botonBuscarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarReservaActionPerformed
-         mostrarPanel("cardReserva");
+         mostrarPanel("cardBuscar");
     }//GEN-LAST:event_botonBuscarReservaActionPerformed
 
+    private void CerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSesionActionPerformed
+        
+    rol = null; 
+    usuario = null;
+   
+   this.dispose(); 
+    
+    Login login = new Login(); 
+    login.setVisible(true);
+    }//GEN-LAST:event_CerrarSesionActionPerformed
+
 
     
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Bienvenida;
     private javax.swing.JButton BotonCasas;
@@ -237,6 +266,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton BotonInformes;
     private javax.swing.JButton BotonNuevaReserva;
     private javax.swing.JButton BotonOpciones;
+    private javax.swing.JButton CerrarSesion;
     private javax.swing.JPanel PanelBienvenida;
     private javax.swing.JButton botonBuscarReserva;
     private javax.swing.ButtonGroup buttonGroup1;

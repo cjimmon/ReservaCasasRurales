@@ -4,6 +4,13 @@
  */
 package reservaruralapp;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import util.DBConnection;
+
 /**
  *
  * @author jimen
@@ -37,6 +44,7 @@ public class PanelOpciones extends javax.swing.JPanel {
         TextoContraseñaOpciones = new javax.swing.JTextField();
         BotonBuscarOpciones = new javax.swing.JButton();
         CheckAdministrador = new javax.swing.JCheckBox();
+        BotonEliminarOpciones = new javax.swing.JButton();
 
         LabelOpciones.setText("OPCIONES");
 
@@ -75,10 +83,17 @@ public class PanelOpciones extends javax.swing.JPanel {
             }
         });
 
-        CheckAdministrador.setText("Administrador");
+        CheckAdministrador.setText("admin");
         CheckAdministrador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CheckAdministradorActionPerformed(evt);
+            }
+        });
+
+        BotonEliminarOpciones.setText("Eliminar Usuario");
+        BotonEliminarOpciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonEliminarOpcionesActionPerformed(evt);
             }
         });
 
@@ -97,9 +112,16 @@ public class PanelOpciones extends javax.swing.JPanel {
                         .addGap(61, 61, 61)
                         .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(TextoNombreOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TextoNombreOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(TextoContraseñaOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(33, 33, 33))
                             .addGroup(PanelOpcionesLayout.createSequentialGroup()
                                 .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(BotonBuscarOpciones)
@@ -107,12 +129,10 @@ public class PanelOpciones extends javax.swing.JPanel {
                                         .addComponent(jLabel4)
                                         .addGap(26, 26, 26)
                                         .addComponent(CheckAdministrador)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BotonGuardarOpciones))
-                            .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(26, 26, 26)
-                                .addComponent(TextoContraseñaOpciones)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BotonGuardarOpciones)
+                                .addGap(53, 53, 53)))
+                        .addComponent(BotonEliminarOpciones)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         PanelOpcionesLayout.setVerticalGroup(
@@ -137,7 +157,8 @@ public class PanelOpciones extends javax.swing.JPanel {
                 .addGap(42, 42, 42)
                 .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonBuscarOpciones)
-                    .addComponent(BotonGuardarOpciones))
+                    .addComponent(BotonGuardarOpciones)
+                    .addComponent(BotonEliminarOpciones))
                 .addContainerGap(280, Short.MAX_VALUE))
         );
 
@@ -164,7 +185,48 @@ public class PanelOpciones extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonGuardarOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGuardarOpcionesActionPerformed
-        // TODO add your handling code here:
+          String username = TextoNombreOpciones.getText().trim();
+    String password = TextoContraseñaOpciones.getText();
+    String rol = CheckAdministrador.isSelected() ? "admin" : "recepcionista";
+
+    if(username.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Nombre y contraseña son obligatorios.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    String sqlCheck = "SELECT * FROM usuarios WHERE username = ?";
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement psCheck = conn.prepareStatement(sqlCheck)) {
+
+        psCheck.setString(1, username);
+        ResultSet rs = psCheck.executeQuery();
+
+        if(rs.next()) {
+            // Usuario existe → UPDATE
+            String sqlUpdate = "UPDATE usuarios SET password = ?, rol = ? WHERE username = ?";
+            try (PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate)) {
+                psUpdate.setString(1, password);
+                psUpdate.setString(2, rol);
+                psUpdate.setString(3, username);
+                psUpdate.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Usuario actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            // Usuario no existe → INSERT
+            String sqlInsert = "INSERT INTO usuarios(username, password, rol) VALUES(?,?,?)";
+            try (PreparedStatement psInsert = conn.prepareStatement(sqlInsert)) {
+                psInsert.setString(1, username);
+                psInsert.setString(2, password);
+                psInsert.setString(3, rol);
+                psInsert.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Usuario creado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
     }//GEN-LAST:event_BotonGuardarOpcionesActionPerformed
 
     private void TextoNombreOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextoNombreOpcionesActionPerformed
@@ -176,16 +238,87 @@ public class PanelOpciones extends javax.swing.JPanel {
     }//GEN-LAST:event_TextoContraseñaOpcionesActionPerformed
 
     private void BotonBuscarOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarOpcionesActionPerformed
-        // TODO add your handling code here:
+      String nombre = TextoNombreOpciones.getText();
+
+    if(nombre.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Introduce un nombre para buscar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    String sql = "SELECT * FROM usuarios WHERE username = ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, nombre);
+        ResultSet rs = ps.executeQuery();
+
+        if(rs.next()) {
+            // Usuario encontrado, rellenamos campos
+            TextoContraseñaOpciones.setText(rs.getString("password"));
+
+            String rol = rs.getString("rol");
+            if("admin".equals(rol)) {
+                CheckAdministrador.setSelected(true);
+            } else {
+                CheckAdministrador.setSelected(false);
+            }
+
+          
+        } else {
+            // Usuario no existe
+            TextoContraseñaOpciones.setText("");
+            CheckAdministrador.setSelected(false);
+            JOptionPane.showMessageDialog(this, "Usuario no encontrado. Puedes crear uno nuevo.");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al buscar usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
     }//GEN-LAST:event_BotonBuscarOpcionesActionPerformed
 
     private void CheckAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckAdministradorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CheckAdministradorActionPerformed
 
+    private void BotonEliminarOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarOpcionesActionPerformed
+        String nombre = TextoNombreOpciones.getText();
+
+    if(nombre.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Introduce un nombre para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    String sql = "DELETE FROM usuarios WHERE username = ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, nombre);
+        int filas = ps.executeUpdate();
+
+        if(filas > 0) {
+            JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente.");
+            // Limpiamos los campos
+            TextoNombreOpciones.setText("");
+            TextoContraseñaOpciones.setText("");
+            CheckAdministrador.setSelected(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró el usuario para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al eliminar usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_BotonEliminarOpcionesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonBuscarOpciones;
+    private javax.swing.JButton BotonEliminarOpciones;
     private javax.swing.JButton BotonGuardarOpciones;
     private javax.swing.JCheckBox CheckAdministrador;
     private javax.swing.JLabel LabelOpciones;
