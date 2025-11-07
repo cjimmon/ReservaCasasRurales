@@ -218,6 +218,7 @@ public class Principal extends javax.swing.JFrame {
     
     private void BotonCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCasasActionPerformed
          mostrarPanel("cardCasas"); 
+         
     }//GEN-LAST:event_BotonCasasActionPerformed
 
     private void BotonNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevaReservaActionPerformed

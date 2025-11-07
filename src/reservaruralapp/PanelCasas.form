@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -16,7 +16,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="1011" max="32767" attributes="0"/>
+          <EmptySpace min="0" pref="1034" max="32767" attributes="0"/>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -96,15 +96,15 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       <Component id="BotonNuevaCasa" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="BotonEditarCasa" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="GuardarCasas" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       <Component id="BotonEliminarCasa" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                      <Component id="BotonBuscarCasa" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="506" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                      <Component id="VerCasas" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="478" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -119,9 +119,9 @@
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="BotonNuevaCasa" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="BotonEditarCasa" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="BotonEliminarCasa" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="BotonBuscarCasa" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="VerCasas" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="GuardarCasas" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="23" max="32767" attributes="0"/>
                       <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
@@ -138,14 +138,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonNuevaCasaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="BotonEditarCasa">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Editar Casa"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonEditarCasaActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="BotonEliminarCasa">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eliminar Casa"/>
@@ -154,12 +146,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonEliminarCasaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="BotonBuscarCasa">
+            <Component class="javax.swing.JButton" name="VerCasas">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar Casa"/>
+                <Property name="text" type="java.lang.String" value="Ver"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonBuscarCasaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VerCasasActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator4">
@@ -171,6 +163,14 @@
                   <Color blue="33" green="66" red="0" type="rgb"/>
                 </Property>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="GuardarCasas">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Guardar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GuardarCasasActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
