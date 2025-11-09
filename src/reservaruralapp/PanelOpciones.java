@@ -194,7 +194,7 @@ public class PanelOpciones extends javax.swing.JPanel {
         return;
     }
 
-    String sqlCheck = "SELECT * FROM usuarios WHERE username = ?";
+    String sqlCheck = "SELECT * FROM usuario WHERE username = ?";
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement psCheck = conn.prepareStatement(sqlCheck)) {
 
@@ -203,7 +203,7 @@ public class PanelOpciones extends javax.swing.JPanel {
 
         if(rs.next()) {
             // Usuario existe → UPDATE
-            String sqlUpdate = "UPDATE usuarios SET password = ?, rol = ? WHERE username = ?";
+            String sqlUpdate = "UPDATE usuario SET password = ?, rol = ? WHERE username = ?";
             try (PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate)) {
                 psUpdate.setString(1, password);
                 psUpdate.setString(2, rol);
@@ -213,7 +213,7 @@ public class PanelOpciones extends javax.swing.JPanel {
             }
         } else {
             // Usuario no existe → INSERT
-            String sqlInsert = "INSERT INTO usuarios(username, password, rol) VALUES(?,?,?)";
+            String sqlInsert = "INSERT INTO usuario(username, password, rol) VALUES(?,?,?)";
             try (PreparedStatement psInsert = conn.prepareStatement(sqlInsert)) {
                 psInsert.setString(1, username);
                 psInsert.setString(2, password);
@@ -245,7 +245,7 @@ public class PanelOpciones extends javax.swing.JPanel {
         return;
     }
 
-    String sql = "SELECT * FROM usuarios WHERE username = ?";
+    String sql = "SELECT * FROM usuario WHERE username = ?";
 
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -291,7 +291,7 @@ public class PanelOpciones extends javax.swing.JPanel {
         return;
     }
 
-    String sql = "DELETE FROM usuarios WHERE username = ?";
+    String sql = "DELETE FROM usuario WHERE username = ?";
 
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {

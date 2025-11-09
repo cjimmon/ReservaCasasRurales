@@ -23,7 +23,7 @@ public class PanelCasas extends javax.swing.JPanel {
         DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
         modelo.setRowCount(0); // Limpiar tabla
 
-        String sql = "SELECT * FROM casas";
+        String sql = "SELECT * FROM casa";
 
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -58,12 +58,15 @@ public class PanelCasas extends javax.swing.JPanel {
         VerCasas = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
         GuardarCasas = new javax.swing.JButton();
+        CampoBuscarCasa = new javax.swing.JTextField();
+        BotonLupaCasas = new javax.swing.JButton();
         ScrollPanelCasas = new javax.swing.JScrollPane();
         TableCasas = new javax.swing.JTable();
 
         LabelCasas.setText("CASAS");
 
         BotonNuevaCasa.setText("Nueva Casa");
+        BotonNuevaCasa.setToolTipText("Añadir Nueva Linea");
         BotonNuevaCasa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonNuevaCasaActionPerformed(evt);
@@ -71,6 +74,7 @@ public class PanelCasas extends javax.swing.JPanel {
         });
 
         BotonEliminarCasa.setText("Eliminar Casa");
+        BotonEliminarCasa.setToolTipText("Elimina linea completa");
         BotonEliminarCasa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonEliminarCasaActionPerformed(evt);
@@ -78,6 +82,7 @@ public class PanelCasas extends javax.swing.JPanel {
         });
 
         VerCasas.setText("Ver");
+        VerCasas.setToolTipText("Ver Listado Casas");
         VerCasas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VerCasasActionPerformed(evt);
@@ -88,9 +93,23 @@ public class PanelCasas extends javax.swing.JPanel {
         jSeparator4.setForeground(new java.awt.Color(0, 102, 51));
 
         GuardarCasas.setText("Guardar");
+        GuardarCasas.setToolTipText("Guarda linea completa o modificaciones");
         GuardarCasas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GuardarCasasActionPerformed(evt);
+            }
+        });
+
+        CampoBuscarCasa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CampoBuscarCasaActionPerformed(evt);
+            }
+        });
+
+        BotonLupaCasas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/lupa.png"))); // NOI18N
+        BotonLupaCasas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonLupaCasasActionPerformed(evt);
             }
         });
 
@@ -99,15 +118,19 @@ public class PanelCasas extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(BotonNuevaCasa)
-                .addGap(18, 18, 18)
-                .addComponent(GuardarCasas)
-                .addGap(34, 34, 34)
-                .addComponent(BotonEliminarCasa)
-                .addGap(98, 98, 98)
+                .addGap(31, 31, 31)
                 .addComponent(VerCasas)
-                .addContainerGap(478, Short.MAX_VALUE))
+                .addGap(81, 81, 81)
+                .addComponent(BotonNuevaCasa)
+                .addGap(105, 105, 105)
+                .addComponent(GuardarCasas)
+                .addGap(63, 63, 63)
+                .addComponent(BotonEliminarCasa)
+                .addGap(54, 54, 54)
+                .addComponent(CampoBuscarCasa, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BotonLupaCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator4)
@@ -116,13 +139,20 @@ public class PanelCasas extends javax.swing.JPanel {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonNuevaCasa)
-                    .addComponent(BotonEliminarCasa)
-                    .addComponent(VerCasas)
-                    .addComponent(GuardarCasas))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BotonNuevaCasa)
+                            .addComponent(BotonEliminarCasa)
+                            .addComponent(VerCasas)
+                            .addComponent(GuardarCasas)
+                            .addComponent(CampoBuscarCasa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BotonLupaCasas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -164,7 +194,7 @@ public class PanelCasas extends javax.swing.JPanel {
                 .addComponent(LabelCasas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(445, Short.MAX_VALUE))
+                .addContainerGap(451, Short.MAX_VALUE))
             .addGroup(PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCasasLayout.createSequentialGroup()
                     .addContainerGap(107, Short.MAX_VALUE)
@@ -214,7 +244,7 @@ public class PanelCasas extends javax.swing.JPanel {
         int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar esta casa?", "Confirmar", JOptionPane.YES_NO_OPTION);
         if (confirmar != JOptionPane.YES_OPTION) return;
 
-        String sql = "DELETE FROM casas WHERE id_casa=?";
+        String sql = "DELETE FROM casa WHERE id_casa=?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -248,7 +278,7 @@ public class PanelCasas extends javax.swing.JPanel {
 
             if (id == 0) {
                 // Insertar nueva casa
-                String sql = "INSERT INTO casas(nombre, ubicacion, capacidad, precio_noche, descripcion) VALUES (?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO casa(nombre, ubicacion, capacidad, precio_noche, descripcion) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, nombre);
                     ps.setString(2, ubicacion);
@@ -259,7 +289,7 @@ public class PanelCasas extends javax.swing.JPanel {
                 }
             } else {
                 // Actualizar casa existente
-                String sql = "UPDATE casas SET nombre=?, ubicacion=?, capacidad=?, precio_noche=?, descripcion=? WHERE id_casa=?";
+                String sql = "UPDATE casa SET nombre=?, ubicacion=?, capacidad=?, precio_noche=?, descripcion=? WHERE id_casa=?";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, nombre);
                     ps.setString(2, ubicacion);
@@ -278,10 +308,67 @@ public class PanelCasas extends javax.swing.JPanel {
     }
     }//GEN-LAST:event_GuardarCasasActionPerformed
 
+    private void CampoBuscarCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoBuscarCasaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CampoBuscarCasaActionPerformed
+
+    private void BotonLupaCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLupaCasasActionPerformed
+         String textoBusqueda = CampoBuscarCasa.getText().trim();
+    
+    if (textoBusqueda.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Introduce un texto para buscar.");
+        return;
+    }
+
+    DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
+    modelo.setRowCount(0); // Limpiar la tabla antes de mostrar resultados
+
+    String sql = "SELECT * FROM casa WHERE "
+               + "nombre LIKE ? OR "
+               + "ubicacion LIKE ? OR "
+               + "CAST(capacidad AS CHAR) LIKE ? OR "
+               + "CAST(precio_noche AS CHAR) LIKE ? OR "
+               + "descripcion LIKE ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        // Añadimos el comodín %texto%
+        for (int i = 1; i <= 5; i++) {
+            ps.setString(i, "%" + textoBusqueda + "%");
+        }
+
+        ResultSet rs = ps.executeQuery();
+        boolean hayResultados = false;
+
+        while (rs.next()) {
+            Object[] fila = new Object[]{
+                rs.getInt("id_casa"),
+                rs.getString("nombre"),
+                rs.getString("ubicacion"),
+                rs.getInt("capacidad"),
+                rs.getDouble("precio_noche"),
+                rs.getString("descripcion")
+            };
+            modelo.addRow(fila);
+            hayResultados = true;
+        }
+
+        if (!hayResultados) {
+            JOptionPane.showMessageDialog(this, "No se encontraron casas con ese criterio.");
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar casas: " + e.getMessage());
+    }
+    }//GEN-LAST:event_BotonLupaCasasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonEliminarCasa;
+    private javax.swing.JButton BotonLupaCasas;
     private javax.swing.JButton BotonNuevaCasa;
+    private javax.swing.JTextField CampoBuscarCasa;
     private javax.swing.JButton GuardarCasas;
     private javax.swing.JLabel LabelCasas;
     private javax.swing.JPanel PanelCasas;

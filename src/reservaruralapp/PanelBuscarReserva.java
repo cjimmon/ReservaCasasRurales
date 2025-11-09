@@ -4,8 +4,10 @@
  */
 package reservaruralapp;
 
-import javax.swing.JOptionPane;
+import util.DBConnection;
+import java.sql.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,9 +15,30 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanelBuscarReserva extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelBuscarReserva
-     */
+    private void cargarReservas() {
+    DefaultTableModel model = (DefaultTableModel) tablaReservas.getModel();
+    model.setRowCount(0);
+
+    String sql = "SELECT id_reserva, id_cliente, id_casa, fecha_inicio, estado FROM reserva";
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("id_reserva"),
+                rs.getInt("id_cliente"),
+                rs.getInt("id_casa"),
+                rs.getString("fecha_inicio"),
+                rs.getString("estado")
+            });
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
+    }
+}
+    
     public PanelBuscarReserva() {
         initComponents();
     }
@@ -32,7 +55,6 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
         PanelBuscarReserva = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        boxBuscarReserva = new javax.swing.JComboBox<>();
         campoBusqueda = new javax.swing.JTextField();
         botonEjecutarBusqueda = new javax.swing.JButton();
         scrollTablaReservas = new javax.swing.JScrollPane();
@@ -40,17 +62,11 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
         botonGuardarCambios = new javax.swing.JButton();
         botoneliminarReservas = new javax.swing.JButton();
         SeparadorBuscarReseva = new javax.swing.JSeparator();
+        botonVerReservas = new javax.swing.JButton();
 
         jLabel2.setText("BUSCAR RESERVA");
 
         jLabel7.setText("Buscar por: ");
-
-        boxBuscarReserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id_Reserva 1", "Nombre Cliente", "DNI", "Casa", "Telefono" }));
-        boxBuscarReserva.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxBuscarReservaActionPerformed(evt);
-            }
-        });
 
         campoBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +111,13 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
         SeparadorBuscarReseva.setBackground(new java.awt.Color(0, 102, 51));
         SeparadorBuscarReseva.setForeground(new java.awt.Color(0, 102, 51));
 
+        botonVerReservas.setText("Ver Reservas");
+        botonVerReservas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVerReservasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelBuscarReservaLayout = new javax.swing.GroupLayout(PanelBuscarReserva);
         PanelBuscarReserva.setLayout(PanelBuscarReservaLayout);
         PanelBuscarReservaLayout.setHorizontalGroup(
@@ -102,28 +125,23 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
+                        .addComponent(SeparadorBuscarReseva))
                     .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
                         .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonVerReservas)
                             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(boxBuscarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                                .addGap(228, 228, 228)
-                                .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
-                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonEjecutarBusqueda)
-                            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                                .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(botonEjecutarBusqueda)
+                                .addGap(87, 87, 87)
                                 .addComponent(botonGuardarCambios)
-                                .addGap(18, 18, 18)
-                                .addComponent(botoneliminarReservas)))
-                        .addGap(143, 143, 143))
-                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(scrollTablaReservas, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
-                            .addComponent(SeparadorBuscarReseva))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(73, 73, 73)
+                                .addComponent(botoneliminarReservas)))))
+                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
@@ -137,14 +155,13 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(boxBuscarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEjecutarBusqueda))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonEjecutarBusqueda)
                     .addComponent(botonGuardarCambios)
                     .addComponent(botoneliminarReservas))
                 .addGap(18, 18, 18)
+                .addComponent(botonVerReservas)
+                .addGap(12, 12, 12)
                 .addComponent(SeparadorBuscarReseva, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -173,43 +190,142 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void boxBuscarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxBuscarReservaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_boxBuscarReservaActionPerformed
-
     private void campoBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoBusquedaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoBusquedaActionPerformed
 
     private void botonEjecutarBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarBusquedaActionPerformed
-        // TODO add your handling code here:
+            String textoBusqueda = campoBusqueda.getText().trim();
+
+    if (textoBusqueda.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Introduce un nombre, apellido o DNI para buscar.");
+        return;
+    }
+
+    DefaultTableModel modelo = (DefaultTableModel) tablaReservas.getModel();
+    modelo.setRowCount(0); // Limpiar la tabla antes de mostrar resultados
+
+    String sql = "SELECT r.id_reserva, c.nombre, c.apellidos, c.DNI, c.telefono, c.email, " +
+                 "ca.nombre AS casa, r.fecha_inicio, r.estado " +
+                 "FROM reserva r " +
+                 "JOIN cliente c ON r.id_cliente = c.id_cliente " +
+                 "JOIN casa ca ON r.id_casa = ca.id_casa " +
+                 "WHERE c.nombre LIKE ? OR c.apellidos LIKE ? OR c.DNI LIKE ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        String filtro = "%" + textoBusqueda + "%";
+        for (int i = 1; i <= 3; i++) {
+            ps.setString(i, filtro);
+        }
+
+        ResultSet rs = ps.executeQuery();
+        boolean hayResultados = false;
+
+        while (rs.next()) {
+            Object[] fila = new Object[] {
+                rs.getInt("id_reserva"),
+                rs.getString("nombre"),
+                rs.getString("apellidos"),
+                rs.getString("DNI"),
+                rs.getString("telefono"),
+                rs.getString("email"),
+                rs.getString("casa"),
+                rs.getString("fecha_inicio"),
+                rs.getString("estado")
+            };
+            modelo.addRow(fila);
+            hayResultados = true;
+        }
+
+        if (!hayResultados) {
+            JOptionPane.showMessageDialog(this, "No se encontraron reservas con ese criterio.");
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar reservas: " + e.getMessage());
+    }
     }//GEN-LAST:event_botonEjecutarBusquedaActionPerformed
 
     private void botonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarCambiosActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tablaReservas.getModel();
-    for (int i = 0; i < model.getRowCount(); i++) {
-        int idReserva = Integer.parseInt(model.getValueAt(i, 0).toString());
-        String idCliente = model.getValueAt(i, 1).toString();
-        String idCasa = model.getValueAt(i, 2).toString();
-        String fechaInicio = model.getValueAt(i, 3).toString();
-        String fechaFin = model.getValueAt(i, 4).toString();
+         DefaultTableModel modelo = (DefaultTableModel) tablaReservas.getModel();
 
-        System.out.println("Reserva modificada -> " + idReserva + " " + idCliente + " " + idCasa + " " + fechaInicio + " " + fechaFin);
+    try (Connection conn = DBConnection.getConnection()) {
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            Object idObj = modelo.getValueAt(i, 0);
+            int idReserva = (idObj instanceof Integer) ? (Integer) idObj : 0;
+
+            // Ajusta las posiciones de las columnas según tu tabla
+            Object idClienteObj = modelo.getValueAt(i, 1);
+            int idCliente = (idClienteObj instanceof Integer) ? (Integer) idClienteObj : 0;
+
+            Object idCasaObj = modelo.getValueAt(i, 2);
+            int idCasa = (idCasaObj instanceof Integer) ? (Integer) idCasaObj : 0;
+
+            String fechaInicio = modelo.getValueAt(i, 3).toString();
+            String estado = modelo.getValueAt(i, 4).toString();
+
+            if (idReserva == 0) {
+                // Insertar nueva reserva
+                String sql = "INSERT INTO reserva (id_cliente, id_casa, fecha_inicio, estado) VALUES (?, ?, ?, ?)";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setInt(1, idCliente);
+                    ps.setInt(2, idCasa);
+                    ps.setString(3, fechaInicio);
+                    ps.setString(4, estado);
+                    ps.executeUpdate();
+                }
+            } else {
+                // Actualizar reserva existente
+                String sql = "UPDATE reserva SET id_cliente=?, id_casa=?, fecha_inicio=?, estado=? WHERE id_reserva=?";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setInt(1, idCliente);
+                    ps.setInt(2, idCasa);
+                    ps.setString(3, fechaInicio);
+                    ps.setString(4, estado);
+                    ps.setInt(5, idReserva);
+                    ps.executeUpdate();
+                }
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, "Cambios guardados correctamente.");
+        cargarReservas(); // 🔄 recarga la tabla tras guardar cambios
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
     }
     }//GEN-LAST:event_botonGuardarCambiosActionPerformed
 
     private void botoneliminarReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoneliminarReservasActionPerformed
-        int filaSeleccionada = tablaReservas.getSelectedRow();
-    if (filaSeleccionada != -1) {
-        DefaultTableModel model = (DefaultTableModel) tablaReservas.getModel();
-        int idReserva = Integer.parseInt(model.getValueAt(filaSeleccionada, 0).toString());
-        model.removeRow(filaSeleccionada);
-        System.out.println("Reserva eliminada -> ID: " + idReserva);
-        // Aquí más adelante haremos DELETE FROM reservas WHERE id_reserva = idReserva;
-    } else {
-        JOptionPane.showMessageDialog(null, "Seleccione una reserva para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+         int fila = tablaReservas.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona una reserva para eliminar.");
+        return;
+    }
+
+    int idReserva = (int) tablaReservas.getValueAt(fila, 0);
+    int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar esta reserva?", "Confirmar", JOptionPane.YES_NO_OPTION);
+    if (confirmar != JOptionPane.YES_OPTION) return;
+
+    String sql = "DELETE FROM reserva WHERE id_reserva = ?";
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, idReserva);
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Reserva eliminada correctamente.");
+        cargarReservas(); // 🔄 recarga la tabla después de eliminar
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar reserva: " + e.getMessage());
     }
     }//GEN-LAST:event_botoneliminarReservasActionPerformed
+
+    private void botonVerReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerReservasActionPerformed
+        cargarReservas();
+    }//GEN-LAST:event_botonVerReservasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -217,8 +333,8 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
     private javax.swing.JSeparator SeparadorBuscarReseva;
     private javax.swing.JButton botonEjecutarBusqueda;
     private javax.swing.JButton botonGuardarCambios;
+    private javax.swing.JButton botonVerReservas;
     private javax.swing.JButton botoneliminarReservas;
-    private javax.swing.JComboBox<String> boxBuscarReserva;
     private javax.swing.JTextField campoBusqueda;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;

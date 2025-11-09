@@ -142,7 +142,7 @@ public class Login extends javax.swing.JFrame {
 
     try (Connection conn = (Connection) util.DBConnection.getConnection();
          PreparedStatement stmt = conn.prepareStatement(
-             "SELECT rol FROM usuarios WHERE username = ? AND password = ?")) {
+             "SELECT rol FROM usuario WHERE username = ? AND password = ?")) {
 
         stmt.setString(1, usuario);
         stmt.setString(2, password);

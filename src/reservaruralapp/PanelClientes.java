@@ -4,10 +4,11 @@
  */
 package reservaruralapp;
 
-/**
- *
- * @author jimen
- */
+import util.DBConnection;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+
 public class PanelClientes extends javax.swing.JPanel {
 
     /**
@@ -16,7 +17,34 @@ public class PanelClientes extends javax.swing.JPanel {
     public PanelClientes() {
         initComponents();
     }
+    
+private void cargarClientes() {
+    DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel();
+    modelo.setRowCount(0);
 
+    String sql = "SELECT * FROM cliente";
+
+    try (Connection conn = DBConnection.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            Object[] fila = new Object[]{
+                rs.getInt("id_cliente"),
+                rs.getString("nombre"),
+                rs.getString("apellidos"),
+                rs.getString("DNI"),
+                rs.getString("telefono"),
+                rs.getString("email"),
+                rs.getString("comentarios")
+            };
+            modelo.addRow(fila);
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage());
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,41 +56,43 @@ public class PanelClientes extends javax.swing.JPanel {
 
         PanelClientes = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        BotonAgregarCliente = new javax.swing.JButton();
-        BotonEditarCliente = new javax.swing.JButton();
+        BotonNuevoCliente = new javax.swing.JButton();
+        GuardarCliente = new javax.swing.JButton();
         BotonVerDetalles = new javax.swing.JButton();
-        BotonBuscarCliente = new javax.swing.JButton();
+        BotonLupaCliente = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         LabelClientes = new javax.swing.JLabel();
+        CampoBuscarCliente = new javax.swing.JTextField();
+        BotonEliminarCliente = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         scrolltablaclientes = new javax.swing.JScrollPane();
         TablaClientes = new javax.swing.JTable();
 
-        BotonAgregarCliente.setText("Agregar Cliente");
-        BotonAgregarCliente.addActionListener(new java.awt.event.ActionListener() {
+        BotonNuevoCliente.setText("Agregar Cliente");
+        BotonNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonAgregarClienteActionPerformed(evt);
+                BotonNuevoClienteActionPerformed(evt);
             }
         });
 
-        BotonEditarCliente.setText("Editar");
-        BotonEditarCliente.addActionListener(new java.awt.event.ActionListener() {
+        GuardarCliente.setText("Guardar");
+        GuardarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonEditarClienteActionPerformed(evt);
+                GuardarClienteActionPerformed(evt);
             }
         });
 
-        BotonVerDetalles.setText("Ver Detalles");
+        BotonVerDetalles.setText("Ver Clientes");
         BotonVerDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonVerDetallesActionPerformed(evt);
             }
         });
 
-        BotonBuscarCliente.setText("Buscar");
-        BotonBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+        BotonLupaCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/lupa.png"))); // NOI18N
+        BotonLupaCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonBuscarClienteActionPerformed(evt);
+                BotonLupaClienteActionPerformed(evt);
             }
         });
 
@@ -71,53 +101,76 @@ public class PanelClientes extends javax.swing.JPanel {
 
         LabelClientes.setText("CLIENTES");
 
+        CampoBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CampoBuscarClienteActionPerformed(evt);
+            }
+        });
+
+        BotonEliminarCliente.setText("Eliminar Cliente");
+        BotonEliminarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonEliminarClienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addComponent(BotonAgregarCliente)
-                        .addGap(54, 54, 54)
-                        .addComponent(BotonEditarCliente)
-                        .addGap(44, 44, 44)
-                        .addComponent(BotonVerDetalles)
-                        .addGap(62, 62, 62)
-                        .addComponent(BotonBuscarCliente)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jSeparator2)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(LabelClientes)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(LabelClientes))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(BotonVerDetalles)
+                        .addGap(50, 50, 50)
+                        .addComponent(BotonNuevoCliente)
+                        .addGap(45, 45, 45)
+                        .addComponent(GuardarCliente)
+                        .addGap(49, 49, 49)
+                        .addComponent(BotonEliminarCliente)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CampoBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BotonLupaCliente)
+                .addGap(103, 103, 103))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(LabelClientes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonBuscarCliente)
-                    .addComponent(BotonVerDetalles)
-                    .addComponent(BotonEditarCliente)
-                    .addComponent(BotonAgregarCliente))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(LabelClientes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BotonVerDetalles)
+                            .addComponent(GuardarCliente)
+                            .addComponent(BotonNuevoCliente)
+                            .addComponent(CampoBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonEliminarCliente)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(BotonLupaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         TablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellidos", "DNI", "Telefono", "Email", "Comentarios "
+                "id_cliente", "nombre", "apellidos", "DNI", "telefono", "email", "comentarios"
             }
         ));
         scrolltablaclientes.setViewportView(TablaClientes);
@@ -148,7 +201,7 @@ public class PanelClientes extends javax.swing.JPanel {
                 .addGroup(PanelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelClientesLayout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 2, Short.MAX_VALUE))
+                        .addGap(0, 10, Short.MAX_VALUE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -166,7 +219,7 @@ public class PanelClientes extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1011, Short.MAX_VALUE)
+            .addGap(0, 1019, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -175,7 +228,7 @@ public class PanelClientes extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 552, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -184,28 +237,155 @@ public class PanelClientes extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BotonAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonAgregarClienteActionPerformed
+    private void BotonNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevoClienteActionPerformed
+     DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel();
+    // Agrega una fila vacía con todos los valores null (ID se asignará al guardar)
+    modelo.addRow(new Object[]{null, null, null, null, null, null, null});
+    
+    // Selecciona automáticamente la fila recién agregada
+    int fila = modelo.getRowCount() - 1;
+    TablaClientes.setRowSelectionInterval(fila, fila);
+    }//GEN-LAST:event_BotonNuevoClienteActionPerformed
 
-    private void BotonEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEditarClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonEditarClienteActionPerformed
+    private void GuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarClienteActionPerformed
+       DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel();
+
+    try (Connection conn = DBConnection.getConnection()) {
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            Object idObj = modelo.getValueAt(i, 0);
+            int id = (idObj instanceof Integer) ? (Integer) idObj : 0;
+
+            Object objNombre = modelo.getValueAt(i, 1);
+            Object objApellidos = modelo.getValueAt(i, 2);
+            Object objDNI = modelo.getValueAt(i, 3);
+            Object objTelefono = modelo.getValueAt(i, 4);
+            Object objEmail = modelo.getValueAt(i, 5);
+            Object objComentarios = modelo.getValueAt(i, 6);
+
+            String nombre = (objNombre != null && !objNombre.toString().trim().isEmpty()) ? objNombre.toString() : null;
+            String apellidos = (objApellidos != null && !objApellidos.toString().trim().isEmpty()) ? objApellidos.toString() : null;
+            String dni = (objDNI != null && !objDNI.toString().trim().isEmpty()) ? objDNI.toString() : null;
+            String telefono = (objTelefono != null && !objTelefono.toString().trim().isEmpty()) ? objTelefono.toString() : null;
+            String email = (objEmail != null && !objEmail.toString().trim().isEmpty()) ? objEmail.toString() : null;
+            String comentarios = (objComentarios != null && !objComentarios.toString().trim().isEmpty()) ? objComentarios.toString() : null;
+
+            if (id == 0) {
+                String sql = "INSERT INTO cliente (nombre, apellidos, DNI, telefono, email, comentarios) VALUES (?, ?, ?, ?, ?, ?)";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    if (nombre != null) ps.setString(1, nombre); else ps.setNull(1, java.sql.Types.VARCHAR);
+                    if (apellidos != null) ps.setString(2, apellidos); else ps.setNull(2, java.sql.Types.VARCHAR);
+                    if (dni != null) ps.setString(3, dni); else ps.setNull(3, java.sql.Types.VARCHAR);
+                    if (telefono != null) ps.setString(4, telefono); else ps.setNull(4, java.sql.Types.VARCHAR);
+                    if (email != null) ps.setString(5, email); else ps.setNull(5, java.sql.Types.VARCHAR);
+                    if (comentarios != null) ps.setString(6, comentarios); else ps.setNull(6, java.sql.Types.VARCHAR);
+                    ps.executeUpdate();
+                }
+            } else {
+                String sql = "UPDATE cliente SET nombre=?, apellido=?, DNI=?, telefono=?, email=?, comentarios=? WHERE id_cliente=?";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    if (nombre != null) ps.setString(1, nombre); else ps.setNull(1, java.sql.Types.VARCHAR);
+                    if (apellidos != null) ps.setString(2, apellidos); else ps.setNull(2, java.sql.Types.VARCHAR);
+                    if (dni != null) ps.setString(3, dni); else ps.setNull(3, java.sql.Types.VARCHAR);
+                    if (telefono != null) ps.setString(4, telefono); else ps.setNull(4, java.sql.Types.VARCHAR);
+                    if (email != null) ps.setString(5, email); else ps.setNull(5, java.sql.Types.VARCHAR);
+                    if (comentarios != null) ps.setString(6, comentarios); else ps.setNull(6, java.sql.Types.VARCHAR);
+                    ps.setInt(7, id);
+                    ps.executeUpdate();
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Cambios guardados correctamente.");
+        cargarClientes();
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar clientes: " + e.getMessage());
+    }   
+    }//GEN-LAST:event_GuardarClienteActionPerformed
 
     private void BotonVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVerDetallesActionPerformed
-        // TODO add your handling code here:
+        cargarClientes();
     }//GEN-LAST:event_BotonVerDetallesActionPerformed
 
-    private void BotonBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarClienteActionPerformed
+    private void BotonLupaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLupaClienteActionPerformed
+     String textoBusqueda = CampoBuscarCliente.getText().trim();
+    if (textoBusqueda.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Introduce un texto para buscar.");
+        return;
+    }
+
+    DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel();
+    modelo.setRowCount(0);
+
+    String sql = "SELECT * FROM cliente WHERE "
+               + "nombre LIKE ? OR apellidos LIKE ? OR DNI LIKE ? OR telefono LIKE ? OR email LIKE ? OR comentarios LIKE ?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        for (int i = 1; i <= 6; i++) {
+            ps.setString(i, "%" + textoBusqueda + "%");
+        }
+
+        ResultSet rs = ps.executeQuery();
+        boolean hayResultados = false;
+        while (rs.next()) {
+            Object[] fila = new Object[]{
+                rs.getInt("id_cliente"),
+                rs.getString("nombre"),
+                rs.getString("apellidos"),
+                rs.getString("DNI"),
+                rs.getString("telefono"),
+                rs.getString("email"),
+                rs.getString("comentarios")
+            };
+            modelo.addRow(fila);
+            hayResultados = true;
+        }
+
+        if (!hayResultados) {
+            JOptionPane.showMessageDialog(this, "No se encontraron clientes con ese criterio.");
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar clientes: " + e.getMessage());
+    }
+    }//GEN-LAST:event_BotonLupaClienteActionPerformed
+
+    private void CampoBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoBuscarClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BotonBuscarClienteActionPerformed
+    }//GEN-LAST:event_CampoBuscarClienteActionPerformed
+
+    private void BotonEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarClienteActionPerformed
+    int fila = TablaClientes.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona un cliente para eliminar.");
+        return;
+    }
+
+    int id = (int) TablaClientes.getValueAt(fila, 0); // eliminar por ID
+    int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar este cliente?", "Confirmar", JOptionPane.YES_NO_OPTION);
+    if (confirmar != JOptionPane.YES_OPTION) return;
+
+    String sql = "DELETE FROM cliente WHERE id_cliente=?";
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente.");
+        cargarClientes();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar cliente: " + e.getMessage());
+    }
+    }//GEN-LAST:event_BotonEliminarClienteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonAgregarCliente;
-    private javax.swing.JButton BotonBuscarCliente;
-    private javax.swing.JButton BotonEditarCliente;
+    private javax.swing.JButton BotonEliminarCliente;
+    private javax.swing.JButton BotonLupaCliente;
+    private javax.swing.JButton BotonNuevoCliente;
     private javax.swing.JButton BotonVerDetalles;
+    private javax.swing.JTextField CampoBuscarCliente;
+    private javax.swing.JButton GuardarCliente;
     private javax.swing.JLabel LabelClientes;
     private javax.swing.JPanel PanelClientes;
     private javax.swing.JTable TablaClientes;
@@ -215,3 +395,4 @@ public class PanelClientes extends javax.swing.JPanel {
     private javax.swing.JScrollPane scrolltablaclientes;
     // End of variables declaration//GEN-END:variables
 }
+
