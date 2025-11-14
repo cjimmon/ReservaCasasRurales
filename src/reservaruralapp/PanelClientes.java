@@ -281,7 +281,7 @@ private void cargarClientes() {
                     ps.executeUpdate();
                 }
             } else {
-                String sql = "UPDATE cliente SET nombre=?, apellido=?, DNI=?, telefono=?, email=?, comentarios=? WHERE id_cliente=?";
+                String sql = "UPDATE cliente SET nombre=?, apellidos=?, DNI=?, telefono=?, email=?, comentarios=? WHERE id_cliente=?";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     if (nombre != null) ps.setString(1, nombre); else ps.setNull(1, java.sql.Types.VARCHAR);
                     if (apellidos != null) ps.setString(2, apellidos); else ps.setNull(2, java.sql.Types.VARCHAR);

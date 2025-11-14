@@ -17,25 +17,5 @@ public class Main {
             splash.showSplashAndInit();
         });
 
-        // Hilo independiente para la prueba de BD (no bloquea la GUI)
-        new Thread(() -> {
-            pruebaBD();
-        }).start();
-    }
-
-
-    private static void pruebaBD() {
-        try {
-            Connection conn = DBConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM cliente");
-            System.out.println("Lista de clientes:");
-            while (rs.next()) {
-                System.out.println(rs.getInt("id_cliente") + " - " + rs.getString("nombre") + " " + rs.getString("apellido"));
-            }
-            DBConnection.closeConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
