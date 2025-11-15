@@ -248,58 +248,71 @@ private void cargarClientes() {
     }//GEN-LAST:event_BotonNuevoClienteActionPerformed
 
     private void GuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarClienteActionPerformed
-       DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel();
 
     try (Connection conn = DBConnection.getConnection()) {
         for (int i = 0; i < modelo.getRowCount(); i++) {
             Object idObj = modelo.getValueAt(i, 0);
             int id = (idObj instanceof Integer) ? (Integer) idObj : 0;
 
-            Object objNombre = modelo.getValueAt(i, 1);
-            Object objApellidos = modelo.getValueAt(i, 2);
-            Object objDNI = modelo.getValueAt(i, 3);
-            Object objTelefono = modelo.getValueAt(i, 4);
-            Object objEmail = modelo.getValueAt(i, 5);
-            Object objComentarios = modelo.getValueAt(i, 6);
+            // Normalización a MAYÚSCULAS
+            String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 1) != null ? modelo.getValueAt(i, 1).toString() : null);
+            String apellidos = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2) != null ? modelo.getValueAt(i, 2).toString() : null);
+            String dni = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 3) != null ? modelo.getValueAt(i, 3).toString() : null);
+                if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
+                    JOptionPane.showMessageDialog(this, "El DNI de la fila " + (i+1) + " no es válido: " + dni);
+                    return; // no guarda si algún DNI es incorrecto
+                }
+            String telefono = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 4) != null 
+                        ? modelo.getValueAt(i, 4).toString() 
+                        : null);
 
-            String nombre = (objNombre != null && !objNombre.toString().trim().isEmpty()) ? objNombre.toString() : null;
-            String apellidos = (objApellidos != null && !objApellidos.toString().trim().isEmpty()) ? objApellidos.toString() : null;
-            String dni = (objDNI != null && !objDNI.toString().trim().isEmpty()) ? objDNI.toString() : null;
-            String telefono = (objTelefono != null && !objTelefono.toString().trim().isEmpty()) ? objTelefono.toString() : null;
-            String email = (objEmail != null && !objEmail.toString().trim().isEmpty()) ? objEmail.toString() : null;
-            String comentarios = (objComentarios != null && !objComentarios.toString().trim().isEmpty()) ? objComentarios.toString() : null;
+                if (telefono != null && !telefono.isEmpty() && !InputUtils.validaTelefonoE164(telefono)) {
+                    JOptionPane.showMessageDialog(this, "El teléfono de la fila " + (i+1) + " no es válido: " + telefono);
+                    return;
+                }
+            String email = InputUtils.normalizarMayusculas(
+                        modelo.getValueAt(i, 5) != null ? modelo.getValueAt(i, 5).toString() : null
+                );
+                if (email != null && !email.isEmpty() && !InputUtils.validaEmail(email)) {
+                    JOptionPane.showMessageDialog(this, "El email no es válido: " + email);
+                    return; 
+                }
+
+            String comentarios = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 6) != null ? modelo.getValueAt(i, 6).toString() : null);
 
             if (id == 0) {
                 String sql = "INSERT INTO cliente (nombre, apellidos, DNI, telefono, email, comentarios) VALUES (?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                    if (nombre != null) ps.setString(1, nombre); else ps.setNull(1, java.sql.Types.VARCHAR);
-                    if (apellidos != null) ps.setString(2, apellidos); else ps.setNull(2, java.sql.Types.VARCHAR);
-                    if (dni != null) ps.setString(3, dni); else ps.setNull(3, java.sql.Types.VARCHAR);
-                    if (telefono != null) ps.setString(4, telefono); else ps.setNull(4, java.sql.Types.VARCHAR);
-                    if (email != null) ps.setString(5, email); else ps.setNull(5, java.sql.Types.VARCHAR);
-                    if (comentarios != null) ps.setString(6, comentarios); else ps.setNull(6, java.sql.Types.VARCHAR);
+                    ps.setString(1, nombre);
+                    ps.setString(2, apellidos);
+                    ps.setString(3, dni);
+                    ps.setString(4, telefono);
+                    ps.setString(5, email);
+                    ps.setString(6, comentarios);
                     ps.executeUpdate();
                 }
             } else {
                 String sql = "UPDATE cliente SET nombre=?, apellidos=?, DNI=?, telefono=?, email=?, comentarios=? WHERE id_cliente=?";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                    if (nombre != null) ps.setString(1, nombre); else ps.setNull(1, java.sql.Types.VARCHAR);
-                    if (apellidos != null) ps.setString(2, apellidos); else ps.setNull(2, java.sql.Types.VARCHAR);
-                    if (dni != null) ps.setString(3, dni); else ps.setNull(3, java.sql.Types.VARCHAR);
-                    if (telefono != null) ps.setString(4, telefono); else ps.setNull(4, java.sql.Types.VARCHAR);
-                    if (email != null) ps.setString(5, email); else ps.setNull(5, java.sql.Types.VARCHAR);
-                    if (comentarios != null) ps.setString(6, comentarios); else ps.setNull(6, java.sql.Types.VARCHAR);
+                    ps.setString(1, nombre);
+                    ps.setString(2, apellidos);
+                    ps.setString(3, dni);
+                    ps.setString(4, telefono);
+                    ps.setString(5, email);
+                    ps.setString(6, comentarios);
                     ps.setInt(7, id);
                     ps.executeUpdate();
                 }
             }
         }
+
         JOptionPane.showMessageDialog(this, "Cambios guardados correctamente.");
         cargarClientes();
 
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, "Error al guardar clientes: " + e.getMessage());
-    }   
+    }
     }//GEN-LAST:event_GuardarClienteActionPerformed
 
     private void BotonVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVerDetallesActionPerformed
@@ -307,7 +320,8 @@ private void cargarClientes() {
     }//GEN-LAST:event_BotonVerDetallesActionPerformed
 
     private void BotonLupaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLupaClienteActionPerformed
-     String textoBusqueda = CampoBuscarCliente.getText().trim();
+      String textoBusqueda = InputUtils.normalizarMayusculas(CampoBuscarCliente.getText().trim());
+
     if (textoBusqueda.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Introduce un texto para buscar.");
         return;
@@ -317,7 +331,12 @@ private void cargarClientes() {
     modelo.setRowCount(0);
 
     String sql = "SELECT * FROM cliente WHERE "
-               + "nombre LIKE ? OR apellidos LIKE ? OR DNI LIKE ? OR telefono LIKE ? OR email LIKE ? OR comentarios LIKE ?";
+               + "UPPER(nombre) LIKE ? OR "
+               + "UPPER(apellidos) LIKE ? OR "
+               + "UPPER(DNI) LIKE ? OR "
+               + "UPPER(telefono) LIKE ? OR "
+               + "UPPER(email) LIKE ? OR "
+               + "UPPER(comentarios) LIKE ?";
 
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -328,6 +347,7 @@ private void cargarClientes() {
 
         ResultSet rs = ps.executeQuery();
         boolean hayResultados = false;
+
         while (rs.next()) {
             Object[] fila = new Object[]{
                 rs.getInt("id_cliente"),

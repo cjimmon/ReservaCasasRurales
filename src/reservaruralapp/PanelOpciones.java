@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import util.DBConnection;
 
+
+
 /**
  *
  * @author jimen
@@ -43,10 +45,10 @@ public class PanelOpciones extends javax.swing.JPanel {
         TextoNombreOpciones = new javax.swing.JTextField();
         TextoContraseñaOpciones = new javax.swing.JTextField();
         BotonBuscarOpciones = new javax.swing.JButton();
-        CheckAdministrador = new javax.swing.JCheckBox();
         BotonEliminarOpciones = new javax.swing.JButton();
+        AdminRecepcionista = new javax.swing.JComboBox<>();
 
-        LabelOpciones.setText("OPCIONES");
+        LabelOpciones.setText(" OPCIONES USUARIO:");
 
         jSeparator3.setBackground(new java.awt.Color(0, 102, 51));
         jSeparator3.setForeground(new java.awt.Color(0, 102, 51));
@@ -83,17 +85,17 @@ public class PanelOpciones extends javax.swing.JPanel {
             }
         });
 
-        CheckAdministrador.setText("admin");
-        CheckAdministrador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CheckAdministradorActionPerformed(evt);
-            }
-        });
-
         BotonEliminarOpciones.setText("Eliminar Usuario");
         BotonEliminarOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonEliminarOpcionesActionPerformed(evt);
+            }
+        });
+
+        AdminRecepcionista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "recepcionista" }));
+        AdminRecepcionista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdminRecepcionistaActionPerformed(evt);
             }
         });
 
@@ -110,29 +112,25 @@ public class PanelOpciones extends javax.swing.JPanel {
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PanelOpcionesLayout.createSequentialGroup()
                         .addGap(61, 61, 61)
-                        .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(TextoNombreOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(TextoContraseñaOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(33, 33, 33))
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(TextoNombreOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BotonBuscarOpciones)
-                                    .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(CheckAdministrador)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3)
+                                .addGap(26, 26, 26)
+                                .addComponent(TextoContraseñaOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(45, 45, 45)
+                                .addComponent(AdminRecepcionista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                                .addComponent(BotonBuscarOpciones)
+                                .addGap(115, 115, 115)
                                 .addComponent(BotonGuardarOpciones)
-                                .addGap(53, 53, 53)))
-                        .addComponent(BotonEliminarOpciones)))
+                                .addGap(36, 36, 36)
+                                .addComponent(BotonEliminarOpciones)))))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         PanelOpcionesLayout.setVerticalGroup(
@@ -150,16 +148,16 @@ public class PanelOpciones extends javax.swing.JPanel {
                 .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(TextoContraseñaOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addGap(22, 22, 22)
                 .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(CheckAdministrador))
-                .addGap(42, 42, 42)
+                    .addComponent(AdminRecepcionista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
                 .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonBuscarOpciones)
                     .addComponent(BotonGuardarOpciones)
                     .addComponent(BotonEliminarOpciones))
-                .addContainerGap(280, Short.MAX_VALUE))
+                .addContainerGap(251, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -185,47 +183,55 @@ public class PanelOpciones extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonGuardarOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGuardarOpcionesActionPerformed
-          String username = TextoNombreOpciones.getText().trim();
-    String password = TextoContraseñaOpciones.getText();
-    String rol = CheckAdministrador.isSelected() ? "admin" : "recepcionista";
+        String username = TextoNombreOpciones.getText().trim().toUpperCase();
+        String password = TextoContraseñaOpciones.getText().trim().toUpperCase();
+        String rol = AdminRecepcionista.getSelectedItem().toString().trim().toLowerCase();
 
-    if(username.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Nombre y contraseña son obligatorios.", "Aviso", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
 
-    String sqlCheck = "SELECT * FROM usuario WHERE username = ?";
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement psCheck = conn.prepareStatement(sqlCheck)) {
-
-        psCheck.setString(1, username);
-        ResultSet rs = psCheck.executeQuery();
-
-        if(rs.next()) {
-            // Usuario existe → UPDATE
-            String sqlUpdate = "UPDATE usuario SET password = ?, rol = ? WHERE username = ?";
-            try (PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate)) {
-                psUpdate.setString(1, password);
-                psUpdate.setString(2, rol);
-                psUpdate.setString(3, username);
-                psUpdate.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Usuario actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } else {
-            // Usuario no existe → INSERT
-            String sqlInsert = "INSERT INTO usuario(username, password, rol) VALUES(?,?,?)";
-            try (PreparedStatement psInsert = conn.prepareStatement(sqlInsert)) {
-                psInsert.setString(1, username);
-                psInsert.setString(2, password);
-                psInsert.setString(3, rol);
-                psInsert.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Usuario creado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            }
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nombre y contraseña son obligatorios.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+        String sqlCheck = "SELECT * FROM usuario WHERE UPPER(username) = UPPER(?)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement psCheck = conn.prepareStatement(sqlCheck)) {
+
+            psCheck.setString(1, username);
+            ResultSet rs = psCheck.executeQuery();
+
+            if (rs.next()) {
+                // UPDATE
+                String sqlUpdate = "UPDATE usuario SET password = ?, rol = ? WHERE UPPER(username) = UPPER(?)";
+
+                try (PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate)) {
+                    psUpdate.setString(1, password);
+                    psUpdate.setString(2, rol);
+                    psUpdate.setString(3, username);
+                    psUpdate.executeUpdate();
+
+                    JOptionPane.showMessageDialog(this, "Usuario actualizado correctamente.");
+                }
+
+            } else {
+                // INSERT
+                String sqlInsert = "INSERT INTO usuario(username, password, rol) VALUES(?,?,?)";
+
+                try (PreparedStatement psInsert = conn.prepareStatement(sqlInsert)) {
+                    psInsert.setString(1, username);
+                    psInsert.setString(2, password);
+                    psInsert.setString(3, rol);
+                    psInsert.executeUpdate();
+
+                    JOptionPane.showMessageDialog(this, "Usuario creado correctamente.");
+                }
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    
 
     }//GEN-LAST:event_BotonGuardarOpcionesActionPerformed
 
@@ -238,89 +244,76 @@ public class PanelOpciones extends javax.swing.JPanel {
     }//GEN-LAST:event_TextoContraseñaOpcionesActionPerformed
 
     private void BotonBuscarOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarOpcionesActionPerformed
-      String nombre = TextoNombreOpciones.getText();
+         String nombre = TextoNombreOpciones.getText().trim().toUpperCase();
 
-    if(nombre.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Introduce un nombre para buscar.", "Aviso", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    String sql = "SELECT * FROM usuario WHERE username = ?";
-
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        ps.setString(1, nombre);
-        ResultSet rs = ps.executeQuery();
-
-        if(rs.next()) {
-            // Usuario encontrado, rellenamos campos
-            TextoContraseñaOpciones.setText(rs.getString("password"));
-
-            String rol = rs.getString("rol");
-            if("admin".equals(rol)) {
-                CheckAdministrador.setSelected(true);
-            } else {
-                CheckAdministrador.setSelected(false);
-            }
-
-          
-        } else {
-            // Usuario no existe
-            TextoContraseñaOpciones.setText("");
-            CheckAdministrador.setSelected(false);
-            JOptionPane.showMessageDialog(this, "Usuario no encontrado. Puedes crear uno nuevo.");
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Introduce un nombre para buscar.");
+            return;
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al buscar usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        String sql = "SELECT * FROM usuario WHERE UPPER(username) = UPPER(?)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                TextoContraseñaOpciones.setText(rs.getString("password"));
+                AdminRecepcionista.setSelectedItem(rs.getString("rol").toUpperCase());
+            } else {
+                TextoContraseñaOpciones.setText("");
+                AdminRecepcionista.setSelectedIndex(0);
+                JOptionPane.showMessageDialog(this, "Usuario no encontrado.");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar usuario: " + e.getMessage());
+        }
     
     }//GEN-LAST:event_BotonBuscarOpcionesActionPerformed
 
-    private void CheckAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckAdministradorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CheckAdministradorActionPerformed
-
     private void BotonEliminarOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarOpcionesActionPerformed
-        String nombre = TextoNombreOpciones.getText();
+         String nombre = TextoNombreOpciones.getText().trim().toUpperCase();
 
-    if(nombre.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Introduce un nombre para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    String sql = "DELETE FROM usuario WHERE username = ?";
-
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        ps.setString(1, nombre);
-        int filas = ps.executeUpdate();
-
-        if(filas > 0) {
-            JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente.");
-            // Limpiamos los campos
-            TextoNombreOpciones.setText("");
-            TextoContraseñaOpciones.setText("");
-            CheckAdministrador.setSelected(false);
-        } else {
-            JOptionPane.showMessageDialog(this, "No se encontró el usuario para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Introduce un nombre para eliminar.");
+            return;
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al eliminar usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        String sql = "DELETE FROM usuario WHERE UPPER(username) = UPPER(?)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            int filas = ps.executeUpdate();
+
+            if (filas > 0) {
+                JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente.");
+                TextoNombreOpciones.setText("");
+                TextoContraseñaOpciones.setText("");
+                AdminRecepcionista.setSelectedIndex(0);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el usuario para eliminar.");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar usuario: " + e.getMessage());
+        }
     }//GEN-LAST:event_BotonEliminarOpcionesActionPerformed
+
+    private void AdminRecepcionistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminRecepcionistaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AdminRecepcionistaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> AdminRecepcionista;
     private javax.swing.JButton BotonBuscarOpciones;
     private javax.swing.JButton BotonEliminarOpciones;
     private javax.swing.JButton BotonGuardarOpciones;
-    private javax.swing.JCheckBox CheckAdministrador;
     private javax.swing.JLabel LabelOpciones;
     private javax.swing.JPanel PanelOpciones;
     private javax.swing.JTextField TextoContraseñaOpciones;

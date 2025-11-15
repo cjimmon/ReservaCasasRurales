@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+
+
     
 
 public class Login extends javax.swing.JFrame {
@@ -132,15 +134,16 @@ public class Login extends javax.swing.JFrame {
 
     private void BotonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonConectarActionPerformed
         // TODO add your handling code here:
-         String usuario = TextoUsuario.getText().trim();
-         String password = new String(TextoContraseña.getPassword()).trim();
+          // Normalizar entradas (mayúsculas, trim…)
+    String usuario = InputUtils.normalizarMayusculas(TextoUsuario.getText());
+    String password = InputUtils.normalizarMayusculas(new String(TextoContraseña.getPassword()));
 
     if (usuario.isEmpty() || password.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Debes introducir usuario y contraseña");
         return;
     }
 
-    try (Connection conn = (Connection) util.DBConnection.getConnection();
+    try (Connection conn = util.DBConnection.getConnection();
          PreparedStatement stmt = conn.prepareStatement(
              "SELECT rol FROM usuario WHERE username = ? AND password = ?")) {
 
@@ -153,10 +156,10 @@ public class Login extends javax.swing.JFrame {
             String rol = rs.getString("rol");
             JOptionPane.showMessageDialog(this, "Bienvenido " + usuario + " (" + rol + ")");
 
-            // Aquí abrimos la pantalla principal (la haremos después)
+            // Abrir pantalla principal
             Principal principal = new Principal(usuario, rol);
             principal.setVisible(true);
-            this.dispose(); // cerrar login
+            this.dispose();
 
         } else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");

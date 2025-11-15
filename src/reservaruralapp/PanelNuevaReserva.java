@@ -5,6 +5,8 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
 import javax.swing.SpinnerDateModel;
+
+
 /**
  *
  * @author jimen
@@ -172,48 +174,67 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(telefonoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(29, 29, 29)
+                            .addComponent(nombreReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSpinnerFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(31, 31, 31)
+                        .addComponent(casaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(44, 44, 44)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombreReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(emailReserva, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                                    .addComponent(telefonoReserva, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(DNIReserva, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(apelleidosReserva)
-                                    .addComponent(comentarioReserva))
-                                .addGap(125, 125, 125)
-                                .addComponent(guardarNuevaReserva)
-                                .addGap(18, 18, 18)
-                                .addComponent(limpiarReserva))))
-                    .addComponent(jLabel6)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(estadoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(numeroPersonasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(casaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(335, 335, 335)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinnerFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addGap(98, 98, 98)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jSpinnerFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(238, 329, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(apelleidosReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jSpinnerFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(emailReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(estadoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(42, 42, 42))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(196, 196, 196)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(numeroPersonasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(46, 46, 46)
+                                    .addComponent(DNIReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(comentarioReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(130, 130, 130))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(335, 335, 335)
+                .addComponent(guardarNuevaReserva)
+                .addGap(68, 68, 68)
+                .addComponent(limpiarReserva)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,51 +242,38 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(nombreReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nombreReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(apelleidosReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinnerFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinnerFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(DNIReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(telefonoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(telefonoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(emailReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(guardarNuevaReserva)
-                            .addComponent(limpiarReserva)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(comentarioReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(24, 24, 24)
+                    .addComponent(emailReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(comentarioReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jSpinnerFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(jSpinnerFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(numeroPersonasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(casaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(casaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(estadoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(limpiarReserva)
+                    .addComponent(guardarNuevaReserva))
+                .addGap(231, 231, 231))
         );
 
         javax.swing.GroupLayout PanelOpcionesLayout = new javax.swing.GroupLayout(PanelOpciones);
@@ -313,7 +321,7 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1034, Short.MAX_VALUE)
+            .addGap(0, 1200, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -322,7 +330,7 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
+            .addGap(0, 652, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -360,48 +368,72 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
     }//GEN-LAST:event_estadoReservaActionPerformed
 
     private void guardarNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarNuevaReservaActionPerformed
-      String nombre = nombreReserva.getText().trim();
-        String apellidos = apelleidosReserva.getText().trim();
-        String dni = DNIReserva.getText().trim();
-        String telefono = telefonoReserva.getText().trim();
-        String email = emailReserva.getText().trim();
-        String comentarios = comentarioReserva.getText().trim();
-        String casaSeleccionada = (String) casaReserva.getSelectedItem();
-        String estado = (String) estadoReserva.getSelectedItem();
+    String nombre = InputUtils.normalizarMayusculas(nombreReserva.getText().trim());
+    String apellidos = InputUtils.normalizarMayusculas(apelleidosReserva.getText().trim());
+    String dni = InputUtils.normalizarMayusculas(DNIReserva.getText().trim());
+            if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
+                JOptionPane.showMessageDialog(this, "El DNI no es válido: " + dni);
+                return; // no guarda si el DNI es incorrecto
+            }
+    String telefono = InputUtils.normalizarMayusculas(telefonoReserva.getText().trim());
+            if (telefono != null && !telefono.isEmpty() && !InputUtils.validaTelefonoE164(telefono)) {
+                JOptionPane.showMessageDialog(this, "El teléfono no es válido: " + telefono);
+                return;
+            }
+    String email = InputUtils.normalizarMayusculas(emailReserva.getText().trim());
+        if (!InputUtils.validaEmail(email)) {
+            JOptionPane.showMessageDialog(this, "El email no es válido: " + email);
+            return; // no guarda si el email es incorrecto
+            }
+    String comentarios = InputUtils.normalizarMayusculas(comentarioReserva.getText().trim());
+    String casaSeleccionada = InputUtils.normalizarMayusculas((String) casaReserva.getSelectedItem());
+    String estado = InputUtils.normalizarMayusculas((String) estadoReserva.getSelectedItem());
         int numPersonas = (int) numeroPersonasReserva.getValue();
 
-        if (nombre.isEmpty() || apellidos.isEmpty() || dni.isEmpty() || casaSeleccionada == null) {
-            JOptionPane.showMessageDialog(this, "Rellena todos los campos obligatorios.");
-            return;
+    if (nombre.isEmpty() || apellidos.isEmpty() || dni.isEmpty() || casaSeleccionada == null) {
+        JOptionPane.showMessageDialog(this, "Rellena todos los campos obligatorios.");
+        return;
+    }
+
+    // Obtener fechas de los JSpinner
+    java.util.Date utilFechaInicio = (java.util.Date) jSpinnerFechaInicio.getValue();
+    java.util.Date utilFechaFin = (java.util.Date) jSpinnerFechaFin.getValue();
+
+    if (utilFechaFin.before(utilFechaInicio)) {
+        JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser anterior a la fecha de entrada.");
+        return;
+    }
+
+    // Formatear fechas como texto dd/MM/yyyy
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    String fechaInicioStr = sdf.format(utilFechaInicio);
+    String fechaFinStr = sdf.format(utilFechaFin);
+
+    try (Connection conn = DBConnection.getConnection()) {
+        conn.setAutoCommit(false);
+
+        int idCliente = 0;
+        // Verificar si el cliente ya existe por DNI
+        String sqlBuscarCliente = "SELECT id_cliente FROM cliente WHERE DNI = ?";
+        try (PreparedStatement psBuscar = conn.prepareStatement(sqlBuscarCliente)) {
+            psBuscar.setString(1, dni);
+            ResultSet rs = psBuscar.executeQuery();
+            if (rs.next()) {
+                idCliente = rs.getInt("id_cliente");
+                JOptionPane.showMessageDialog(this, "El cliente ya existe. Se usará su registro para la nueva reserva.");
+            }
         }
 
-        // Obtener fechas de los JSpinner
-        java.util.Date utilFechaInicio = (java.util.Date) jSpinnerFechaInicio.getValue();
-        java.util.Date utilFechaFin = (java.util.Date) jSpinnerFechaFin.getValue();
-
-        if (utilFechaFin.before(utilFechaInicio)) {
-            JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser anterior a la fecha de entrada.");
-            return;
-        }
-
-        // Formatear fechas como texto dd/MM/yyyy
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaInicioStr = sdf.format(utilFechaInicio);
-        String fechaFinStr = sdf.format(utilFechaFin);
-
-        try (Connection conn = DBConnection.getConnection()) {
-            conn.setAutoCommit(false);
-
-            // Insertar cliente
+        // Si no existe, insertamos el cliente
+        if (idCliente == 0) {
             String sqlCliente = "INSERT INTO cliente(nombre, apellidos, DNI, telefono, email, comentarios) VALUES (?, ?, ?, ?, ?, ?)";
-            int idCliente;
             try (PreparedStatement psCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS)) {
-                psCliente.setString(1, nombre);
-                psCliente.setString(2, apellidos);
-                psCliente.setString(3, dni);
-                psCliente.setString(4, telefono);
-                psCliente.setString(5, email);
-                psCliente.setString(6, comentarios);
+                psCliente.setString(1, InputUtils.normalizarMayusculas(nombre));
+                psCliente.setString(2, InputUtils.normalizarMayusculas(apellidos));
+                psCliente.setString(3, InputUtils.normalizarMayusculas(dni));
+                psCliente.setString(4, InputUtils.normalizarMayusculas(telefono));
+                psCliente.setString(5, InputUtils.normalizarMayusculas(email));
+                psCliente.setString(6, InputUtils.normalizarMayusculas(comentarios));
                 psCliente.executeUpdate();
 
                 ResultSet rs = psCliente.getGeneratedKeys();
@@ -411,38 +443,39 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
                     throw new SQLException("No se pudo obtener el ID del cliente.");
                 }
             }
-
-            // Obtener id_casa
-            String sqlCasa = "SELECT id_casa FROM casa WHERE nombre = ?";
-            int idCasa;
-            try (PreparedStatement psCasa = conn.prepareStatement(sqlCasa)) {
-                psCasa.setString(1, casaSeleccionada);
-                ResultSet rsCasa = psCasa.executeQuery();
-                if (rsCasa.next()) {
-                    idCasa = rsCasa.getInt("id_casa");
-                } else {
-                    throw new SQLException("La casa seleccionada no existe.");
-                }
-            }
-
-            // Insertar reserva
-            String sqlReserva = "INSERT INTO reserva(id_cliente, id_casa, fecha_inicio, fecha_fin, estado, num_personas) VALUES (?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement psReserva = conn.prepareStatement(sqlReserva)) {
-                psReserva.setInt(1, idCliente);
-                psReserva.setInt(2, idCasa);
-                psReserva.setString(3, fechaInicioStr);
-                psReserva.setString(4, fechaFinStr);
-                psReserva.setString(5, estado);
-                psReserva.setInt(6, numPersonas);
-                psReserva.executeUpdate();
-            }
-
-            conn.commit();
-            JOptionPane.showMessageDialog(this, "Reserva creada correctamente.");
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al crear reserva: " + e.getMessage());
         }
+
+        // Obtener id_casa
+        String sqlCasa = "SELECT id_casa FROM casa WHERE nombre = ?";
+        int idCasa;
+        try (PreparedStatement psCasa = conn.prepareStatement(sqlCasa)) {
+            psCasa.setString(1, casaSeleccionada);
+            ResultSet rsCasa = psCasa.executeQuery();
+            if (rsCasa.next()) {
+                idCasa = rsCasa.getInt("id_casa");
+            } else {
+                throw new SQLException("La casa seleccionada no existe.");
+            }
+        }
+
+        // Insertar reserva
+        String sqlReserva = "INSERT INTO reserva(id_cliente, id_casa, fecha_inicio, fecha_fin, estado, num_personas) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement psReserva = conn.prepareStatement(sqlReserva)) {
+            psReserva.setInt(1, idCliente);
+            psReserva.setInt(2, idCasa);
+            psReserva.setString(3, fechaInicioStr);
+            psReserva.setString(4, fechaFinStr);
+            psReserva.setString(5, InputUtils.normalizarMayusculas(estado));
+            psReserva.setInt(6, numPersonas);
+            psReserva.executeUpdate();
+        }
+
+        conn.commit();
+        JOptionPane.showMessageDialog(this, "Reserva creada correctamente.");
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al crear reserva: " + e.getMessage());
+    }
     }//GEN-LAST:event_guardarNuevaReservaActionPerformed
 
     private void limpiarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarReservaActionPerformed

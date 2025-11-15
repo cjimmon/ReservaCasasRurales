@@ -98,13 +98,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="VerCasas" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
                       <Component id="BotonNuevaCasa" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
                       <Component id="GuardarCasas" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="BotonEliminarCasa" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
                       <Component id="CampoBuscarCasa" min="-2" pref="192" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="BotonLupaCasas" min="-2" pref="58" max="-2" attributes="0"/>
@@ -146,7 +146,7 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="BotonNuevaCasa">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nueva Casa"/>
+                <Property name="text" type="java.lang.String" value="Agregar Casa"/>
                 <Property name="toolTipText" type="java.lang.String" value="A&#xf1;adir Nueva Linea"/>
               </Properties>
               <Events>

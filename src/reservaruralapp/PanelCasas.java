@@ -9,6 +9,7 @@ import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
+
 /**
  *
  * @author jimen
@@ -65,7 +66,7 @@ public class PanelCasas extends javax.swing.JPanel {
 
         LabelCasas.setText("CASAS");
 
-        BotonNuevaCasa.setText("Nueva Casa");
+        BotonNuevaCasa.setText("Agregar Casa");
         BotonNuevaCasa.setToolTipText("Añadir Nueva Linea");
         BotonNuevaCasa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,13 +121,13 @@ public class PanelCasas extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(VerCasas)
-                .addGap(81, 81, 81)
+                .addGap(73, 73, 73)
                 .addComponent(BotonNuevaCasa)
-                .addGap(105, 105, 105)
+                .addGap(84, 84, 84)
                 .addComponent(GuardarCasas)
-                .addGap(63, 63, 63)
+                .addGap(27, 27, 27)
                 .addComponent(BotonEliminarCasa)
-                .addGap(54, 54, 54)
+                .addGap(119, 119, 119)
                 .addComponent(CampoBuscarCasa, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonLupaCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,11 +271,11 @@ public class PanelCasas extends javax.swing.JPanel {
             Object idObj = modelo.getValueAt(i, 0);
             int id = (idObj instanceof Integer) ? (Integer) idObj : 0;
 
-            String nombre = modelo.getValueAt(i, 1).toString();
-            String ubicacion = modelo.getValueAt(i, 2).toString();
+            String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 1).toString());
+            String ubicacion = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2).toString());
             int capacidad = Integer.parseInt(modelo.getValueAt(i, 3).toString());
             double precio = Double.parseDouble(modelo.getValueAt(i, 4).toString());
-            String descripcion = modelo.getValueAt(i, 5).toString();
+            String descripcion = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 5).toString());
 
             if (id == 0) {
                 // Insertar nueva casa
@@ -313,7 +314,8 @@ public class PanelCasas extends javax.swing.JPanel {
     }//GEN-LAST:event_CampoBuscarCasaActionPerformed
 
     private void BotonLupaCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLupaCasasActionPerformed
-         String textoBusqueda = CampoBuscarCasa.getText().trim();
+         String textoBusqueda = InputUtils.normalizarMayusculas(CampoBuscarCasa.getText().trim());
+
     
     if (textoBusqueda.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Introduce un texto para buscar.");
@@ -335,7 +337,8 @@ public class PanelCasas extends javax.swing.JPanel {
 
         // Añadimos el comodín %texto%
         for (int i = 1; i <= 5; i++) {
-            ps.setString(i, "%" + textoBusqueda + "%");
+            ps.setString(i, "%" + InputUtils.normalizarMayusculas(textoBusqueda) + "%");
+
         }
 
         ResultSet rs = ps.executeQuery();

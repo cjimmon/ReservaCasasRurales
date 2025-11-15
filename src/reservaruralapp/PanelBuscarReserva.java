@@ -172,27 +172,28 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
             PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
-                        .addComponent(SeparadorBuscarReseva))
-                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonVerReservas)
-                            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                                .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(botonEjecutarBusqueda)
-                                .addGap(87, 87, 87)
-                                .addComponent(botonGuardarCambios)
-                                .addGap(73, 73, 73)
-                                .addComponent(botoneliminarReservas)))))
+                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scrollTablaReservas, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
+                    .addComponent(SeparadorBuscarReseva))
                 .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonEjecutarBusqueda)
+                        .addGap(140, 140, 140)
+                        .addComponent(botonGuardarCambios)
+                        .addGap(98, 98, 98)
+                        .addComponent(botoneliminarReservas))
+                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(botonVerReservas)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         PanelBuscarReservaLayout.setVerticalGroup(
@@ -200,19 +201,25 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(28, 28, 28)
-                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEjecutarBusqueda)
-                    .addComponent(botonGuardarCambios)
-                    .addComponent(botoneliminarReservas))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addComponent(botonVerReservas)
-                .addGap(12, 12, 12)
-                .addComponent(SeparadorBuscarReseva, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel7)
+                                    .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(botonEjecutarBusqueda))))
+                            .addComponent(botoneliminarReservas))
+                        .addGap(18, 18, 18)
+                        .addComponent(SeparadorBuscarReseva, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonGuardarCambios))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -229,7 +236,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 558, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -243,7 +250,8 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
     }//GEN-LAST:event_campoBusquedaActionPerformed
 
     private void botonEjecutarBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarBusquedaActionPerformed
-       String textoBusqueda = campoBusqueda.getText().trim();
+       String textoBusqueda = InputUtils.normalizarMayusculas(campoBusqueda.getText().trim());
+
         if (textoBusqueda.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Introduce un campo de búsqueda");
             return;
@@ -264,7 +272,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            String filtro = "%" + textoBusqueda + "%";
+            String filtro = "%" + InputUtils.normalizarMayusculas(textoBusqueda) + "%";
             for (int i = 1; i <= 11; i++) ps.setString(i, filtro);
 
             ResultSet rs = ps.executeQuery();
@@ -311,20 +319,36 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                 int idCasa = obtenerIdCasaDesdeReserva(idReserva, conn);
 
                 // Datos del cliente
-                String nombre = modelo.getValueAt(i, 1).toString();
-                String apellidos = modelo.getValueAt(i, 2).toString();
-                String dni = modelo.getValueAt(i, 3).toString();
-                String telefono = modelo.getValueAt(i, 4).toString();
-                String email = modelo.getValueAt(i, 5).toString();
+                String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 1).toString());
+                String apellidos = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2).toString());
+                String dni = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 3).toString());
+
+            if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
+                JOptionPane.showMessageDialog(this, "El DNI no es válido: " + dni);
+                return; // no guarda si el DNI es incorrecto
+            }
+                String telefono = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 4) != null 
+                    ? modelo.getValueAt(i, 4).toString() 
+                    : null);
+
+            if (telefono != null && !telefono.isEmpty() && !InputUtils.validaTelefonoE164(telefono)) {
+                JOptionPane.showMessageDialog(this, "El teléfono de la fila " + (i+1) + " no es válido: " + telefono);
+                return;
+            }
+                String email = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 5).toString());
+            if (!InputUtils.validaEmail(email)) {
+                JOptionPane.showMessageDialog(this, "El email no es válido: " + email);
+                return; // no guarda si el email es incorrecto
+            }
 
                 // Datos de la casa
-                String nombreCasa = modelo.getValueAt(i, 6).toString();
+                String nombreCasa = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 6).toString());
 
                 // Datos de la reserva
                 int numPersonas = Integer.parseInt(modelo.getValueAt(i, 7).toString());
                 String fechaInicio = modelo.getValueAt(i, 8).toString();
                 String fechaFin = modelo.getValueAt(i, 9).toString();
-                String estado = modelo.getValueAt(i, 10).toString();
+                String estado = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 10).toString());
 
                 // Guardar como texto directamente
                 String sqlCliente = "UPDATE cliente SET nombre=?, apellidos=?, DNI=?, telefono=?, email=? WHERE id_cliente=?";
@@ -357,26 +381,90 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                         ps.executeUpdate();
                     }
                 } else {
-                    String sql = "UPDATE reserva SET id_cliente=?, id_casa=?, num_personas=?, fecha_inicio=?, fecha_fin=?, estado=? WHERE id_reserva=?";
-                    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                        ps.setInt(1, idCliente);
-                        ps.setInt(2, idCasa);
-                        ps.setInt(3, numPersonas);
-                        ps.setString(4, fechaInicio);
-                        ps.setString(5, fechaFin);
-                        ps.setString(6, estado);
-                        ps.setInt(7, idReserva);
-                        ps.executeUpdate();
+                String sql = "UPDATE reserva SET id_cliente=?, id_casa=?, num_personas=?, fecha_inicio=?, fecha_fin=?, estado=? WHERE id_reserva=?";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setInt(1, idCliente);
+                    ps.setInt(2, idCasa);
+                    ps.setInt(3, numPersonas);
+                    ps.setString(4, fechaInicio);
+                    ps.setString(5, fechaFin);
+                    ps.setString(6, estado);
+                    ps.setInt(7, idReserva);
+                    ps.executeUpdate();
+                }
+
+                // --- GENERAR FACTURA SI SE CONFIRMA LA RESERVA ---
+                if ("CONFIRMADA".equalsIgnoreCase(estado)) {
+                    // Comprobar si ya existe factura para esta reserva
+                    String sqlCheck = "SELECT id_factura, importe_total FROM factura WHERE id_reserva = ?";
+                    Integer idFacturaExistente = null;
+                    double importeActualFactura = 0;
+
+                    try (PreparedStatement psCheck = conn.prepareStatement(sqlCheck)) {
+                        psCheck.setInt(1, idReserva);
+                        ResultSet rsCheck = psCheck.executeQuery();
+                        if (rsCheck.next()) {
+                            idFacturaExistente = rsCheck.getInt("id_factura"); // Guardamos el id de la factura
+                            importeActualFactura = rsCheck.getDouble("importe_total"); // Guardamos el importe actual
+                        }
+                    }
+
+                    // Calcular importe_total basado en fechas y precio_noche
+                    String sqlImporte = "SELECT (julianday(substr(r.fecha_fin, 7, 4) || '-' || substr(r.fecha_fin, 4, 2) || '-' || substr(r.fecha_fin, 1, 2)) " +
+                                        "- julianday(substr(r.fecha_inicio, 7, 4) || '-' || substr(r.fecha_inicio, 4, 2) || '-' || substr(r.fecha_inicio, 1, 2))) " +
+                                        "* c.precio_noche AS total " +
+                                        "FROM reserva r JOIN casa c ON r.id_casa = c.id_casa " +
+                                        "WHERE r.id_reserva = ?";
+
+                    double importeTotal = 0;
+                    try (PreparedStatement psImp = conn.prepareStatement(sqlImporte)) {
+                        psImp.setInt(1, idReserva);
+                        ResultSet rs = psImp.executeQuery();
+                        if (rs.next()) {
+                            importeTotal = rs.getDouble("total");
+                        }
+                    }
+
+                    java.time.LocalDate hoy = java.time.LocalDate.now();
+                    java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                    if (idFacturaExistente == null) {
+                        // No existe factura → INSERT
+                        String sqlFactura = "INSERT INTO factura(id_reserva, fecha_emision, importe_total) VALUES(?, ?, ?)";
+                        try (PreparedStatement psFac = conn.prepareStatement(sqlFactura)) {
+                            psFac.setInt(1, idReserva);
+                            psFac.setString(2, hoy.format(formatter));
+                            psFac.setDouble(3, importeTotal);
+                            psFac.executeUpdate();
+
+                            // Mensaje de creación
+                            JOptionPane.showMessageDialog(this,
+                                "Reserva confirmada: factura creada correctamente.\nFecha emisión: " + hoy.format(formatter));
+                        }
+                    } else if (importeActualFactura != importeTotal) {
+                        // Ya existe factura → UPDATE solo si cambió el importe
+                        String sqlFacturaUpdate = "UPDATE factura SET fecha_emision = ?, importe_total = ? WHERE id_factura = ?";
+                        try (PreparedStatement psFac = conn.prepareStatement(sqlFacturaUpdate)) {
+                            psFac.setString(1, hoy.format(formatter));
+                            psFac.setDouble(2, importeTotal);
+                            psFac.setInt(3, idFacturaExistente);
+                            psFac.executeUpdate();
+
+                            // Mensaje de actualización solo si cambió importe
+                            JOptionPane.showMessageDialog(this,
+                                "La factura existente se ha actualizado debido a cambios en las fechas o importe.\nNueva fecha emisión: " + hoy.format(formatter));
+                        }
                     }
                 }
             }
+                        }
 
-            JOptionPane.showMessageDialog(this, "Cambios guardados correctamente.");
-            cargarReservas();
+                        JOptionPane.showMessageDialog(this, "Cambios guardados correctamente.");
+                        cargarReservas();
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
-        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
+                    }
     }//GEN-LAST:event_botonGuardarCambiosActionPerformed
 
     private void botoneliminarReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoneliminarReservasActionPerformed
