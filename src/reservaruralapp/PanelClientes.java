@@ -68,6 +68,10 @@ private void cargarClientes() {
         scrolltablaclientes = new javax.swing.JScrollPane();
         TablaClientes = new javax.swing.JTable();
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        BotonNuevoCliente.setBackground(new java.awt.Color(241, 250, 241));
+        BotonNuevoCliente.setForeground(new java.awt.Color(51, 102, 0));
         BotonNuevoCliente.setText("Agregar Cliente");
         BotonNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,6 +79,8 @@ private void cargarClientes() {
             }
         });
 
+        GuardarCliente.setBackground(new java.awt.Color(241, 250, 241));
+        GuardarCliente.setForeground(new java.awt.Color(51, 102, 0));
         GuardarCliente.setText("Guardar");
         GuardarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,6 +88,8 @@ private void cargarClientes() {
             }
         });
 
+        BotonVerDetalles.setBackground(new java.awt.Color(241, 250, 241));
+        BotonVerDetalles.setForeground(new java.awt.Color(51, 102, 0));
         BotonVerDetalles.setText("Ver Clientes");
         BotonVerDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,6 +97,8 @@ private void cargarClientes() {
             }
         });
 
+        BotonLupaCliente.setBackground(new java.awt.Color(241, 250, 241));
+        BotonLupaCliente.setForeground(new java.awt.Color(51, 102, 0));
         BotonLupaCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/lupa.png"))); // NOI18N
         BotonLupaCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +117,8 @@ private void cargarClientes() {
             }
         });
 
+        BotonEliminarCliente.setBackground(new java.awt.Color(241, 250, 241));
+        BotonEliminarCliente.setForeground(new java.awt.Color(51, 102, 0));
         BotonEliminarCliente.setText("Eliminar Cliente");
         BotonEliminarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,15 +193,15 @@ private void cargarClientes() {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrolltablaclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrolltablaclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 1133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrolltablaclientes, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(scrolltablaclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout PanelClientesLayout = new javax.swing.GroupLayout(PanelClientes);
@@ -215,26 +227,7 @@ private void cargarClientes() {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1019, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(PanelClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 552, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(PanelClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        add(PanelClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 5, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevoClienteActionPerformed

@@ -53,6 +53,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        BotonConectar.setBackground(new java.awt.Color(245, 252, 245));
+        BotonConectar.setForeground(new java.awt.Color(51, 102, 0));
         BotonConectar.setText("CONECTAR");
         BotonConectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

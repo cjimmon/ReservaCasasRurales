@@ -55,6 +55,9 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        BotonNuevaReserva.setBackground(new java.awt.Color(233, 250, 233));
+        BotonNuevaReserva.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BotonNuevaReserva.setForeground(new java.awt.Color(51, 102, 0));
         BotonNuevaReserva.setText("Nueva Reserva");
         BotonNuevaReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,6 +65,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        BotonClientes.setBackground(new java.awt.Color(233, 250, 233));
+        BotonClientes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BotonClientes.setForeground(new java.awt.Color(51, 102, 0));
         BotonClientes.setText("Clientes");
         BotonClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,6 +75,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        BotonCasas.setBackground(new java.awt.Color(233, 250, 233));
+        BotonCasas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BotonCasas.setForeground(new java.awt.Color(51, 102, 0));
         BotonCasas.setText("Casas");
         BotonCasas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,6 +85,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        BotonInformes.setBackground(new java.awt.Color(233, 250, 233));
+        BotonInformes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BotonInformes.setForeground(new java.awt.Color(51, 102, 0));
         BotonInformes.setText("Informes / Facturas");
         BotonInformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,6 +95,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        BotonOpciones.setBackground(new java.awt.Color(233, 250, 233));
+        BotonOpciones.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BotonOpciones.setForeground(new java.awt.Color(51, 102, 0));
         BotonOpciones.setText("Crear /modificar Usuario");
         BotonOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +107,9 @@ public class Principal extends javax.swing.JFrame {
 
         logo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logo2.png"))); // NOI18N
 
+        botonBuscarReserva.setBackground(new java.awt.Color(233, 250, 233));
+        botonBuscarReserva.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        botonBuscarReserva.setForeground(new java.awt.Color(51, 102, 0));
         botonBuscarReserva.setText("Reservas");
         botonBuscarReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,6 +117,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        CerrarSesion.setBackground(new java.awt.Color(233, 250, 233));
+        CerrarSesion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        CerrarSesion.setForeground(new java.awt.Color(51, 102, 0));
         CerrarSesion.setText("Cerrar Sesion");
         CerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,7 +166,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(BotonCasas)
                 .addGap(18, 18, 18)
                 .addComponent(BotonInformes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
                 .addComponent(BotonOpciones)
                 .addGap(32, 32, 32)
                 .addComponent(CerrarSesion)
@@ -156,21 +177,23 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.setLayout(new java.awt.CardLayout());
 
+        PanelBienvenida.setBackground(new java.awt.Color(245, 253, 245));
+
         javax.swing.GroupLayout PanelBienvenidaLayout = new javax.swing.GroupLayout(PanelBienvenida);
         PanelBienvenida.setLayout(PanelBienvenidaLayout);
         PanelBienvenidaLayout.setHorizontalGroup(
             PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBienvenidaLayout.createSequentialGroup()
-                .addGap(0, 505, Short.MAX_VALUE)
+                .addGap(0, 623, Short.MAX_VALUE)
                 .addComponent(Bienvenida)
-                .addGap(0, 506, Short.MAX_VALUE))
+                .addGap(0, 623, Short.MAX_VALUE))
         );
         PanelBienvenidaLayout.setVerticalGroup(
             PanelBienvenidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelBienvenidaLayout.createSequentialGroup()
-                .addGap(0, 275, Short.MAX_VALUE)
+                .addGap(0, 372, Short.MAX_VALUE)
                 .addComponent(Bienvenida)
-                .addGap(0, 275, Short.MAX_VALUE))
+                .addGap(0, 373, Short.MAX_VALUE))
         );
 
         jPanel3.add(PanelBienvenida, "card7");

@@ -48,11 +48,15 @@ public class PanelOpciones extends javax.swing.JPanel {
         BotonEliminarOpciones = new javax.swing.JButton();
         AdminRecepcionista = new javax.swing.JComboBox<>();
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         LabelOpciones.setText(" OPCIONES USUARIO:");
 
         jSeparator3.setBackground(new java.awt.Color(0, 102, 51));
         jSeparator3.setForeground(new java.awt.Color(0, 102, 51));
 
+        BotonGuardarOpciones.setBackground(new java.awt.Color(233, 249, 233));
+        BotonGuardarOpciones.setForeground(new java.awt.Color(51, 102, 0));
         BotonGuardarOpciones.setText("Guardar");
         BotonGuardarOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +82,8 @@ public class PanelOpciones extends javax.swing.JPanel {
             }
         });
 
+        BotonBuscarOpciones.setBackground(new java.awt.Color(233, 249, 233));
+        BotonBuscarOpciones.setForeground(new java.awt.Color(51, 102, 0));
         BotonBuscarOpciones.setText("Buscar");
         BotonBuscarOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,6 +91,8 @@ public class PanelOpciones extends javax.swing.JPanel {
             }
         });
 
+        BotonEliminarOpciones.setBackground(new java.awt.Color(233, 249, 233));
+        BotonEliminarOpciones.setForeground(new java.awt.Color(51, 102, 0));
         BotonEliminarOpciones.setText("Eliminar Usuario");
         BotonEliminarOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,26 +168,7 @@ public class PanelOpciones extends javax.swing.JPanel {
                 .addContainerGap(251, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1011, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(PanelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(PanelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        add(PanelOpciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonGuardarOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGuardarOpcionesActionPerformed

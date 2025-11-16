@@ -64,8 +64,12 @@ public class PanelCasas extends javax.swing.JPanel {
         ScrollPanelCasas = new javax.swing.JScrollPane();
         TableCasas = new javax.swing.JTable();
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         LabelCasas.setText("CASAS");
 
+        BotonNuevaCasa.setBackground(new java.awt.Color(239, 252, 239));
+        BotonNuevaCasa.setForeground(new java.awt.Color(51, 102, 0));
         BotonNuevaCasa.setText("Agregar Casa");
         BotonNuevaCasa.setToolTipText("Añadir Nueva Linea");
         BotonNuevaCasa.addActionListener(new java.awt.event.ActionListener() {
@@ -74,6 +78,8 @@ public class PanelCasas extends javax.swing.JPanel {
             }
         });
 
+        BotonEliminarCasa.setBackground(new java.awt.Color(239, 252, 239));
+        BotonEliminarCasa.setForeground(new java.awt.Color(51, 102, 0));
         BotonEliminarCasa.setText("Eliminar Casa");
         BotonEliminarCasa.setToolTipText("Elimina linea completa");
         BotonEliminarCasa.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +88,8 @@ public class PanelCasas extends javax.swing.JPanel {
             }
         });
 
+        VerCasas.setBackground(new java.awt.Color(239, 252, 239));
+        VerCasas.setForeground(new java.awt.Color(51, 102, 0));
         VerCasas.setText("Ver");
         VerCasas.setToolTipText("Ver Listado Casas");
         VerCasas.addActionListener(new java.awt.event.ActionListener() {
@@ -93,6 +101,8 @@ public class PanelCasas extends javax.swing.JPanel {
         jSeparator4.setBackground(new java.awt.Color(0, 102, 51));
         jSeparator4.setForeground(new java.awt.Color(0, 102, 51));
 
+        GuardarCasas.setBackground(new java.awt.Color(239, 252, 239));
+        GuardarCasas.setForeground(new java.awt.Color(51, 102, 0));
         GuardarCasas.setText("Guardar");
         GuardarCasas.setToolTipText("Guarda linea completa o modificaciones");
         GuardarCasas.addActionListener(new java.awt.event.ActionListener() {
@@ -107,6 +117,8 @@ public class PanelCasas extends javax.swing.JPanel {
             }
         });
 
+        BotonLupaCasas.setBackground(new java.awt.Color(239, 252, 239));
+        BotonLupaCasas.setForeground(new java.awt.Color(51, 102, 0));
         BotonLupaCasas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/lupa.png"))); // NOI18N
         BotonLupaCasas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,7 +143,7 @@ public class PanelCasas extends javax.swing.JPanel {
                 .addComponent(CampoBuscarCasa, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonLupaCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator4)
@@ -185,8 +197,8 @@ public class PanelCasas extends javax.swing.JPanel {
             .addGroup(PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PanelCasasLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(ScrollPanelCasas, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addComponent(ScrollPanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 1095, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         PanelCasasLayout.setVerticalGroup(
             PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,34 +207,15 @@ public class PanelCasas extends javax.swing.JPanel {
                 .addComponent(LabelCasas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(451, Short.MAX_VALUE))
+                .addContainerGap(541, Short.MAX_VALUE))
             .addGroup(PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCasasLayout.createSequentialGroup()
                     .addContainerGap(107, Short.MAX_VALUE)
-                    .addComponent(ScrollPanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ScrollPanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1034, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(PanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(PanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        add(PanelCasas, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonNuevaCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevaCasaActionPerformed

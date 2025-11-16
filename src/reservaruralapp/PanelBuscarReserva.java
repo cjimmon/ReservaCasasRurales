@@ -112,6 +112,8 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         SeparadorBuscarReseva = new javax.swing.JSeparator();
         botonVerReservas = new javax.swing.JButton();
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jLabel2.setText("BUSCAR RESERVA");
 
         jLabel7.setText("Buscar por: ");
@@ -122,6 +124,8 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
             }
         });
 
+        botonEjecutarBusqueda.setBackground(new java.awt.Color(242, 253, 242));
+        botonEjecutarBusqueda.setForeground(new java.awt.Color(51, 102, 0));
         botonEjecutarBusqueda.setText("Buscar");
         botonEjecutarBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,6 +146,8 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         ));
         scrollTablaReservas.setViewportView(tablaReservas);
 
+        botonGuardarCambios.setBackground(new java.awt.Color(242, 253, 242));
+        botonGuardarCambios.setForeground(new java.awt.Color(51, 102, 0));
         botonGuardarCambios.setText("Guardar Cambios");
         botonGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,6 +155,8 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
             }
         });
 
+        botoneliminarReservas.setBackground(new java.awt.Color(242, 253, 242));
+        botoneliminarReservas.setForeground(new java.awt.Color(51, 102, 0));
         botoneliminarReservas.setText("Eliminar Reserva");
         botoneliminarReservas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,6 +167,8 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         SeparadorBuscarReseva.setBackground(new java.awt.Color(0, 102, 51));
         SeparadorBuscarReseva.setForeground(new java.awt.Color(0, 102, 51));
 
+        botonVerReservas.setBackground(new java.awt.Color(242, 253, 242));
+        botonVerReservas.setForeground(new java.awt.Color(51, 102, 0));
         botonVerReservas.setText("Ver Reservas");
         botonVerReservas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,26 +233,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1011, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(PanelBuscarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 558, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(PanelBuscarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        add(PanelBuscarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void campoBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoBusquedaActionPerformed
