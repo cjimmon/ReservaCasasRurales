@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package reservaruralapp;
 
 import util.DBConnection;
@@ -10,16 +6,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
 
-/**
- *
- * @author jimen
- */
 public class PanelCasas extends javax.swing.JPanel {
-
+  
     public PanelCasas() {
-        initComponents();
-       
-        }
+    initComponents(); 
+    }
     public void cargarCasas() {
         DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
         modelo.setRowCount(0); // Limpiar tabla
@@ -46,7 +37,7 @@ public class PanelCasas extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar casas: " + e.getMessage());
         }
     }
-   
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -63,8 +54,6 @@ public class PanelCasas extends javax.swing.JPanel {
         BotonLupaCasas = new javax.swing.JButton();
         ScrollPanelCasas = new javax.swing.JScrollPane();
         TableCasas = new javax.swing.JTable();
-
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         LabelCasas.setText("CASAS");
 
@@ -143,7 +132,7 @@ public class PanelCasas extends javax.swing.JPanel {
                 .addComponent(CampoBuscarCasa, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonLupaCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator4)
@@ -161,13 +150,15 @@ public class PanelCasas extends javax.swing.JPanel {
                             .addComponent(VerCasas)
                             .addComponent(GuardarCasas)
                             .addComponent(CampoBuscarCasa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(15, Short.MAX_VALUE)
                         .addComponent(BotonLupaCasas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        ScrollPanelCasas.setBackground(new java.awt.Color(204, 255, 204));
 
         TableCasas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -189,16 +180,17 @@ public class PanelCasas extends javax.swing.JPanel {
             .addGroup(PanelCasasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(PanelCasasLayout.createSequentialGroup()
-                        .addComponent(LabelCasas)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(PanelCasasLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(ScrollPanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 1095, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(PanelCasasLayout.createSequentialGroup()
+                                .addComponent(LabelCasas)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(PanelCasasLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(ScrollPanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 1073, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(22, Short.MAX_VALUE))))
         );
         PanelCasasLayout.setVerticalGroup(
             PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,104 +199,24 @@ public class PanelCasas extends javax.swing.JPanel {
                 .addComponent(LabelCasas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(541, Short.MAX_VALUE))
-            .addGroup(PanelCasasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCasasLayout.createSequentialGroup()
-                    .addContainerGap(107, Short.MAX_VALUE)
-                    .addComponent(ScrollPanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ScrollPanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
-        add(PanelCasas, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 0, -1, -1));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addComponent(PanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(PanelCasas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void BotonNuevaCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevaCasaActionPerformed
-         DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
-    // La ID es 0 temporal, se asignará al guardar
-    modelo.addRow(new Object[]{0, "", "", 0, 0.0, ""});
-    // Selecciona la nueva fila
-    int fila = modelo.getRowCount() - 1;
-    TableCasas.setRowSelectionInterval(fila, fila);
-    }//GEN-LAST:event_BotonNuevaCasaActionPerformed
-
-    private void BotonEliminarCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarCasaActionPerformed
-        int fila = TableCasas.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Selecciona una casa para eliminar.");
-            return;
-        }
-
-        int id = (int) TableCasas.getValueAt(fila, 0);
-        int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar esta casa?", "Confirmar", JOptionPane.YES_NO_OPTION);
-        if (confirmar != JOptionPane.YES_OPTION) return;
-
-        String sql = "DELETE FROM casa WHERE id_casa=?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Casa eliminada correctamente.");
-            cargarCasas();
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar casa: " + e.getMessage());
-        }
-    }//GEN-LAST:event_BotonEliminarCasaActionPerformed
-
-    private void VerCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerCasasActionPerformed
-         cargarCasas();
-    }//GEN-LAST:event_VerCasasActionPerformed
-
-    private void GuardarCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarCasasActionPerformed
-         DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
-
-    try (Connection conn = DBConnection.getConnection()) {
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            Object idObj = modelo.getValueAt(i, 0);
-            int id = (idObj instanceof Integer) ? (Integer) idObj : 0;
-
-            String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 1).toString());
-            String ubicacion = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2).toString());
-            int capacidad = Integer.parseInt(modelo.getValueAt(i, 3).toString());
-            double precio = Double.parseDouble(modelo.getValueAt(i, 4).toString());
-            String descripcion = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 5).toString());
-
-            if (id == 0) {
-                // Insertar nueva casa
-                String sql = "INSERT INTO casa(nombre, ubicacion, capacidad, precio_noche, descripcion) VALUES (?, ?, ?, ?, ?)";
-                try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                    ps.setString(1, nombre);
-                    ps.setString(2, ubicacion);
-                    ps.setInt(3, capacidad);
-                    ps.setDouble(4, precio);
-                    ps.setString(5, descripcion);
-                    ps.executeUpdate();
-                }
-            } else {
-                // Actualizar casa existente
-                String sql = "UPDATE casa SET nombre=?, ubicacion=?, capacidad=?, precio_noche=?, descripcion=? WHERE id_casa=?";
-                try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                    ps.setString(1, nombre);
-                    ps.setString(2, ubicacion);
-                    ps.setInt(3, capacidad);
-                    ps.setDouble(4, precio);
-                    ps.setString(5, descripcion);
-                    ps.setInt(6, id);
-                    ps.executeUpdate();
-                }
-            }
-        }
-        JOptionPane.showMessageDialog(this, "Cambios guardados correctamente");
-        cargarCasas();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
-    }
-    }//GEN-LAST:event_GuardarCasasActionPerformed
-
-    private void CampoBuscarCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoBuscarCasaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CampoBuscarCasaActionPerformed
 
     private void BotonLupaCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLupaCasasActionPerformed
          String textoBusqueda = InputUtils.normalizarMayusculas(CampoBuscarCasa.getText().trim());
@@ -358,6 +270,94 @@ public class PanelCasas extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Error al buscar casas: " + e.getMessage());
     }
     }//GEN-LAST:event_BotonLupaCasasActionPerformed
+
+    private void CampoBuscarCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CampoBuscarCasaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CampoBuscarCasaActionPerformed
+
+    private void GuardarCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarCasasActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
+
+    try (Connection conn = DBConnection.getConnection()) {
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            Object idObj = modelo.getValueAt(i, 0);
+            int id = (idObj instanceof Integer) ? (Integer) idObj : 0;
+
+            String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 1).toString());
+            String ubicacion = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2).toString());
+            int capacidad = Integer.parseInt(modelo.getValueAt(i, 3).toString());
+            double precio = Double.parseDouble(modelo.getValueAt(i, 4).toString());
+            String descripcion = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 5).toString());
+
+            if (id == 0) {
+                // Insertar nueva casa
+                String sql = "INSERT INTO casa(nombre, ubicacion, capacidad, precio_noche, descripcion) VALUES (?, ?, ?, ?, ?)";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, nombre);
+                    ps.setString(2, ubicacion);
+                    ps.setInt(3, capacidad);
+                    ps.setDouble(4, precio);
+                    ps.setString(5, descripcion);
+                    ps.executeUpdate();
+                }
+            } else {
+                // Actualizar casa existente
+                String sql = "UPDATE casa SET nombre=?, ubicacion=?, capacidad=?, precio_noche=?, descripcion=? WHERE id_casa=?";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, nombre);
+                    ps.setString(2, ubicacion);
+                    ps.setInt(3, capacidad);
+                    ps.setDouble(4, precio);
+                    ps.setString(5, descripcion);
+                    ps.setInt(6, id);
+                    ps.executeUpdate();
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Cambios guardados correctamente");
+        cargarCasas();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
+    }
+    }//GEN-LAST:event_GuardarCasasActionPerformed
+
+    private void VerCasasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerCasasActionPerformed
+        cargarCasas();
+    }//GEN-LAST:event_VerCasasActionPerformed
+
+    private void BotonEliminarCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEliminarCasaActionPerformed
+       int fila = TableCasas.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una casa para eliminar.");
+            return;
+        }
+
+        int id = (int) TableCasas.getValueAt(fila, 0);
+        int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar esta casa?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirmar != JOptionPane.YES_OPTION) return;
+
+        String sql = "DELETE FROM casa WHERE id_casa=?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Casa eliminada correctamente.");
+            cargarCasas();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar casa: " + e.getMessage());
+        }
+    }//GEN-LAST:event_BotonEliminarCasaActionPerformed
+
+    private void BotonNuevaCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevaCasaActionPerformed
+    DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
+    
+    modelo.addRow(new Object[]{0, "", "", 0, 0.0, ""});
+    
+    int fila = modelo.getRowCount() - 1;
+    TableCasas.setRowSelectionInterval(fila, fila);
+    }//GEN-LAST:event_BotonNuevaCasaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

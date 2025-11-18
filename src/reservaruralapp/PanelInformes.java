@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package reservaruralapp;
 
 import java.sql.Connection;
@@ -9,23 +6,93 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import util.DBConnection;
-/**
- *
- * @author jimen
- */
+
 public class PanelInformes extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelInformes
-     */
+    
     public PanelInformes() {
         initComponents();
+        generarResumenAnual();
     }
-    private String convertirFechaISO(String fecha) {
-    // Convierte de "dd/MM/yyyy" a "yyyy-MM-dd"
+    private String convertirFechaISO(String fecha) {   
     String[] partes = fecha.split("/");
     return partes[2] + "-" + partes[1] + "-" + partes[0];
 }
+private void generarResumenAnual() {
+    try (Connection conn = DBConnection.getConnection()) {
+
+        // Año vigente
+        java.time.Year yearActual = java.time.Year.now();
+        String inicioAnio = yearActual + "-01-01";
+        String finAnio = yearActual + "-12-31";
+
+        String[] estados = {"CONFIRMADA", "PENDIENTE", "CANCELADA"};
+        double ingresosTotales = 0;
+        AreaInformacion2.setText("=== RESUMEN ANUAL DE RESERVAS (" + yearActual + ") ===\n\n");
+
+        for (String estado : estados) {
+            int total = 0;
+            double ingresos = 0;
+
+            if (!estado.equals("CANCELADA")) {
+                String sql =
+                    "SELECT COUNT(*) AS total, " +
+                    "SUM((julianday(substr(r.fecha_fin,7,4)||'-'||substr(r.fecha_fin,4,2)||'-'||substr(r.fecha_fin,1,2)) - " +
+                    "julianday(substr(r.fecha_inicio,7,4)||'-'||substr(r.fecha_inicio,4,2)||'-'||substr(r.fecha_inicio,1,2))) * c.precio_noche) AS ingresos " +
+                    "FROM reserva r JOIN casa c ON r.id_casa = c.id_casa " +
+                    "WHERE r.estado = ? " +
+                    "AND (substr(r.fecha_inicio,7,4)||'-'||substr(r.fecha_inicio,4,2)||'-'||substr(r.fecha_inicio,1,2)) <= ? " +
+                    "AND (substr(r.fecha_fin,7,4)||'-'||substr(r.fecha_fin,4,2)||'-'||substr(r.fecha_fin,1,2)) >= ?";
+
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, estado);
+                    ps.setString(2, finAnio);
+                    ps.setString(3, inicioAnio);
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        total = rs.getInt("total");
+                        ingresos = rs.getDouble("ingresos");
+                        ingresosTotales += ingresos;
+                    }
+                }
+            } else {
+                String sql =
+                    "SELECT COUNT(*) AS total " +
+                    "FROM reserva r " +
+                    "WHERE r.estado = ? " +
+                    "AND (substr(r.fecha_inicio,7,4)||'-'||substr(r.fecha_inicio,4,2)||'-'||substr(r.fecha_inicio,1,2)) <= ? " +
+                    "AND (substr(r.fecha_fin,7,4)||'-'||substr(r.fecha_fin,4,2)||'-'||substr(r.fecha_fin,1,2)) >= ?";
+
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, estado);
+                    ps.setString(2, finAnio);
+                    ps.setString(3, inicioAnio);
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next()) total = rs.getInt("total");
+                }
+            }
+
+            String label = switch (estado) {
+                case "CONFIRMADA" -> "Reservas confirmadas";
+                case "PENDIENTE" -> "Reservas pendientes";
+                case "CANCELADA" -> "Reservas canceladas";
+                default -> "";
+            };
+
+            AreaInformacion2.append("• " + label + ": " + total + "\n");
+            if (!estado.equals("CANCELADA")) {
+                AreaInformacion2.append("  - Ingresos: " + String.format("%.2f €", ingresos) + "\n");
+            }
+        }
+
+        AreaInformacion2.append("\nIngresos totales del año: " + String.format("%.2f €", ingresosTotales));
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this,
+            "Error al generar resumen anual: " + ex.getMessage());
+    }
+}
+
 
 private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     try (Connection conn = DBConnection.getConnection()) {
@@ -37,7 +104,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             double ingresos = 0;
 
             if (!estado.equals("CANCELADA")) {
-                // Calcular total e ingresos
+              
                 String sql =
                     "SELECT COUNT(*) AS total, " +
                     "SUM((julianday(substr(r.fecha_fin,7,4)||'-'||substr(r.fecha_fin,4,2)||'-'||substr(r.fecha_fin,1,2)) - " +
@@ -58,7 +125,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
                     }
                 }
             } else {
-                // Solo contar canceladas
+                
                 String sql =
                     "SELECT COUNT(*) AS total " +
                     "FROM reserva r " +
@@ -75,7 +142,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
                 }
             }
 
-            // Mostrar resultados
+            
             String label = switch (estado) {
                 case "CONFIRMADA" -> "Reservas confirmadas";
                 case "PENDIENTE" -> "Reservas pendientes";
@@ -89,7 +156,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             }
         }
 
-        // Casa más alquilada (solo confirmadas y pendientes)
+       
         String sqlCasa =
             "SELECT c.nombre, COUNT(*) AS veces " +
             "FROM reserva r JOIN casa c ON r.id_casa = c.id_casa " +
@@ -238,14 +305,17 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
         FechaInicioInformes = new javax.swing.JTextField();
         FechaFinalInformes = new javax.swing.JTextField();
         BotonGenerarInforme = new javax.swing.JButton();
-        BotonPDF = new javax.swing.JButton();
         LabelFechaInicioInformes = new javax.swing.JLabel();
         LabelFechaFinInformes = new javax.swing.JLabel();
+        ID = new javax.swing.JTextField();
+        BotonPDF = new javax.swing.JButton();
         SeparadorInformes = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         AreaInformacion = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        AreaInformacion2 = new javax.swing.JTextArea();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -272,12 +342,16 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
 
         BotonGenerarInforme.setBackground(new java.awt.Color(239, 252, 239));
         BotonGenerarInforme.setForeground(new java.awt.Color(51, 102, 0));
-        BotonGenerarInforme.setText("Generar Informe");
+        BotonGenerarInforme.setText("Buscar");
         BotonGenerarInforme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonGenerarInformeActionPerformed(evt);
             }
         });
+
+        LabelFechaInicioInformes.setText("Fecha Inicio:");
+
+        LabelFechaFinInformes.setText("Fecha Fin:");
 
         BotonPDF.setBackground(new java.awt.Color(239, 252, 239));
         BotonPDF.setForeground(new java.awt.Color(51, 102, 0));
@@ -288,10 +362,6 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             }
         });
 
-        LabelFechaInicioInformes.setText("Fecha Inicio:");
-
-        LabelFechaFinInformes.setText("Fecha Fin:");
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -299,19 +369,21 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(ComboBoxInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(LabelFechaInicioInformes)
                 .addGap(18, 18, 18)
                 .addComponent(FechaInicioInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(LabelFechaFinInformes)
                 .addGap(18, 18, 18)
                 .addComponent(FechaFinalInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(31, 31, 31)
                 .addComponent(BotonGenerarInforme)
-                .addGap(42, 42, 42)
+                .addGap(107, 107, 107)
+                .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BotonPDF)
-                .addGap(65, 65, 65))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,22 +394,30 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
                     .addComponent(FechaInicioInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FechaFinalInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BotonGenerarInforme)
-                    .addComponent(BotonPDF)
                     .addComponent(LabelFechaInicioInformes)
-                    .addComponent(LabelFechaFinInformes))
+                    .addComponent(LabelFechaFinInformes)
+                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotonPDF))
                 .addContainerGap())
         );
 
         SeparadorInformes.setBackground(new java.awt.Color(0, 102, 51));
         SeparadorInformes.setForeground(new java.awt.Color(0, 102, 51));
 
+        jTextArea1.setBackground(new java.awt.Color(204, 255, 204));
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
+        AreaInformacion.setBackground(new java.awt.Color(204, 255, 204));
         AreaInformacion.setColumns(20);
         AreaInformacion.setRows(5);
         jScrollPane1.setViewportView(AreaInformacion);
+
+        AreaInformacion2.setBackground(new java.awt.Color(204, 255, 204));
+        AreaInformacion2.setColumns(20);
+        AreaInformacion2.setRows(5);
+        jScrollPane3.setViewportView(AreaInformacion2);
 
         javax.swing.GroupLayout PanelInformesLayout = new javax.swing.GroupLayout(PanelInformes);
         PanelInformes.setLayout(PanelInformesLayout);
@@ -345,13 +425,15 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInformesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(LabelInformes, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(SeparadorInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 991, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1088, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelInformes)
+                    .addGroup(PanelInformesLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
+                    .addComponent(SeparadorInformes))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         PanelInformesLayout.setVerticalGroup(
@@ -364,10 +446,12 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SeparadorInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addGap(16, 16, 16))
         );
 
         add(PanelInformes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1130, 710));
@@ -395,18 +479,18 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
                return;
            }
 
-           // LIMPIAR ÁREAS
+           
            jTextArea1.setText("");
            AreaInformacion.setText("");
 
-           // Convertir a formato SQL
+           
            String inicioSQL = convertirFechaISO(fechaInicio);
            String finSQL = convertirFechaISO(fechaFin);
 
-           // Resumen en AreaInformacion
+          
            generarResumenPeriodo(inicioSQL, finSQL);
 
-           // Informe detallado
+       
            switch (tipo) {
                case "Reserva":
                    generarInformeReservas(fechaInicio, fechaFin);
@@ -423,17 +507,50 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     }//GEN-LAST:event_BotonGenerarInformeActionPerformed
 
     private void BotonPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonPDFActionPerformed
-        // TODO add your handling code here:
+         String tipo = ComboBoxInformes.getSelectedItem().toString();
+
+            // Validar fechas
+            String fechaInicio = FechaInicioInformes.getText().trim();
+            String fechaFin = FechaFinalInformes.getText().trim();
+
+            if (fechaInicio.isEmpty() || fechaFin.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debes introducir fecha inicio y fecha fin.");
+                return;
+            }
+
+            String inicioSQL = convertirFechaISO(fechaInicio);
+            String finSQL = convertirFechaISO(fechaFin);
+
+            switch (tipo) {
+                case "Factura":
+                    try {
+                        int id = Integer.parseInt(ID.getText().trim());
+                        GenerarFactura.generarFacturaConDialogo(id);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Introduce un ID de factura válido.");
+                    }
+                    break;
+
+                case "Cliente":
+            new GenerarListadoClientes().generarPDFcliente(inicioSQL, finSQL);
+            break;
+
+        case "Reserva":
+            new GenerarListadoReservas().generarPDFreservas(inicioSQL, finSQL);
+            break;
+            }
     }//GEN-LAST:event_BotonPDFActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea AreaInformacion;
+    private javax.swing.JTextArea AreaInformacion2;
     private javax.swing.JButton BotonGenerarInforme;
     private javax.swing.JButton BotonPDF;
     private javax.swing.JComboBox<String> ComboBoxInformes;
     private javax.swing.JTextField FechaFinalInformes;
     private javax.swing.JTextField FechaInicioInformes;
+    private javax.swing.JTextField ID;
     private javax.swing.JLabel LabelFechaFinInformes;
     private javax.swing.JLabel LabelFechaInicioInformes;
     private javax.swing.JLabel LabelInformes;
@@ -442,6 +559,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

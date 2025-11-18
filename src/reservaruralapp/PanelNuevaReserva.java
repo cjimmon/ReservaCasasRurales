@@ -15,7 +15,7 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
 
     public PanelNuevaReserva() {
         initComponents();
-        cargarCasasEnComboBox();
+        cargarCasasEnComboBox(); 
         configurarSpinnersFecha();
     }
 
@@ -30,24 +30,88 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
         jSpinnerFechaFin.setEditor(new JSpinner.DateEditor(jSpinnerFechaFin, "dd/MM/yyyy"));
         jSpinnerFechaFin.setValue(new java.util.Date()); // fecha actual por defecto
     }
-    
+   private int obtenerIdCasa(String nombreCasa) {
+    String sql = "SELECT id_casa FROM casa WHERE nombre = ?";
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    int idCasa = -1;
 
- private void cargarCasasEnComboBox() {
-    casaReserva.removeAllItems(); // Limpiar el combo primero
-        String sql = "SELECT nombre FROM casa";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                casaReserva.addItem(rs.getString("nombre"));
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar casas: " + e.getMessage());
+    try {
+        conn = DBConnection.getConnection();
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreCasa);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idCasa = rs.getInt("id_casa");
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error obteniendo id_casa: " + e.getMessage());
+    } finally {
+        try { if (rs != null) rs.close(); } catch (SQLException ex) {}
+        try { if (ps != null) ps.close(); } catch (SQLException ex) {}
+        try { if (conn != null) conn.close(); } catch (SQLException ex) {}
+    }
+    return idCasa;
 }
+
+/**
+ * Comprueba si una casa está disponible entre dos fechas.
+ */
+private boolean estaDisponible(int idCasa, String fechaInicio, String fechaFin) {
+    String sql = "SELECT COUNT(*) FROM reserva " +
+                 "WHERE id_casa = ? AND estado IN ('CONFIRMADA','PENDIENTE') " +
+                 "AND NOT (fecha_fin < ? OR fecha_inicio > ?)";
+
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    try {
+        conn = DBConnection.getConnection();
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, idCasa);
+        ps.setString(2, fechaInicio);
+        ps.setString(3, fechaFin);
+
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) == 0; // disponible si no hay reservas superpuestas
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error comprobando disponibilidad: " + e.getMessage());
+    } finally {
+        try { if (rs != null) rs.close(); } catch (SQLException ex) {}
+        try { if (ps != null) ps.close(); } catch (SQLException ex) {}
+        try { if (conn != null) conn.close(); } catch (SQLException ex) {}
+    }
+    return false;
+}
+
+/**
+ * Carga los nombres de todas las casas en el JComboBox.
+ */
+private void cargarCasasEnComboBox() {
+    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+    String sql = "SELECT nombre FROM casa";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            model.addElement(rs.getString("nombre"));
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar casas: " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    // Finalmente, asignamos el modelo al combo
+    casaReserva.setModel(model);
+}
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -177,6 +241,12 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(74, 74, 74)
+                .addComponent(guardarNuevaReserva)
+                .addGap(83, 83, 83)
+                .addComponent(limpiarReserva)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,9 +267,11 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
                         .addComponent(jLabel7)
                         .addGap(31, 31, 31)
                         .addComponent(casaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(44, 44, 44)
+                .addGap(51, 51, 51)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -222,25 +294,18 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                                 .addComponent(numeroPersonasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addGap(46, 46, 46)
-                                    .addComponent(DNIReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(158, 158, 158))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(comentarioReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(130, 130, 130))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(335, 335, 335)
-                .addComponent(guardarNuevaReserva)
-                .addGap(68, 68, 68)
-                .addComponent(limpiarReserva)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(DNIReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comentarioReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(130, 130, 130))))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,11 +340,13 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
                     .addComponent(jLabel12)
                     .addComponent(casaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(estadoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGap(296, 349, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(limpiarReserva)
-                    .addComponent(guardarNuevaReserva))
-                .addGap(231, 231, 231))
+                    .addComponent(guardarNuevaReserva)
+                    .addComponent(limpiarReserva))
+                .addGap(253, 253, 253))
         );
 
         javax.swing.GroupLayout PanelOpcionesLayout = new javax.swing.GroupLayout(PanelOpciones);
@@ -326,144 +393,13 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 6, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comentarioReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comentarioReservaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comentarioReservaActionPerformed
-
-    private void casaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_casaReservaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_casaReservaActionPerformed
-
-    private void nombreReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreReservaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nombreReservaActionPerformed
-
-    private void apelleidosReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apelleidosReservaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_apelleidosReservaActionPerformed
-
-    private void telefonoReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonoReservaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_telefonoReservaActionPerformed
-
-    private void emailReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailReservaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailReservaActionPerformed
-
     private void estadoReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadoReservaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_estadoReservaActionPerformed
 
-    private void guardarNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarNuevaReservaActionPerformed
-    String nombre = InputUtils.normalizarMayusculas(nombreReserva.getText().trim());
-    String apellidos = InputUtils.normalizarMayusculas(apelleidosReserva.getText().trim());
-    String dni = InputUtils.normalizarMayusculas(DNIReserva.getText().trim());
-            if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
-                JOptionPane.showMessageDialog(this, "El DNI no es válido: " + dni);
-                return; // no guarda si el DNI es incorrecto
-            }
-    String telefono = InputUtils.normalizarMayusculas(telefonoReserva.getText().trim());
-            if (telefono != null && !telefono.isEmpty() && !InputUtils.validaTelefonoE164(telefono)) {
-                JOptionPane.showMessageDialog(this, "El teléfono no es válido: " + telefono);
-                return;
-            }
-    String email = InputUtils.normalizarMayusculas(emailReserva.getText().trim());
-        if (!InputUtils.validaEmail(email)) {
-            JOptionPane.showMessageDialog(this, "El email no es válido: " + email);
-            return; // no guarda si el email es incorrecto
-            }
-    String comentarios = InputUtils.normalizarMayusculas(comentarioReserva.getText().trim());
-    String casaSeleccionada = InputUtils.normalizarMayusculas((String) casaReserva.getSelectedItem());
-    String estado = InputUtils.normalizarMayusculas((String) estadoReserva.getSelectedItem());
-        int numPersonas = (int) numeroPersonasReserva.getValue();
-
-    if (nombre.isEmpty() || apellidos.isEmpty() || dni.isEmpty() || casaSeleccionada == null) {
-        JOptionPane.showMessageDialog(this, "Rellena todos los campos obligatorios.");
-        return;
-    }
-
-    // Obtener fechas de los JSpinner
-    java.util.Date utilFechaInicio = (java.util.Date) jSpinnerFechaInicio.getValue();
-    java.util.Date utilFechaFin = (java.util.Date) jSpinnerFechaFin.getValue();
-
-    if (utilFechaFin.before(utilFechaInicio)) {
-        JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser anterior a la fecha de entrada.");
-        return;
-    }
-
-    // Formatear fechas como texto dd/MM/yyyy
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    String fechaInicioStr = sdf.format(utilFechaInicio);
-    String fechaFinStr = sdf.format(utilFechaFin);
-
-    try (Connection conn = DBConnection.getConnection()) {
-        conn.setAutoCommit(false);
-
-        int idCliente = 0;
-        // Verificar si el cliente ya existe por DNI
-        String sqlBuscarCliente = "SELECT id_cliente FROM cliente WHERE DNI = ?";
-        try (PreparedStatement psBuscar = conn.prepareStatement(sqlBuscarCliente)) {
-            psBuscar.setString(1, dni);
-            ResultSet rs = psBuscar.executeQuery();
-            if (rs.next()) {
-                idCliente = rs.getInt("id_cliente");
-                JOptionPane.showMessageDialog(this, "El cliente ya existe. Se usará su registro para la nueva reserva.");
-            }
-        }
-
-        // Si no existe, insertamos el cliente
-        if (idCliente == 0) {
-            String sqlCliente = "INSERT INTO cliente(nombre, apellidos, DNI, telefono, email, comentarios) VALUES (?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement psCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS)) {
-                psCliente.setString(1, InputUtils.normalizarMayusculas(nombre));
-                psCliente.setString(2, InputUtils.normalizarMayusculas(apellidos));
-                psCliente.setString(3, InputUtils.normalizarMayusculas(dni));
-                psCliente.setString(4, InputUtils.normalizarMayusculas(telefono));
-                psCliente.setString(5, InputUtils.normalizarMayusculas(email));
-                psCliente.setString(6, InputUtils.normalizarMayusculas(comentarios));
-                psCliente.executeUpdate();
-
-                ResultSet rs = psCliente.getGeneratedKeys();
-                if (rs.next()) {
-                    idCliente = rs.getInt(1);
-                } else {
-                    throw new SQLException("No se pudo obtener el ID del cliente.");
-                }
-            }
-        }
-
-        // Obtener id_casa
-        String sqlCasa = "SELECT id_casa FROM casa WHERE nombre = ?";
-        int idCasa;
-        try (PreparedStatement psCasa = conn.prepareStatement(sqlCasa)) {
-            psCasa.setString(1, casaSeleccionada);
-            ResultSet rsCasa = psCasa.executeQuery();
-            if (rsCasa.next()) {
-                idCasa = rsCasa.getInt("id_casa");
-            } else {
-                throw new SQLException("La casa seleccionada no existe.");
-            }
-        }
-
-        // Insertar reserva
-        String sqlReserva = "INSERT INTO reserva(id_cliente, id_casa, fecha_inicio, fecha_fin, estado, num_personas) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement psReserva = conn.prepareStatement(sqlReserva)) {
-            psReserva.setInt(1, idCliente);
-            psReserva.setInt(2, idCasa);
-            psReserva.setString(3, fechaInicioStr);
-            psReserva.setString(4, fechaFinStr);
-            psReserva.setString(5, InputUtils.normalizarMayusculas(estado));
-            psReserva.setInt(6, numPersonas);
-            psReserva.executeUpdate();
-        }
-
-        conn.commit();
-        JOptionPane.showMessageDialog(this, "Reserva creada correctamente.");
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al crear reserva: " + e.getMessage());
-    }
-    }//GEN-LAST:event_guardarNuevaReservaActionPerformed
+    private void comentarioReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comentarioReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comentarioReservaActionPerformed
 
     private void limpiarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarReservaActionPerformed
         nombreReserva.setText("");
@@ -487,8 +423,139 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
         if (estadoReserva.getItemCount() > 0) {
             estadoReserva.setSelectedIndex(0);
         }
-    
+
     }//GEN-LAST:event_limpiarReservaActionPerformed
+
+    private void nombreReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreReservaActionPerformed
+
+    private void guardarNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarNuevaReservaActionPerformed
+        String nombre = InputUtils.normalizarMayusculas(nombreReserva.getText().trim());
+        String apellidos = InputUtils.normalizarMayusculas(apelleidosReserva.getText().trim());
+        String dni = InputUtils.normalizarMayusculas(DNIReserva.getText().trim());
+        if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
+            JOptionPane.showMessageDialog(this, "El DNI no es válido: " + dni);
+            return; // no guarda si el DNI es incorrecto
+        }
+        String telefono = InputUtils.normalizarMayusculas(telefonoReserva.getText().trim());
+        if (telefono != null && !telefono.isEmpty() && !InputUtils.validaTelefonoE164(telefono)) {
+            JOptionPane.showMessageDialog(this, "El teléfono no es válido: " + telefono);
+            return;
+        }
+        String email = InputUtils.normalizarMayusculas(emailReserva.getText().trim());
+        if (!InputUtils.validaEmail(email)) {
+            JOptionPane.showMessageDialog(this, "El email no es válido: " + email);
+            return; // no guarda si el email es incorrecto
+        }
+        String comentarios = InputUtils.normalizarMayusculas(comentarioReserva.getText().trim());
+        String casaSeleccionada = InputUtils.normalizarMayusculas((String) casaReserva.getSelectedItem());
+        String estado = InputUtils.normalizarMayusculas((String) estadoReserva.getSelectedItem());
+        int numPersonas = (int) numeroPersonasReserva.getValue();
+
+        if (nombre.isEmpty() || apellidos.isEmpty() || dni.isEmpty() || casaSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Rellena todos los campos obligatorios.");
+            return;
+        }
+
+        // Obtener fechas de los JSpinner
+        java.util.Date utilFechaInicio = (java.util.Date) jSpinnerFechaInicio.getValue();
+        java.util.Date utilFechaFin = (java.util.Date) jSpinnerFechaFin.getValue();
+
+        if (utilFechaFin.before(utilFechaInicio)) {
+            JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser anterior a la fecha de entrada.");
+            return;
+        }
+
+        // Formatear fechas como texto dd/MM/yyyy
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaInicioStr = sdf.format(utilFechaInicio);
+        String fechaFinStr = sdf.format(utilFechaFin);
+
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            int idCliente = 0;
+            // Verificar si el cliente ya existe por DNI
+            String sqlBuscarCliente = "SELECT id_cliente FROM cliente WHERE DNI = ?";
+            try (PreparedStatement psBuscar = conn.prepareStatement(sqlBuscarCliente)) {
+                psBuscar.setString(1, dni);
+                ResultSet rs = psBuscar.executeQuery();
+                if (rs.next()) {
+                    idCliente = rs.getInt("id_cliente");
+                    JOptionPane.showMessageDialog(this, "El cliente ya existe. Se usará su registro para la nueva reserva.");
+                }
+            }
+
+            // Si no existe, insertamos el cliente
+            if (idCliente == 0) {
+                String sqlCliente = "INSERT INTO cliente(nombre, apellidos, DNI, telefono, email, comentarios) VALUES (?, ?, ?, ?, ?, ?)";
+                try (PreparedStatement psCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS)) {
+                    psCliente.setString(1, InputUtils.normalizarMayusculas(nombre));
+                    psCliente.setString(2, InputUtils.normalizarMayusculas(apellidos));
+                    psCliente.setString(3, InputUtils.normalizarMayusculas(dni));
+                    psCliente.setString(4, InputUtils.normalizarMayusculas(telefono));
+                    psCliente.setString(5, InputUtils.normalizarMayusculas(email));
+                    psCliente.setString(6, InputUtils.normalizarMayusculas(comentarios));
+                    psCliente.executeUpdate();
+
+                    ResultSet rs = psCliente.getGeneratedKeys();
+                    if (rs.next()) {
+                        idCliente = rs.getInt(1);
+                    } else {
+                        throw new SQLException("No se pudo obtener el ID del cliente.");
+                    }
+                }
+            }
+
+            // Obtener id_casa
+            String sqlCasa = "SELECT id_casa FROM casa WHERE nombre = ?";
+            int idCasa;
+            try (PreparedStatement psCasa = conn.prepareStatement(sqlCasa)) {
+                psCasa.setString(1, casaSeleccionada);
+                ResultSet rsCasa = psCasa.executeQuery();
+                if (rsCasa.next()) {
+                    idCasa = rsCasa.getInt("id_casa");
+                } else {
+                    throw new SQLException("La casa seleccionada no existe.");
+                }
+            }
+
+            // Insertar reserva
+            String sqlReserva = "INSERT INTO reserva(id_cliente, id_casa, fecha_inicio, fecha_fin, estado, num_personas) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement psReserva = conn.prepareStatement(sqlReserva)) {
+                psReserva.setInt(1, idCliente);
+                psReserva.setInt(2, idCasa);
+                psReserva.setString(3, fechaInicioStr);
+                psReserva.setString(4, fechaFinStr);
+                psReserva.setString(5, InputUtils.normalizarMayusculas(estado));
+                psReserva.setInt(6, numPersonas);
+                psReserva.executeUpdate();
+            }
+
+            conn.commit();
+            JOptionPane.showMessageDialog(this, "Reserva creada correctamente.");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al crear reserva: " + e.getMessage());
+        }
+    }//GEN-LAST:event_guardarNuevaReservaActionPerformed
+
+    private void casaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_casaReservaActionPerformed
+     
+    }//GEN-LAST:event_casaReservaActionPerformed
+
+    private void emailReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailReservaActionPerformed
+
+    private void telefonoReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonoReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_telefonoReservaActionPerformed
+
+    private void apelleidosReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apelleidosReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_apelleidosReservaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
