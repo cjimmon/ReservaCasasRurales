@@ -1,22 +1,11 @@
 package reservaruralapp;
 
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import util.DBConnection;
@@ -24,11 +13,7 @@ import util.DBConnection;
 
 public class PanelBuscarReserva extends javax.swing.JPanel {
 
-    private Map<JButton, Date> mapaBotones = new HashMap<>();
-    private int mesActual, añoActual;
-    private JButton botonMesAnterior = new JButton("<");
-    private JButton botonMesSiguiente = new JButton(">");
-
+   
    public PanelBuscarReserva() {
     initComponents();
     
@@ -36,252 +21,39 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
         new Object [][] {}, // Sin filas al inicio
         new String [] { "ID", "Nombre", "Apellidos", "DNI", "Teléfono", "Email", "Casa", "Personas", "Inicio", "Fin", "Estado" }
     ));
-
-    // Listener del selectorCasa
-    selectorCasa.addItemListener(e -> {
-        if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-            String casa = selectorCasa.getSelectedItem();
-            actualizarCalendarioAutomatico(casa, mesActual, añoActual);
-        }
-    });
-
-        Calendar cal = Calendar.getInstance();
-        mesActual = cal.get(Calendar.MONTH);
-        añoActual = cal.get(Calendar.YEAR);
-        cargarCasasSoloSelector(); // <--- aquí cambias
-        agregarBotonesMes();
-
-    // Inicializar calendario con la primera casa
-    if (selectorCasa.getItemCount() > 0) {
-        actualizarCalendarioAutomatico(selectorCasa.getSelectedItem(), mesActual, añoActual);
-    }
-
-    tablaReservas.getSelectionModel().addListSelectionListener(e -> refrescarCalendarioCasaSeleccionada());
-}
-
-    private void agregarBotonesMes() {
-        botonMesAnterior.addActionListener(this::botonMesAnteriorActionPerformed);
-        botonMesSiguiente.addActionListener(this::botonMesSiguienteActionPerformed);
-    }
-    public void cargarCasasSoloSelector() {
-    selectorCasa.removeAll();
-    String sql = "SELECT * FROM casa";
-    try (Connection conn = DBConnection.getConnection();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql)) {
-
-        while (rs.next()) {
-            selectorCasa.add(rs.getString("nombre"));
-        }
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar casas: " + e.getMessage());
-    }
-
-    // Seleccionar la primera casa para que el calendario funcione
-    if (selectorCasa.getItemCount() > 0) {
-        actualizarCalendarioAutomatico(selectorCasa.getSelectedItem(), mesActual, añoActual);
-    }
-}
-
-    public void actualizarCalendarioAutomatico(String nombreCasa, int mes, int año) {
-        calendarioOcupacion.removeAll();
-        calendarioOcupacion.setLayout(new GridLayout(0, 7, 5, 5));
-
-        // Nombres de días
-        String[] diasSemana = {"Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"};
-        for (String d : diasSemana) {
-            JLabel lbl = new JLabel(d, JLabel.CENTER);
-            calendarioOcupacion.add(lbl);
-        }
-
-        Set<Date> fechasReservadas = obtenerFechasReservadas(nombreCasa);
-
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.YEAR, año);
-            cal.set(Calendar.MONTH, mes);
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-
-            int primerDiaSemana = cal.get(Calendar.DAY_OF_WEEK) - 1; // Domingo=0
-            for (int i = 0; i < primerDiaSemana; i++) {
-                calendarioOcupacion.add(new JLabel(""));
-            }
-
-            int diasMes = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        // Botones de días
-        for (int dia = 1; dia <= diasMes; dia++) {
-            JButton btnDia = new JButton(String.valueOf(dia));
-            Calendar calDia = Calendar.getInstance();
-            calDia.set(año, mes, dia, 0, 0, 0);
-            calDia.set(Calendar.MILLISECOND, 0);
-            Date fecha = calDia.getTime();
-
-            if (fechasReservadas.stream().anyMatch(d -> isSameDay(d, fecha))) {
-                btnDia.setBackground(Color.RED);
-                btnDia.setEnabled(false);
-            } else {
-                btnDia.setBackground(Color.GREEN);
-            }
-
-            mapaBotones.put(btnDia, fecha);
-            calendarioOcupacion.add(btnDia);
-        }
-
-        calendarioOcupacion.revalidate();
-        calendarioOcupacion.repaint();
-    }
-    private String obtenerNombreMes(int mes) {
-    String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-                      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-    return meses[mes];
-}
-
-// Inicializar el JTextField al abrir el panel
-    private void inicializarTextoMes() {
-    jTextField1.setText(obtenerNombreMes(mesActual) + " " + añoActual);
-}
-
-    private boolean isSameDay(Date d1, Date d2) {
-        Calendar c1 = Calendar.getInstance();
-        Calendar c2 = Calendar.getInstance();
-        c1.setTime(d1);
-        c2.setTime(d2);
-        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
-               c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) &&
-               c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH);
-    }
-
-    public Set<Date> obtenerFechasReservadas(String nombreCasa) {
-    Set<Date> fechasReservadas = new HashSet<>();
-    String sql = "SELECT r.fecha_inicio, r.fecha_fin "
-               + "FROM reserva r JOIN casa c ON r.id_casa = c.id_casa "
-               + "WHERE c.nombre = ?";
+   }
     
-    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); // Usa barras
-
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-        
-        ps.setString(1, nombreCasa);
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            String inicioStr = rs.getString("fecha_inicio");
-            String finStr = rs.getString("fecha_fin");
-
-            try {
-                Date inicio = formato.parse(inicioStr);
-                Date fin = formato.parse(finStr);
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(inicio);
-
-                while (!cal.getTime().after(fin)) {
-                    fechasReservadas.add(cal.getTime());
-                    cal.add(Calendar.DATE, 1);
-                }
-
-            } catch (java.text.ParseException e) {
-                JOptionPane.showMessageDialog(this, "Error al parsear fechas de la reserva: " + e.getMessage());
+    private int obtenerIdClienteDesdeReserva(int idReserva, Connection conn) throws SQLException {
+    String sql = "SELECT id_cliente FROM reserva WHERE id_reserva = ?";
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, idReserva);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("id_cliente");
+            } else {
+                throw new SQLException("No se encontró el cliente para la reserva " + idReserva);
             }
         }
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
-    }
-
-    return fechasReservadas;
-}
-
-
-    private void botonMesAnteriorActionPerformed(ActionEvent evt) {
-        mesActual--;
-        if (mesActual < 0) {
-            mesActual = 11;
-            añoActual--;
-        }
-        refrescarCalendarioCasaSeleccionada();
-    }
-
-    private void botonMesSiguienteActionPerformed(ActionEvent evt) {
-        mesActual++;
-        if (mesActual > 11) {
-            mesActual = 0;
-            añoActual++;
-        }
-        refrescarCalendarioCasaSeleccionada();
-    }
-
-    private void refrescarCalendarioCasaSeleccionada() {
-    if (selectorCasa.getItemCount() > 0) {
-        String casa = selectorCasa.getSelectedItem();
-        actualizarCalendarioAutomatico(casa, mesActual, añoActual);
     }
 }
-
-
-    public void cargarCasas() {
-    DefaultTableModel modelo = (DefaultTableModel) tablaReservas.getModel();
-    modelo.setRowCount(0);
-
-    selectorCasa.removeAll(); // Limpiar el selector
-
-
-    String sql = "SELECT * FROM casa";
-    try (Connection conn = DBConnection.getConnection();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql)) {
-
-        while (rs.next()) {
-            Object[] fila = new Object[]{
-                rs.getInt("id_casa"),
-                rs.getString("nombre"),
-                rs.getString("ubicacion"),
-                rs.getInt("capacidad"),
-                rs.getDouble("precio_noche"),
-                rs.getString("descripcion")
-            };
-            modelo.addRow(fila);
-
-            selectorCasa.add(rs.getString("nombre")); // Añadir al selector
-        }
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar casas: " + e.getMessage());
-    }
-
-    // Seleccionar la primera casa y actualizar calendario
-    if (selectorCasa.getItemCount() > 0) {
-        selectorCasa.select(0);
-        actualizarCalendarioAutomatico(selectorCasa.getSelectedItem(), mesActual, añoActual);
-    }
-}
-    private int obtenerIdClienteDesdeReserva(int idReserva, Connection conn) throws SQLException {
-        if (idReserva == 0) return 0;
-        String sql = "SELECT id_cliente FROM reserva WHERE id_reserva=?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idReserva);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
-        }
-        return 0;
-    }
 
 private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQLException {
-        if (idReserva == 0) return 0;
-        String sql = "SELECT id_casa FROM reserva WHERE id_reserva=?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idReserva);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
+    String sql = "SELECT id_casa FROM reserva WHERE id_reserva = ?";
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, idReserva);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("id_casa");
+            } else {
+                throw new SQLException("No se encontró la casa para la reserva " + idReserva);
+            }
         }
-        return 0;
     }
-
-
+}
+    
+   
    private void cargarReservas() {
-       DefaultTableModel model = (DefaultTableModel) tablaReservas.getModel();
+        DefaultTableModel model = (DefaultTableModel) tablaReservas.getModel();
         model.setRowCount(0);
 
         String sql = """
@@ -306,12 +78,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
             while (rs.next()) {
-                String fechaInicio = rs.getString("fecha_inicio");
-                String fechaFin = rs.getString("fecha_fin");
-
                 model.addRow(new Object[]{
                     rs.getInt("id_reserva"),
                     rs.getString("nombre_cliente"),
@@ -321,8 +88,8 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                     rs.getString("email"),
                     rs.getString("nombre_casa"),
                     rs.getInt("num_personas"),
-                    fechaInicio != null ? fechaInicio : "",
-                    fechaFin != null ? fechaFin : "",
+                    rs.getString("fecha_inicio"),
+                    rs.getString("fecha_fin"),
                     rs.getString("estado")
                 });
             }
@@ -330,7 +97,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
         }
-}
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -347,11 +114,6 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         botoneliminarReservas = new javax.swing.JButton();
         SeparadorBuscarReseva = new javax.swing.JSeparator();
         botonVerReservas = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        calendarioOcupacion = new java.awt.Panel();
-        selectorCasa = new java.awt.Choice();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -420,37 +182,6 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
             }
         });
 
-        jButton2.setText("<");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText(">");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout calendarioOcupacionLayout = new javax.swing.GroupLayout(calendarioOcupacion);
-        calendarioOcupacion.setLayout(calendarioOcupacionLayout);
-        calendarioOcupacionLayout.setHorizontalGroup(
-            calendarioOcupacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 431, Short.MAX_VALUE)
-        );
-        calendarioOcupacionLayout.setVerticalGroup(
-            calendarioOcupacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout PanelBuscarReservaLayout = new javax.swing.GroupLayout(PanelBuscarReserva);
         PanelBuscarReserva.setLayout(PanelBuscarReservaLayout);
         PanelBuscarReservaLayout.setHorizontalGroup(
@@ -476,24 +207,10 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                 .addGap(0, 212, Short.MAX_VALUE))
             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                        .addComponent(selectorCasa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(117, 117, 117)
-                        .addComponent(calendarioOcupacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addGap(18, 18, 18))
-                    .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
-                        .addComponent(SeparadorBuscarReseva)))
+                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scrollTablaReservas, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
+                    .addComponent(SeparadorBuscarReseva))
                 .addContainerGap(64, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBuscarReservaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(281, 281, 281))
         );
         PanelBuscarReservaLayout.setVerticalGroup(
             PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,19 +234,9 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                         .addGap(18, 18, 18)
                         .addComponent(SeparadorBuscarReseva, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(botonGuardarCambios))
-                .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2))
-                    .addComponent(selectorCasa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(calendarioOcupacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         add(PanelBuscarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -786,30 +493,6 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         cargarReservas();
     }//GEN-LAST:event_botonVerReservasActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        mesActual--;
-        if (mesActual < 0) {  // Si pasa de enero
-            mesActual = 11;
-            añoActual--;
-        }
-        jTextField1.setText(obtenerNombreMes(mesActual) + " " + añoActual); // Actualiza el texto
-        refrescarCalendarioCasaSeleccionada();  // Refresca calendario con la casa seleccionada
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        mesActual++;
-        if (mesActual > 11) {  // Si pasa de diciembre
-            mesActual = 0;
-            añoActual++;
-        }
-        jTextField1.setText(obtenerNombreMes(mesActual) + " " + añoActual); // Actualiza el texto
-        refrescarCalendarioCasaSeleccionada();  // Refresca calendario con la casa seleccionada
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        jTextField1.setText(obtenerNombreMes(mesActual) + " " + añoActual);
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelBuscarReserva;
@@ -818,15 +501,10 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
     private javax.swing.JButton botonGuardarCambios;
     private javax.swing.JButton botonVerReservas;
     private javax.swing.JButton botoneliminarReservas;
-    private java.awt.Panel calendarioOcupacion;
     private javax.swing.JTextField campoBusqueda;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JScrollPane scrollTablaReservas;
-    private java.awt.Choice selectorCasa;
     private javax.swing.JTable tablaReservas;
     // End of variables declaration//GEN-END:variables
 }

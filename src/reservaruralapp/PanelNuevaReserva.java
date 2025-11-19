@@ -145,6 +145,7 @@ private void cargarCasasEnComboBox() {
         estadoReserva = new javax.swing.JComboBox<>();
         jSpinnerFechaInicio = new javax.swing.JSpinner();
         jSpinnerFechaFin = new javax.swing.JSpinner();
+        VerCalendario = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -237,6 +238,14 @@ private void cargarCasasEnComboBox() {
             }
         });
 
+        VerCalendario.setBackground(new java.awt.Color(239, 255, 239));
+        VerCalendario.setText("Ver Calendario");
+        VerCalendario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerCalendarioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -246,6 +255,8 @@ private void cargarCasasEnComboBox() {
                 .addComponent(guardarNuevaReserva)
                 .addGap(83, 83, 83)
                 .addComponent(limpiarReserva)
+                .addGap(228, 228, 228)
+                .addComponent(VerCalendario)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
@@ -345,7 +356,8 @@ private void cargarCasasEnComboBox() {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guardarNuevaReserva)
-                    .addComponent(limpiarReserva))
+                    .addComponent(limpiarReserva)
+                    .addComponent(VerCalendario))
                 .addGap(253, 253, 253))
         );
 
@@ -557,11 +569,16 @@ private void cargarCasasEnComboBox() {
         // TODO add your handling code here:
     }//GEN-LAST:event_apelleidosReservaActionPerformed
 
+    private void VerCalendarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerCalendarioActionPerformed
+          new VentanaCalendario().setVisible(true);
+    }//GEN-LAST:event_VerCalendarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField DNIReserva;
     private javax.swing.JLabel LabelOpciones;
     private javax.swing.JPanel PanelOpciones;
+    private javax.swing.JButton VerCalendario;
     private javax.swing.JTextField apelleidosReserva;
     private javax.swing.JComboBox<String> casaReserva;
     private javax.swing.JTextField comentarioReserva;

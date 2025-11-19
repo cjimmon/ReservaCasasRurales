@@ -102,6 +102,8 @@
                           <Component id="guardarNuevaReserva" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
                           <Component id="limpiarReserva" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="228" max="-2" attributes="0"/>
+                          <Component id="VerCalendario" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -231,6 +233,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="guardarNuevaReserva" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="limpiarReserva" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="VerCalendario" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="253" max="-2" attributes="0"/>
                       </Group>
@@ -388,6 +391,17 @@
                 <Component class="javax.swing.JSpinner" name="jSpinnerFechaInicio">
                 </Component>
                 <Component class="javax.swing.JSpinner" name="jSpinnerFechaFin">
+                </Component>
+                <Component class="javax.swing.JButton" name="VerCalendario">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ef" green="ff" red="ef" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Ver Calendario"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VerCalendarioActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
