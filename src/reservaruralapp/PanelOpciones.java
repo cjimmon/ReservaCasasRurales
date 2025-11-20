@@ -50,7 +50,7 @@ public class PanelOpciones extends javax.swing.JPanel {
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        LabelOpciones.setText(" OPCIONES USUARIO:");
+        LabelOpciones.setText("CREAR / MODIFICAR USUARIOS");
 
         jSeparator3.setBackground(new java.awt.Color(0, 102, 51));
         jSeparator3.setForeground(new java.awt.Color(0, 102, 51));

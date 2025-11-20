@@ -105,7 +105,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="LabelOpciones">
           <Properties>
-            <Property name="text" type="java.lang.String" value=" OPCIONES USUARIO:"/>
+            <Property name="text" type="java.lang.String" value="CREAR / MODIFICAR USUARIOS"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator3">

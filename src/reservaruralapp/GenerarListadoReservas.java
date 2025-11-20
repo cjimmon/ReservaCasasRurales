@@ -19,9 +19,9 @@ public class GenerarListadoReservas {
     public static void generarPDFreservas(String inicioSQL, String finSQL) {
         try (Connection con = DBConnection.getConnection()) {
 
-            // ----------------------------------
+            
             // Elegir ruta donde guardar el PDF
-            // ----------------------------------
+            
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle("Guardar listado de reservas...");
             chooser.setSelectedFile(new File("Listado_Reservas_" + inicioSQL + "_a_" + finSQL + ".pdf"));
@@ -33,9 +33,9 @@ public class GenerarListadoReservas {
             if (!rutaFinal.toLowerCase().endsWith(".pdf"))
                 rutaFinal += ".pdf";
 
-            // ----------------------------------
+            
             // Consulta SQL
-            // ----------------------------------
+            
             String sql = """
                 SELECT 
                     r.id_reserva,
@@ -62,9 +62,9 @@ public class GenerarListadoReservas {
 
             ResultSet rs = ps.executeQuery();
 
-            // ----------------------------------
+            
             // Crear PDF
-            // ----------------------------------
+            
             PDDocument pdf = new PDDocument();
             PDPage page = new PDPage();
             pdf.addPage(page);
@@ -93,7 +93,7 @@ public class GenerarListadoReservas {
                         " | Estado: " + rs.getString("estado") +
                         " | Total: " + rs.getDouble("importe_total") + " €";
 
-                // Primera línea
+                
                 cs.beginText();
                 cs.setFont(PDType1Font.HELVETICA, 10);
                 cs.newLineAtOffset(40, y);
@@ -101,7 +101,7 @@ public class GenerarListadoReservas {
                 cs.endText();
                 y -= 15;
 
-                // Segunda línea con margen
+                
                 cs.beginText();
                 cs.setFont(PDType1Font.HELVETICA, 10);
                 cs.newLineAtOffset(60, y);
@@ -109,7 +109,7 @@ public class GenerarListadoReservas {
                 cs.endText();
                 y -= 22;
 
-                // Línea separadora entre reservas
+                
                 cs.beginText();
                 cs.setFont(PDType1Font.HELVETICA, 8);
                 cs.newLineAtOffset(40, y);
@@ -117,7 +117,7 @@ public class GenerarListadoReservas {
                 cs.endText();
                 y -= 18;
 
-                // Nueva página si se llena
+                
                 if (y < 50) {
                     cs.close();
                     page = new PDPage();

@@ -19,9 +19,9 @@ public class GenerarListadoClientes {
     public static void generarPDFcliente(String inicioSQL, String finSQL) {
         try (Connection con = DBConnection.getConnection()) {
 
-            // --------------------------
+            
             // Elegir ruta donde guardar
-            // --------------------------
+            
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle("Guardar listado de clientes...");
             chooser.setSelectedFile(new File("Listado_Clientes_" + inicioSQL + "_a_" + finSQL + ".pdf"));
@@ -33,9 +33,9 @@ public class GenerarListadoClientes {
             if (!rutaFinal.toLowerCase().endsWith(".pdf"))
                 rutaFinal += ".pdf";
 
-            // --------------------------
+            
             // Consulta SQL
-            // --------------------------
+            
             String sql = "SELECT c.nombre, c.apellidos, c.DNI, c.telefono, c.email " +
                          "FROM cliente c " +
                          "JOIN reserva r ON c.id_cliente = r.id_cliente " +
@@ -50,26 +50,26 @@ public class GenerarListadoClientes {
 
             ResultSet rs = ps.executeQuery();
 
-            // --------------------------
+            
             // Crear PDF
-            // --------------------------
+            
             PDDocument pdf = new PDDocument();
             PDPage page = new PDPage();
             pdf.addPage(page);
 
             PDPageContentStream cs = new PDPageContentStream(pdf, page);
 
-            // --------------------------
-            // Título con rango de fechas
-            // --------------------------
+            
+            
+            
             cs.beginText();
             cs.setFont(PDType1Font.HELVETICA_BOLD, 18);
             cs.newLineAtOffset(40, 750);
             cs.showText("Listado de Clientes (" + inicioSQL + " a " + finSQL + ")");
             cs.endText();
 
-            float y = 715;  // un poco más abajo
-            float anchoMax = 520; // ancho útil dentro de un A4
+            float y = 715;  
+            float anchoMax = 520; 
 
             while (rs.next()) {
                 String linea = rs.getString("apellidos") + ", " + rs.getString("nombre") +
@@ -80,7 +80,7 @@ public class GenerarListadoClientes {
                 float textWidth = PDType1Font.HELVETICA.getStringWidth(linea) / 1000 * 10;
 
                 if (textWidth <= anchoMax) {
-                    // Cabe en una sola línea
+                   
                     cs.beginText();
                     cs.setFont(PDType1Font.HELVETICA, 10);
                     cs.newLineAtOffset(40, y);
@@ -88,7 +88,7 @@ public class GenerarListadoClientes {
                     cs.endText();
                     y -= 22;
                 } else {
-                    // Dividir en dos líneas
+                    
                     String[] partes = linea.split("\\| Email:", 2);
                     String linea1 = partes[0] + "|";
                     String linea2 = "Email:" + partes[1];
@@ -110,7 +110,7 @@ public class GenerarListadoClientes {
                     y -= 25;
                 }
 
-                // Nueva página si se llena
+                
                 if (y < 50) {
                     cs.close();
                     page = new PDPage();

@@ -98,7 +98,7 @@ public class Principal extends javax.swing.JFrame {
         BotonOpciones.setBackground(new java.awt.Color(233, 250, 233));
         BotonOpciones.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BotonOpciones.setForeground(new java.awt.Color(51, 102, 0));
-        BotonOpciones.setText("Crear /modificar Usuario");
+        BotonOpciones.setText("Opciones Usuario");
         BotonOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonOpcionesActionPerformed(evt);
