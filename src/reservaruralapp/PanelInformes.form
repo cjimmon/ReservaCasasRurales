@@ -77,7 +77,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                       <Component id="ComboBoxInformes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="57" max="32767" attributes="0"/>
@@ -93,7 +93,10 @@
                       <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                       <Component id="ID" min="-2" pref="99" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="BotonPDF" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnEnviarEmail" min="-2" max="-2" attributes="0"/>
+                          <Component id="BotonPDF" min="-2" pref="104" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -101,7 +104,8 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="31" max="32767" attributes="0"/>
+                      <Component id="btnEnviarEmail" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="8" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="ComboBoxInformes" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="FechaInicioInformes" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -127,6 +131,7 @@
                     <StringItem index="2" value="Cliente"/>
                   </StringArray>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Selecciona el tipo de informe"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBoxInformesActionPerformed"/>
@@ -170,6 +175,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="ID">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Introduzca numero de factura"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="BotonPDF">
               <Properties>
@@ -183,6 +191,20 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonPDFActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnEnviarEmail">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="f1" green="fd" red="f1" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="66" red="33" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Enviar EMAIL"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarEmailActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

@@ -1,6 +1,9 @@
 
 package reservaruralapp;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class InputUtils {
 
     // Método general para normalizar textos
@@ -14,7 +17,7 @@ public class InputUtils {
 
    
     
-      // Valida un DNI español
+      // Metod que valida un DNI español
     public static boolean validaDNI(String dni) {
         if (dni == null) return false;
         dni = normalizarMayusculas(dni);
@@ -34,7 +37,7 @@ public class InputUtils {
         return letra == letraCorrecta;
         
     }
-    // ✅ Método para validar emails con expresión regular
+    // Método para validar emails con expresión regular
     public static boolean validaEmail(String email) {
         if (email == null) return false;
         email = email.trim();
@@ -42,15 +45,25 @@ public class InputUtils {
         String emailRegex = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$";
         return email.matches(emailRegex);
     }
+    //Validacion de numeros de telefono E164
     public static boolean validaTelefonoE164(String telefono) {
     if (telefono == null) return false;
 
-    // Expresión regular para formato E.164:
-    // + seguido de 1 a 15 dígitos (sin espacios, guiones, paréntesis, etc.)
     String regex = "^\\+?[1-9]\\d{1,14}$";
 
     return telefono.matches(regex);
 }
+    //metodo de validacion de formato de fechas
+    public static boolean validaFecha(String fecha) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    try {
+        LocalDate.parse(fecha, formatter);
+        return true;
+    } catch (Exception e) {
+        return false;
+    }
+    
+    }
 }
     
 

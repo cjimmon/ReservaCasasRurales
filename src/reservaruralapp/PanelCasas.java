@@ -100,6 +100,7 @@ public class PanelCasas extends javax.swing.JPanel {
             }
         });
 
+        CampoBuscarCasa.setToolTipText("Busca en cualquier campo");
         CampoBuscarCasa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CampoBuscarCasaActionPerformed(evt);

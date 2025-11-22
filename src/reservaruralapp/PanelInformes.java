@@ -309,6 +309,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
         LabelFechaFinInformes = new javax.swing.JLabel();
         ID = new javax.swing.JTextField();
         BotonPDF = new javax.swing.JButton();
+        btnEnviarEmail = new javax.swing.JButton();
         SeparadorInformes = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -322,6 +323,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
         LabelInformes.setText("INFORMES");
 
         ComboBoxInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reserva", "Factura", "Cliente" }));
+        ComboBoxInformes.setToolTipText("Selecciona el tipo de informe");
         ComboBoxInformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboBoxInformesActionPerformed(evt);
@@ -353,6 +355,8 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
 
         LabelFechaFinInformes.setText("Fecha Fin:");
 
+        ID.setToolTipText("Introduzca numero de factura");
+
         BotonPDF.setBackground(new java.awt.Color(239, 252, 239));
         BotonPDF.setForeground(new java.awt.Color(51, 102, 0));
         BotonPDF.setText("Exportar Pdf");
@@ -362,11 +366,20 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             }
         });
 
+        btnEnviarEmail.setBackground(new java.awt.Color(241, 253, 241));
+        btnEnviarEmail.setForeground(new java.awt.Color(51, 102, 0));
+        btnEnviarEmail.setText("Enviar EMAIL");
+        btnEnviarEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarEmailActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(ComboBoxInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
@@ -382,13 +395,16 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
                 .addGap(107, 107, 107)
                 .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BotonPDF)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEnviarEmail)
+                    .addComponent(BotonPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+                .addComponent(btnEnviarEmail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ComboBoxInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FechaInicioInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -471,12 +487,16 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
 
     private void BotonGenerarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGenerarInformeActionPerformed
             String tipo = ComboBoxInformes.getSelectedItem().toString();
-           String fechaInicio = FechaInicioInformes.getText().trim();
-           String fechaFin = FechaFinalInformes.getText().trim();
+            String fechaInicio = FechaInicioInformes.getText().trim();
+            String fechaFin = FechaFinalInformes.getText().trim();
 
            if (fechaInicio.isEmpty() || fechaFin.isEmpty()) {
                JOptionPane.showMessageDialog(this, "Debes introducir fecha inicio y fecha fin.");
                return;
+           }
+               if (!InputUtils.validaFecha(fechaInicio) || !InputUtils.validaFecha(fechaFin)) {
+                JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use dd/MM/yyyy");
+                return;
            }
 
            
@@ -541,6 +561,31 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             }
     }//GEN-LAST:event_BotonPDFActionPerformed
 
+    private void btnEnviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarEmailActionPerformed
+           try {
+        int idFactura = Integer.parseInt(ID.getText().trim());
+
+        // Creamos objeto de envío
+        EnvioEmailConAdjunto envio = new EnvioEmailConAdjunto();
+
+        // Generamos PDF en memoria
+        byte[] pdfBytes = envio.generarFacturaEnMemoria(idFactura);
+
+        // Obtenemos email del cliente
+        String emailCliente = envio.obtenerEmailClientePorFactura(idFactura);
+
+        if (emailCliente != null && pdfBytes != null) {
+            envio.enviarFacturaPorEmail(emailCliente, pdfBytes, "Factura_" + idFactura + ".pdf");
+        }
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Introduce un ID de factura válido.");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al generar o enviar la factura: " + e.getMessage());
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btnEnviarEmailActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea AreaInformacion;
@@ -556,6 +601,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     private javax.swing.JLabel LabelInformes;
     private javax.swing.JPanel PanelInformes;
     private javax.swing.JSeparator SeparadorInformes;
+    private javax.swing.JButton btnEnviarEmail;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

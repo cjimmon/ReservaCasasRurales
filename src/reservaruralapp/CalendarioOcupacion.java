@@ -91,22 +91,32 @@ private void actualizarCalendario() {
 
     // Obtener días ocupados de la BBDD
     List<Integer> diasOcupados = new ArrayList<>();
+
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(
                  "SELECT fecha_inicio, fecha_fin FROM reserva r JOIN casa c ON r.id_casa=c.id_casa " +
-                         "WHERE c.nombre=?")) {
+                 "WHERE c.nombre=?")) {
+
         ps.setString(1, casa);
         ResultSet rs = ps.executeQuery();
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         while (rs.next()) {
             LocalDate inicio = LocalDate.parse(rs.getString("fecha_inicio"), df);
             LocalDate fin = LocalDate.parse(rs.getString("fecha_fin"), df);
+
+            // Día final realmente ocupado (excluye día de salida)
+            LocalDate ultimoDiaOcupado = fin.minusDays(1);
+
             LocalDate temp = inicio;
-            while (!temp.isAfter(fin) && temp.getMonthValue() == mesActual) {
-                diasOcupados.add(temp.getDayOfMonth());
+            while (!temp.isAfter(ultimoDiaOcupado)) {
+                if (temp.getMonthValue() == mesActual) {
+                    diasOcupados.add(temp.getDayOfMonth());
+                }
                 temp = temp.plusDays(1);
             }
         }
+
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
     }
@@ -114,12 +124,17 @@ private void actualizarCalendario() {
     // Rellenar tabla con botones
     int col = diaSemana - 1;
     int fila = 0;
+
     for (int dia = 1; dia <= numDias; dia++) {
         JButton botonDia = new JButton(String.valueOf(dia));
         botonDia.setOpaque(true);
         botonDia.setBorderPainted(false);
-        if (diasOcupados.contains(dia)) botonDia.setBackground(java.awt.Color.RED);
-        else botonDia.setBackground(java.awt.Color.GREEN);
+
+        if (diasOcupados.contains(dia)) {
+            botonDia.setBackground(java.awt.Color.RED);
+        } else {
+            botonDia.setBackground(java.awt.Color.GREEN);
+        }
 
         modeloTabla.setValueAt(botonDia, fila, col);
         col++;
@@ -129,6 +144,7 @@ private void actualizarCalendario() {
         }
     }
 }
+
 
 
  static class JTableButtonRenderer implements javax.swing.table.TableCellRenderer {
@@ -167,6 +183,7 @@ private void actualizarCalendario() {
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("<");
+        jButton1.setToolTipText("Mes anterior");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -174,6 +191,7 @@ private void actualizarCalendario() {
         });
 
         jButton2.setText(">");
+        jButton2.setToolTipText("Mes posterior");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -183,6 +201,7 @@ private void actualizarCalendario() {
         jScrollPane2.setViewportView(jTextPane1);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setToolTipText("Seleccionar Casa");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

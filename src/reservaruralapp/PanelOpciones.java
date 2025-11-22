@@ -85,6 +85,7 @@ public class PanelOpciones extends javax.swing.JPanel {
         BotonBuscarOpciones.setBackground(new java.awt.Color(233, 249, 233));
         BotonBuscarOpciones.setForeground(new java.awt.Color(51, 102, 0));
         BotonBuscarOpciones.setText("Buscar");
+        BotonBuscarOpciones.setToolTipText("");
         BotonBuscarOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonBuscarOpcionesActionPerformed(evt);

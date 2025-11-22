@@ -121,6 +121,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
 
         jLabel7.setText("Buscar por: ");
 
+        campoBusqueda.setToolTipText("Busca en cualquier campo");
         campoBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoBusquedaActionPerformed(evt);
@@ -155,6 +156,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         botonGuardarCambios.setBackground(new java.awt.Color(242, 253, 242));
         botonGuardarCambios.setForeground(new java.awt.Color(51, 102, 0));
         botonGuardarCambios.setText("Guardar Cambios");
+        botonGuardarCambios.setToolTipText("Guardar modificaciones en reservas");
         botonGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGuardarCambiosActionPerformed(evt);
@@ -164,6 +166,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         botoneliminarReservas.setBackground(new java.awt.Color(242, 253, 242));
         botoneliminarReservas.setForeground(new java.awt.Color(51, 102, 0));
         botoneliminarReservas.setText("Eliminar Reserva");
+        botoneliminarReservas.setToolTipText("Eliminar linea completa");
         botoneliminarReservas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botoneliminarReservasActionPerformed(evt);
@@ -176,6 +179,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         botonVerReservas.setBackground(new java.awt.Color(242, 253, 242));
         botonVerReservas.setForeground(new java.awt.Color(51, 102, 0));
         botonVerReservas.setText("Ver Reservas");
+        botonVerReservas.setToolTipText("Ver Listado de Reservas");
         botonVerReservas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonVerReservasActionPerformed(evt);
@@ -207,10 +211,10 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                 .addGap(0, 212, Short.MAX_VALUE))
             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(scrollTablaReservas, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
+                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollTablaReservas)
                     .addComponent(SeparadorBuscarReseva))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap())
         );
         PanelBuscarReservaLayout.setVerticalGroup(
             PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,20 +226,18 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                 .addGap(18, 18, 18)
                 .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7)
-                                    .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(botonEjecutarBusqueda))))
-                            .addComponent(botoneliminarReservas))
-                        .addGap(18, 18, 18)
-                        .addComponent(SeparadorBuscarReseva, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
+                        .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(campoBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(botonEjecutarBusqueda))))
+                    .addComponent(botoneliminarReservas)
                     .addComponent(botonGuardarCambios))
+                .addGap(18, 18, 18)
+                .addComponent(SeparadorBuscarReseva, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
@@ -346,6 +348,14 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                 String fechaInicio = modelo.getValueAt(i, 8).toString();
                 String fechaFin = modelo.getValueAt(i, 9).toString();
                 String estado = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 10).toString());
+                if (!InputUtils.validaFecha(fechaInicio)) {
+                    JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto en la fila " + (i+1));
+                    return;
+                }
+                if (!InputUtils.validaFecha(fechaFin)) {
+                    JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto en la fila " + (i+1));
+                    return;
+}
 
                 // Guardar como texto directamente
                 String sqlCliente = "UPDATE cliente SET nombre=?, apellidos=?, DNI=?, telefono=?, email=? WHERE id_cliente=?";
