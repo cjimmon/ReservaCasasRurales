@@ -120,7 +120,10 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         SeparadorBuscarReseva = new javax.swing.JSeparator();
         botonVerReservas = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        PanelBuscarReserva.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setText("BUSCAR RESERVA");
 
@@ -319,42 +322,42 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try (Connection conn = DBConnection.getConnection()) {
-            for (int i = 0; i < modelo.getRowCount(); i++) {
-                int idReserva = (int) modelo.getValueAt(i, 0);
+            for (int i = 1; i < modelo.getRowCount(); i++) {
+                int idReserva = (int) modelo.getValueAt(i, 1);
                 int idCliente = obtenerIdClienteDesdeReserva(idReserva, conn);
                 int idCasa = obtenerIdCasaDesdeReserva(idReserva, conn);
 
                 // Datos del cliente
-                String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 1).toString());
-                String apellidos = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2).toString());
-                String dni = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 3).toString());
+                String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2).toString());
+                String apellidos = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 3).toString());
+                String dni = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 4).toString());
 
             if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
                 JOptionPane.showMessageDialog(this, "El DNI no es válido: " + dni);
                 return; // no guarda si el DNI es incorrecto
             }
-                String telefono = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 4) != null 
-                    ? modelo.getValueAt(i, 4).toString() 
+                String telefono = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 5) != null 
+                    ? modelo.getValueAt(i, 5).toString() 
                     : null);
 
             if (telefono != null && !telefono.isEmpty() && !InputUtils.validaTelefonoE164(telefono)) {
                 JOptionPane.showMessageDialog(this, "El teléfono de la fila " + (i+1) + " no es válido: " + telefono);
                 return;
             }
-                String email = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 5).toString());
+                String email = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 6).toString());
             if (!InputUtils.validaEmail(email)) {
                 JOptionPane.showMessageDialog(this, "El email no es válido: " + email);
                 return; // no guarda si el email es incorrecto
             }
 
                 // Datos de la casa
-                String nombreCasa = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 6).toString());
+                String nombreCasa = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 7).toString());
 
                 // Datos de la reserva
-                int numPersonas = Integer.parseInt(modelo.getValueAt(i, 7).toString());
-                String fechaInicio = modelo.getValueAt(i, 8).toString();
-                String fechaFin = modelo.getValueAt(i, 9).toString();
-                String estado = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 10).toString());
+                int numPersonas = Integer.parseInt(modelo.getValueAt(i, 8).toString());
+                String fechaInicio = modelo.getValueAt(i, 9).toString();
+                String fechaFin = modelo.getValueAt(i, 10).toString();
+                String estado = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 11).toString());
                 if (!InputUtils.validaFecha(fechaInicio)) {
                     JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto en la fila " + (i+1));
                     return;

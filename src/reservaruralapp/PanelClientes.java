@@ -11,13 +11,10 @@ import javax.swing.JOptionPane;
 
 public class PanelClientes extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelClientes
-     */
+   
     public PanelClientes() {
         initComponents();
-       cargarClientes(); // opcional: cargar al iniciar
-    // Aplica permisos a los botones
+      
     ControlAcceso.aplicarPermisos(BotonNuevoCliente, BotonEliminarCliente);
 }
     
@@ -71,7 +68,12 @@ private void cargarClientes() {
         scrolltablaclientes = new javax.swing.JScrollPane();
         TablaClientes = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        PanelClientes.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         BotonNuevoCliente.setBackground(new java.awt.Color(241, 250, 241));
         BotonNuevoCliente.setForeground(new java.awt.Color(51, 102, 0));
@@ -176,6 +178,8 @@ private void cargarClientes() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         TablaClientes.setBackground(new java.awt.Color(204, 255, 204));
         TablaClientes.setModel(new javax.swing.table.DefaultTableModel(

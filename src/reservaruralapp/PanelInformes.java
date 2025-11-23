@@ -318,9 +318,14 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
         jScrollPane3 = new javax.swing.JScrollPane();
         AreaInformacion2 = new javax.swing.JTextArea();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        PanelInformes.setBackground(new java.awt.Color(255, 255, 255));
+
         LabelInformes.setText("INFORMES");
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         ComboBoxInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reserva", "Factura", "Cliente" }));
         ComboBoxInformes.setToolTipText("Selecciona el tipo de informe");
@@ -425,12 +430,10 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
-        AreaInformacion.setBackground(new java.awt.Color(204, 255, 204));
         AreaInformacion.setColumns(20);
         AreaInformacion.setRows(5);
         jScrollPane1.setViewportView(AreaInformacion);
 
-        AreaInformacion2.setBackground(new java.awt.Color(204, 255, 204));
         AreaInformacion2.setColumns(20);
         AreaInformacion2.setRows(5);
         jScrollPane3.setViewportView(AreaInformacion2);

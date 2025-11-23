@@ -4,13 +4,23 @@
  */
 package reservaruralapp;
 
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import javax.mail.internet.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.*;
+import javax.mail.util.ByteArrayDataSource;
 import javax.swing.JOptionPane;
 import util.DBConnection;
-
 
 
 /**
@@ -47,8 +57,11 @@ public class PanelOpciones extends javax.swing.JPanel {
         BotonBuscarOpciones = new javax.swing.JButton();
         BotonEliminarOpciones = new javax.swing.JButton();
         AdminRecepcionista = new javax.swing.JComboBox<>();
+        CopiaSeguridad = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        PanelOpciones.setBackground(new java.awt.Color(255, 255, 255));
 
         LabelOpciones.setText("CREAR / MODIFICAR USUARIOS");
 
@@ -108,38 +121,53 @@ public class PanelOpciones extends javax.swing.JPanel {
             }
         });
 
+        CopiaSeguridad.setBackground(new java.awt.Color(245, 255, 245));
+        CopiaSeguridad.setForeground(new java.awt.Color(51, 102, 0));
+        CopiaSeguridad.setText("Copia Seguridad BBDD");
+        CopiaSeguridad.setToolTipText("Manda una copia de la BBDD al correo");
+        CopiaSeguridad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CopiaSeguridadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelOpcionesLayout = new javax.swing.GroupLayout(PanelOpciones);
         PanelOpciones.setLayout(PanelOpcionesLayout);
         PanelOpcionesLayout.setHorizontalGroup(
             PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(LabelOpciones)
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                            .addGap(61, 61, 61)
+                            .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(TextoNombreOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(26, 26, 26)
+                                    .addComponent(TextoContraseñaOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(45, 45, 45)
+                                    .addComponent(AdminRecepcionista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(PanelOpcionesLayout.createSequentialGroup()
+                                    .addComponent(BotonBuscarOpciones)
+                                    .addGap(45, 45, 45)
+                                    .addComponent(BotonGuardarOpciones)))))
                     .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LabelOpciones)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(TextoNombreOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(26, 26, 26)
-                                .addComponent(TextoContraseñaOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(45, 45, 45)
-                                .addComponent(AdminRecepcionista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelOpcionesLayout.createSequentialGroup()
-                                .addComponent(BotonBuscarOpciones)
-                                .addGap(115, 115, 115)
-                                .addComponent(BotonGuardarOpciones)
-                                .addGap(36, 36, 36)
-                                .addComponent(BotonEliminarOpciones)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BotonEliminarOpciones)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CopiaSeguridad)
+                        .addGap(288, 288, 288)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         PanelOpcionesLayout.setVerticalGroup(
@@ -164,9 +192,12 @@ public class PanelOpciones extends javax.swing.JPanel {
                 .addGap(70, 70, 70)
                 .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonBuscarOpciones)
-                    .addComponent(BotonGuardarOpciones)
+                    .addComponent(BotonGuardarOpciones))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+                .addGroup(PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CopiaSeguridad)
                     .addComponent(BotonEliminarOpciones))
-                .addContainerGap(251, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
         );
 
         add(PanelOpciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -298,12 +329,70 @@ public class PanelOpciones extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_AdminRecepcionistaActionPerformed
 
+    private void CopiaSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CopiaSeguridadActionPerformed
+         try {
+        
+        String nombreOriginal = "C:\\Users\\jimen\\Documents\\NetBeansProjects\\ReservaCasasRurales\\reservas_rurales.db"; 
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        String fecha = LocalDateTime.now().format(dtf);
+        String nombreBackup = "backup_reservaRural_" + fecha + ".db";
+
+        
+        byte[] backupBytes = Files.readAllBytes(Paths.get(nombreOriginal));
+
+        
+        String remitente = "carlosjimenezmontalvo@gmail.com";
+        String passwordApp = "safh kvnr ftie qewj";
+        String destinatario = "carlosjimenezmontalvo@gmail.com";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(remitente, passwordApp);
+            }
+        });
+
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(remitente));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+        message.setSubject("Backup ReservaRuralApp - " + fecha);
+
+        MimeBodyPart texto = new MimeBodyPart();
+        texto.setText("Adjunto encontrará la copia de seguridad de la base de datos.");
+
+        MimeBodyPart adjunto = new MimeBodyPart();
+        adjunto.setFileName(nombreBackup);
+        DataSource dataSource = new ByteArrayDataSource(backupBytes, "application/octet-stream");
+        adjunto.setDataHandler(new DataHandler(dataSource));
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(texto);
+        multipart.addBodyPart(adjunto);
+
+        message.setContent(multipart);
+        Transport.send(message);
+
+        JOptionPane.showMessageDialog(this, "Copia de seguridad enviada correctamente.");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al crear/enviar copia: " + e.getMessage());
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_CopiaSeguridadActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> AdminRecepcionista;
     private javax.swing.JButton BotonBuscarOpciones;
     private javax.swing.JButton BotonEliminarOpciones;
     private javax.swing.JButton BotonGuardarOpciones;
+    private javax.swing.JButton CopiaSeguridad;
     private javax.swing.JLabel LabelOpciones;
     private javax.swing.JPanel PanelOpciones;
     private javax.swing.JTextField TextoContraseñaOpciones;

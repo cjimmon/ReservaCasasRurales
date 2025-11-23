@@ -147,12 +147,19 @@ private void cargarCasasEnComboBox() {
         jSpinnerFechaFin = new javax.swing.JSpinner();
         VerCalendario = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        PanelOpciones.setBackground(new java.awt.Color(255, 255, 255));
 
         LabelOpciones.setText("NUEVA RESERVA");
 
         jSeparator3.setBackground(new java.awt.Color(0, 102, 51));
         jSeparator3.setForeground(new java.awt.Color(0, 102, 51));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setText("Nombre");
 
@@ -231,7 +238,7 @@ private void cargarCasasEnComboBox() {
 
         jLabel12.setText("Estado");
 
-        estadoReserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pendiente", "cancelada", "confirmada" }));
+        estadoReserva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pendiente" }));
         estadoReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 estadoReservaActionPerformed(evt);

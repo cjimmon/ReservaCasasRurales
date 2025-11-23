@@ -10,8 +10,7 @@ public class PanelCasas extends javax.swing.JPanel {
   
     public PanelCasas() {
      initComponents();
-       cargarCasas(); // opcional: cargar al iniciar
-    // Aplica permisos a los botones
+       
     ControlAcceso.aplicarPermisos(BotonNuevaCasa, BotonEliminarCasa, GuardarCasas);
 }
     public void cargarCasas() {
@@ -58,7 +57,11 @@ public class PanelCasas extends javax.swing.JPanel {
         ScrollPanelCasas = new javax.swing.JScrollPane();
         TableCasas = new javax.swing.JTable();
 
+        PanelCasas.setBackground(new java.awt.Color(255, 255, 255));
+
         LabelCasas.setText("CASAS");
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
         BotonNuevaCasa.setBackground(new java.awt.Color(239, 252, 239));
         BotonNuevaCasa.setForeground(new java.awt.Color(51, 102, 0));
