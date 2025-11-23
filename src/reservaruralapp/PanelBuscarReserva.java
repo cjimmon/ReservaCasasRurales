@@ -19,8 +19,10 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
     
     tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {}, // Sin filas al inicio
-        new String [] { "ID", "Nombre", "Apellidos", "DNI", "Teléfono", "Email", "Casa", "Personas", "Inicio", "Fin", "Estado" }
+        new String [] { "Nº Factura", "ID", "Nombre", "Apellidos", "DNI", "Teléfono", "Email", "Casa", "Personas", "Inicio", "Fin", "Estado" }
     ));
+    
+      ControlAcceso.aplicarPermisos(botoneliminarReservas, botonVerReservas);
    }
     
     private int obtenerIdClienteDesdeReserva(int idReserva, Connection conn) throws SQLException {
@@ -58,6 +60,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
 
         String sql = """
             SELECT 
+                f.id_factura,
                 r.id_reserva,
                 c.nombre AS nombre_cliente,
                 c.apellidos AS apellidos_cliente,
@@ -65,13 +68,14 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
                 c.telefono,
                 c.email,
                 ca.nombre AS nombre_casa,
-                r.num_personas,   
+                r.num_personas,
                 r.fecha_inicio,
                 r.fecha_fin,
                 r.estado
             FROM reserva r
             JOIN cliente c ON r.id_cliente = c.id_cliente
             JOIN casa ca ON r.id_casa = ca.id_casa
+            LEFT JOIN factura f ON r.id_reserva = f.id_reserva
         """;
 
         try (Connection conn = DBConnection.getConnection();
@@ -80,6 +84,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
 
             while (rs.next()) {
                 model.addRow(new Object[]{
+                    rs.getObject("id_factura"), // Puede ser null si no hay factura
                     rs.getInt("id_reserva"),
                     rs.getString("nombre_cliente"),
                     rs.getString("apellidos_cliente"),
@@ -142,13 +147,13 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         tablaReservas.setBackground(new java.awt.Color(204, 255, 204));
         tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id_Reserva ", "Nombre", "Apellidos", "DNI", "Telefono", "Email", "Casa", "Numero personas", "Fecha Entrada", "Fecha Salida", "Estado"
+                "Nº Factura ", "Nº Reserva", "Nombre", "Apellidos", "DNI", "Telefono", "Email", "Casa", "Numero personas", "Fecha Entrada", "Fecha Salida", "Estado"
             }
         ));
         scrollTablaReservas.setViewportView(tablaReservas);
@@ -249,6 +254,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
     }//GEN-LAST:event_campoBusquedaActionPerformed
 
     private void botonEjecutarBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarBusquedaActionPerformed
+                                                     
        String textoBusqueda = InputUtils.normalizarMayusculas(campoBusqueda.getText().trim());
 
         if (textoBusqueda.isEmpty()) {
@@ -305,6 +311,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al buscar reservas: " + e.getMessage());
         }
+           
     }//GEN-LAST:event_botonEjecutarBusquedaActionPerformed
 
     private void botonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarCambiosActionPerformed
@@ -481,7 +488,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
             return;
         }
 
-        int idReserva = (int) tablaReservas.getValueAt(fila, 0);
+        int idReserva = (int) tablaReservas.getValueAt(fila, 1);
         int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar esta reserva?", "Confirmar", JOptionPane.YES_NO_OPTION);
         if (confirmar != JOptionPane.YES_OPTION) return;
 

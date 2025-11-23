@@ -4,10 +4,7 @@ import java.awt.CardLayout;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author jimen
- */
+
 public class Principal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Principal.class.getName());
@@ -16,8 +13,6 @@ public class Principal extends javax.swing.JFrame {
     private String rol;
     
     
-
-
     private void configurarVentana() {
         // Cambiar título dinámicamente
         setTitle("Reservas Rurales - Usuario: " + usuario + " (" + rol + ")");
@@ -27,7 +22,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     
-     // Método para mostrar un panel según el botón pulsado
+        // Método para mostrar un panel según el botón pulsado
     private void mostrarPanel(String nombrePanel) {
         CardLayout layout = (CardLayout) jPanel3.getLayout();
         layout.show(jPanel3, nombrePanel);
@@ -213,8 +208,18 @@ public class Principal extends javax.swing.JFrame {
     public Principal(String usuario, String rol) {
     this.usuario = usuario;
     this.rol = rol;
+
+    
+    ControlAcceso.setRol(rol);
+
     initComponents();
     configurarVentana();
+
+    
+    ControlAcceso.aplicarPermisos(
+        BotonOpciones
+        
+    );
 
     
     panelOpciones = new PanelOpciones();
@@ -255,13 +260,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonInformesActionPerformed
 
     private void BotonOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonOpcionesActionPerformed
-          if ("admin".equals(rol)) {
-        mostrarPanel("cardOpciones");
-    } else {
-        JOptionPane.showMessageDialog(this, 
-            "Acceso denegado: Solo administradores pueden acceder a esta sección.", 
-            "Aviso", JOptionPane.WARNING_MESSAGE);
-    }
+          mostrarPanel("cardOpciones");
+    
     }//GEN-LAST:event_BotonOpcionesActionPerformed
 
     private void botonBuscarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarReservaActionPerformed

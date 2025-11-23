@@ -16,7 +16,10 @@ public class PanelClientes extends javax.swing.JPanel {
      */
     public PanelClientes() {
         initComponents();
-    }
+       cargarClientes(); // opcional: cargar al iniciar
+    // Aplica permisos a los botones
+    ControlAcceso.aplicarPermisos(BotonNuevoCliente, BotonEliminarCliente);
+}
     
 private void cargarClientes() {
     DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel();

@@ -529,36 +529,51 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     private void BotonPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonPDFActionPerformed
          String tipo = ComboBoxInformes.getSelectedItem().toString();
 
-            // Validar fechas
-            String fechaInicio = FechaInicioInformes.getText().trim();
-            String fechaFin = FechaFinalInformes.getText().trim();
+    switch (tipo) {
+        case "Factura":
+            try {
+                String idFacturaStr = ID.getText().trim(); // Campo donde introduces el nº de factura
+                if (idFacturaStr.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Introduce un ID de factura.");
+                    return;
+                }
+                int idFactura = Integer.parseInt(idFacturaStr);
+                GenerarFactura.generarFacturaConDialogo(idFactura); // Solo usa el número de factura
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Introduce un ID de factura válido.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al generar la factura: " + e.getMessage());
+            }
+            break;
 
-            if (fechaInicio.isEmpty() || fechaFin.isEmpty()) {
+        case "Cliente":
+            // Para clientes sí necesitamos fechas
+            String fechaInicioCliente = FechaInicioInformes.getText().trim();
+            String fechaFinCliente = FechaFinalInformes.getText().trim();
+            if (fechaInicioCliente.isEmpty() || fechaFinCliente.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Debes introducir fecha inicio y fecha fin.");
                 return;
             }
-
-            String inicioSQL = convertirFechaISO(fechaInicio);
-            String finSQL = convertirFechaISO(fechaFin);
-
-            switch (tipo) {
-                case "Factura":
-                    try {
-                        int id = Integer.parseInt(ID.getText().trim());
-                        GenerarFactura.generarFacturaConDialogo(id);
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Introduce un ID de factura válido.");
-                    }
-                    break;
-
-                case "Cliente":
-            new GenerarListadoClientes().generarPDFcliente(inicioSQL, finSQL);
+            new GenerarListadoClientes().generarPDFcliente(
+                convertirFechaISO(fechaInicioCliente),
+                convertirFechaISO(fechaFinCliente)
+            );
             break;
 
         case "Reserva":
-            new GenerarListadoReservas().generarPDFreservas(inicioSQL, finSQL);
-            break;
+            // Para reservas también necesitamos fechas
+            String fechaInicioReserva = FechaInicioInformes.getText().trim();
+            String fechaFinReserva = FechaFinalInformes.getText().trim();
+            if (fechaInicioReserva.isEmpty() || fechaFinReserva.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debes introducir fecha inicio y fecha fin.");
+                return;
             }
+            new GenerarListadoReservas().generarPDFreservas(
+                convertirFechaISO(fechaInicioReserva),
+                convertirFechaISO(fechaFinReserva)
+            );
+            break;
+    }
     }//GEN-LAST:event_BotonPDFActionPerformed
 
     private void btnEnviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarEmailActionPerformed

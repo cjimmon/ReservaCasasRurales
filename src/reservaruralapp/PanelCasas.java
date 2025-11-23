@@ -9,8 +9,11 @@ import javax.swing.JOptionPane;
 public class PanelCasas extends javax.swing.JPanel {
   
     public PanelCasas() {
-    initComponents(); 
-    }
+     initComponents();
+       cargarCasas(); // opcional: cargar al iniciar
+    // Aplica permisos a los botones
+    ControlAcceso.aplicarPermisos(BotonNuevaCasa, BotonEliminarCasa, GuardarCasas);
+}
     public void cargarCasas() {
         DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
         modelo.setRowCount(0); // Limpiar tabla
@@ -161,6 +164,7 @@ public class PanelCasas extends javax.swing.JPanel {
 
         ScrollPanelCasas.setBackground(new java.awt.Color(204, 255, 204));
 
+        TableCasas.setBackground(new java.awt.Color(204, 255, 204));
         TableCasas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
