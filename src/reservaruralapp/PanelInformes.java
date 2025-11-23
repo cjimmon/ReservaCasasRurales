@@ -18,7 +18,7 @@ public class PanelInformes extends javax.swing.JPanel {
     String[] partes = fecha.split("/");
     return partes[2] + "-" + partes[1] + "-" + partes[0];
 }
-private void generarResumenAnual() {
+    private void generarResumenAnual() {
     try (Connection conn = DBConnection.getConnection()) {
 
         // Año vigente
@@ -28,6 +28,7 @@ private void generarResumenAnual() {
 
         String[] estados = {"CONFIRMADA", "PENDIENTE", "CANCELADA"};
         double ingresosTotales = 0;
+        AreaInformacion2.setText("");
         AreaInformacion2.setText("=== RESUMEN ANUAL DE RESERVAS (" + yearActual + ") ===\n\n");
 
         for (String estado : estados) {
@@ -94,7 +95,7 @@ private void generarResumenAnual() {
 }
 
 
-private void generarResumenPeriodo(String inicioSQL, String finSQL) {
+    private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     try (Connection conn = DBConnection.getConnection()) {
 
         String[] estados = {"CONFIRMADA", "PENDIENTE", "CANCELADA"};
@@ -185,7 +186,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     }
 }
 
- private void generarInformeReservas(String FechaInicioInformes, String FechaFinInformes) {
+    private void generarInformeReservas(String FechaInicioInformes, String FechaFinInformes) {
     String sql = "SELECT id_reserva, id_cliente, id_casa, fecha_inicio, fecha_fin, num_personas, estado "
            + "FROM reserva "
            + "WHERE (substr(fecha_inicio, 7, 4) || '-' || substr(fecha_inicio, 4, 2) || '-' || substr(fecha_inicio, 1, 2)) "
@@ -220,7 +221,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             "Error al generar informe de reservas: " + ex.getMessage());
     }
 }
- private void generarInformeClientes(String FechaInicioInformes, String FechaFinInformes) {
+    private void generarInformeClientes(String FechaInicioInformes, String FechaFinInformes) {
     String sql = "SELECT c.id_cliente, c.nombre, c.apellidos, c.DNI, c.telefono, c.email, c.comentarios " +
              "FROM cliente c " +
              "JOIN reserva r ON c.id_cliente = r.id_cliente " +
@@ -258,7 +259,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     }
 }
 
-  private void generarInformeFacturas(String FechaInicioInformes, String FechaFinInformes) {
+    private void generarInformeFacturas(String FechaInicioInformes, String FechaFinInformes) {
     String sql = "SELECT f.id_factura, f.id_reserva, f.fecha_emision, f.importe_total, r.estado " +
          "FROM Factura f " +
          "INNER JOIN reserva r ON f.id_reserva = r.id_reserva " +
@@ -349,7 +350,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
 
         BotonGenerarInforme.setBackground(new java.awt.Color(239, 252, 239));
         BotonGenerarInforme.setForeground(new java.awt.Color(51, 102, 0));
-        BotonGenerarInforme.setText("Buscar");
+        BotonGenerarInforme.setText("Buscar /Actualizar");
         BotonGenerarInforme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonGenerarInformeActionPerformed(evt);
@@ -387,7 +388,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(ComboBoxInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelFechaInicioInformes)
                 .addGap(18, 18, 18)
                 .addComponent(FechaInicioInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -489,6 +490,7 @@ private void generarResumenPeriodo(String inicioSQL, String finSQL) {
     }//GEN-LAST:event_FechaFinalInformesActionPerformed
 
     private void BotonGenerarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGenerarInformeActionPerformed
+            generarResumenAnual();
             String tipo = ComboBoxInformes.getSelectedItem().toString();
             String fechaInicio = FechaInicioInformes.getText().trim();
             String fechaFin = FechaFinalInformes.getText().trim();

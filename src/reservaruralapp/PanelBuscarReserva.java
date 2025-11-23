@@ -14,7 +14,7 @@ import util.DBConnection;
 public class PanelBuscarReserva extends javax.swing.JPanel {
 
    
-   public PanelBuscarReserva() {
+    public PanelBuscarReserva() {
     initComponents();
     
     tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
@@ -39,7 +39,7 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
     }
 }
 
-private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQLException {
+    private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQLException {
     String sql = "SELECT id_casa FROM reserva WHERE id_reserva = ?";
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, idReserva);
@@ -322,7 +322,7 @@ private int obtenerIdCasaDesdeReserva(int idReserva, Connection conn) throws SQL
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         try (Connection conn = DBConnection.getConnection()) {
-            for (int i = 1; i < modelo.getRowCount(); i++) {
+            for (int i = 0; i < modelo.getRowCount(); i++) {
                 int idReserva = (int) modelo.getValueAt(i, 1);
                 int idCliente = obtenerIdClienteDesdeReserva(idReserva, conn);
                 int idCasa = obtenerIdCasaDesdeReserva(idReserva, conn);
