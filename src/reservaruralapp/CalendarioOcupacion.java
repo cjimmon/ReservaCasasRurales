@@ -32,18 +32,17 @@ public class CalendarioOcupacion extends javax.swing.JPanel {
 
         modeloTabla = (DefaultTableModel) jTable1.getModel();
         jTable1.setRowHeight(50);
-
-        // Permitir botones en JTable
+        
         jTable1.setDefaultRenderer(Object.class, new JTableButtonRenderer());
 
         actualizarMesAnio();
         actualizarCalendario();
     }
-private void actualizarMesAnio() {
+    private void actualizarMesAnio() {
         jTextPane1.setText(java.time.Month.of(mesActual)
                 .getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + anioActual);
     }
-  private void cambiarMes(int incremento) {
+    private void cambiarMes(int incremento) {
         mesActual += incremento;
         if (mesActual < 1) {
             mesActual = 12;
@@ -56,7 +55,7 @@ private void actualizarMesAnio() {
         actualizarMesAnio();
         actualizarCalendario();
     }
- private void cargarCasas() {
+    private void cargarCasas() {
         jComboBox1.removeAllItems();
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement("SELECT nombre FROM casa ORDER BY nombre");
@@ -70,80 +69,80 @@ private void actualizarMesAnio() {
 
         jComboBox1.addActionListener(e -> actualizarCalendario());
     }
-private void actualizarCalendario() {
-    String casa = (String) jComboBox1.getSelectedItem();
-    if (casa == null) return;
+    private void actualizarCalendario() {
+        String casa = (String) jComboBox1.getSelectedItem();
+        if (casa == null) return;
 
-    LocalDate primero = LocalDate.of(anioActual, mesActual, 1);
-    int diaSemana = primero.getDayOfWeek().getValue(); // lunes=1
-    int numDias = primero.lengthOfMonth();
+        LocalDate primero = LocalDate.of(anioActual, mesActual, 1);
+        int diaSemana = primero.getDayOfWeek().getValue(); 
+        int numDias = primero.lengthOfMonth();
 
-    // --- Redimensionar filas según el mes ---
-    int filasNecesarias = (int) Math.ceil((numDias + diaSemana - 1) / 7.0);
-    if (modeloTabla.getRowCount() < filasNecesarias) {
-        modeloTabla.setRowCount(filasNecesarias);
-    }
+        // --- Redimensionar filas según el mes ---
+        int filasNecesarias = (int) Math.ceil((numDias + diaSemana - 1) / 7.0);
+        if (modeloTabla.getRowCount() < filasNecesarias) {
+            modeloTabla.setRowCount(filasNecesarias);
+        }
 
-    // Limpiar tabla
-    for (int i = 0; i < modeloTabla.getRowCount(); i++)
-        for (int j = 0; j < modeloTabla.getColumnCount(); j++)
-            modeloTabla.setValueAt(null, i, j);
+        // Limpiar tabla
+        for (int i = 0; i < modeloTabla.getRowCount(); i++)
+            for (int j = 0; j < modeloTabla.getColumnCount(); j++)
+                modeloTabla.setValueAt(null, i, j);
 
-    // Obtener días ocupados de la BBDD
-    List<Integer> diasOcupados = new ArrayList<>();
+        // Obtener días ocupados de la BBDD
+        List<Integer> diasOcupados = new ArrayList<>();
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(
-                 "SELECT fecha_inicio, fecha_fin FROM reserva r JOIN casa c ON r.id_casa=c.id_casa " +
-                 "WHERE c.nombre=?")) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     "SELECT fecha_inicio, fecha_fin FROM reserva r JOIN casa c ON r.id_casa=c.id_casa " +
+                     "WHERE c.nombre=?")) {
 
-        ps.setString(1, casa);
-        ResultSet rs = ps.executeQuery();
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            ps.setString(1, casa);
+            ResultSet rs = ps.executeQuery();
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        while (rs.next()) {
-            LocalDate inicio = LocalDate.parse(rs.getString("fecha_inicio"), df);
-            LocalDate fin = LocalDate.parse(rs.getString("fecha_fin"), df);
+            while (rs.next()) {
+                LocalDate inicio = LocalDate.parse(rs.getString("fecha_inicio"), df);
+                LocalDate fin = LocalDate.parse(rs.getString("fecha_fin"), df);
 
-            // Día final realmente ocupado (excluye día de salida)
-            LocalDate ultimoDiaOcupado = fin.minusDays(1);
+         // Día final realmente ocupado (excluye día de salida)
+                LocalDate ultimoDiaOcupado = fin.minusDays(1);
 
-            LocalDate temp = inicio;
-            while (!temp.isAfter(ultimoDiaOcupado)) {
-                if (temp.getMonthValue() == mesActual) {
-                    diasOcupados.add(temp.getDayOfMonth());
+                LocalDate temp = inicio;
+                while (!temp.isAfter(ultimoDiaOcupado)) {
+                    if (temp.getMonthValue() == mesActual) {
+                        diasOcupados.add(temp.getDayOfMonth());
+                    }
+                    temp = temp.plusDays(1);
                 }
-                temp = temp.plusDays(1);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
+        }
+
+        // Rellenar tabla con botones
+        int col = diaSemana - 1;
+        int fila = 0;
+
+        for (int dia = 1; dia <= numDias; dia++) {
+            JButton botonDia = new JButton(String.valueOf(dia));
+            botonDia.setOpaque(true);
+            botonDia.setBorderPainted(false);
+
+            if (diasOcupados.contains(dia)) {
+                botonDia.setBackground(java.awt.Color.RED);
+            } else {
+                botonDia.setBackground(java.awt.Color.GREEN);
+            }
+
+            modeloTabla.setValueAt(botonDia, fila, col);
+            col++;
+            if (col == 7) {
+                col = 0;
+                fila++;
             }
         }
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
     }
-
-    // Rellenar tabla con botones
-    int col = diaSemana - 1;
-    int fila = 0;
-
-    for (int dia = 1; dia <= numDias; dia++) {
-        JButton botonDia = new JButton(String.valueOf(dia));
-        botonDia.setOpaque(true);
-        botonDia.setBorderPainted(false);
-
-        if (diasOcupados.contains(dia)) {
-            botonDia.setBackground(java.awt.Color.RED);
-        } else {
-            botonDia.setBackground(java.awt.Color.GREEN);
-        }
-
-        modeloTabla.setValueAt(botonDia, fila, col);
-        col++;
-        if (col == 7) {
-            col = 0;
-            fila++;
-        }
-    }
-}
 
 
 

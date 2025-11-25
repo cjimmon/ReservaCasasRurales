@@ -7,10 +7,7 @@ import javax.swing.*;
 import javax.swing.SpinnerDateModel;
 
 
-/**
- *
- * @author jimen
- */
+
 public class PanelNuevaReserva extends javax.swing.JPanel {
 
     public PanelNuevaReserva() {
@@ -30,7 +27,7 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
         jSpinnerFechaFin.setEditor(new JSpinner.DateEditor(jSpinnerFechaFin, "dd/MM/yyyy"));
         jSpinnerFechaFin.setValue(new java.util.Date()); // fecha actual por defecto
     }
-   private int obtenerIdCasa(String nombreCasa) {
+    private int obtenerIdCasa(String nombreCasa) {
     String sql = "SELECT id_casa FROM casa WHERE nombre = ?";
     Connection conn = null;
     PreparedStatement ps = null;
@@ -55,9 +52,9 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
     return idCasa;
 }
 
-/**
- * Comprueba si una casa está disponible entre dos fechas.
- */
+
+//Comprueba si una casa está disponible entre dos fechas.
+
 private boolean estaDisponible(int idCasa, String fechaInicio, String fechaFin) {
     String sql = "SELECT COUNT(*) FROM reserva " +
                  "WHERE id_casa = ? AND estado IN ('CONFIRMADA','PENDIENTE') " +
@@ -88,9 +85,9 @@ private boolean estaDisponible(int idCasa, String fechaInicio, String fechaFin) 
     return false;
 }
 
-/**
- * Carga los nombres de todas las casas en el JComboBox.
- */
+
+//Carga los nombres de todas las casas en el JComboBox.
+
 private void cargarCasasEnComboBox() {
     DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
     String sql = "SELECT nombre FROM casa";
@@ -312,14 +309,14 @@ private void cargarCasasEnComboBox() {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(numeroPersonasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(158, 158, 158))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(DNIReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(comentarioReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -378,7 +375,7 @@ private void cargarCasasEnComboBox() {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(LabelOpciones, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         PanelOpcionesLayout.setVerticalGroup(
             PanelOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,7 +396,7 @@ private void cargarCasasEnComboBox() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(PanelOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(511, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -409,7 +406,7 @@ private void cargarCasasEnComboBox() {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 6, -1, -1));
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 6, 1530, 870));
     }// </editor-fold>//GEN-END:initComponents
 
     private void estadoReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadoReservaActionPerformed

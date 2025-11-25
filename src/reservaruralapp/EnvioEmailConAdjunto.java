@@ -12,7 +12,6 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.mail.util.ByteArrayDataSource;
 import javax.swing.JOptionPane;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -25,9 +24,8 @@ public class EnvioEmailConAdjunto {
         return (pageWidth - (font.getStringWidth(text) / 1000 * fontSize)) / 2;
     }
 
-    /**
-     * Obtiene el email del cliente a partir del id de la factura
-     */
+    //Obtiene el email del cliente a partir del id de la factura
+    
     public String obtenerEmailClientePorFactura(int idFactura) {
         String email = null;
         String sql = "SELECT c.email FROM cliente c " +
@@ -45,9 +43,9 @@ public class EnvioEmailConAdjunto {
         return email;
     }
 
-    /**
-     * Genera PDF en memoria siguiendo el estilo de GenerarFactura (con colores, márgenes y espaciado)
-     */
+    
+    //Genera PDF en memoria siguiendo el estilo de GenerarFactura (con colores, márgenes y espaciado)
+     
     public byte[] generarFacturaEnMemoria(int idFactura) {
         try {
             InputStream plantillaStream = GenerarFactura.class.getResourceAsStream("plantilla.pdf");
@@ -178,9 +176,9 @@ public class EnvioEmailConAdjunto {
         return null;
     }
 
-    /**
-     * Envía PDF por email
-     */
+    
+    //Envía PDF por email
+    
     public void enviarFacturaPorEmail(String emailCliente, byte[] pdfBytes, String nombreArchivo) {
         if (emailCliente == null || emailCliente.isBlank()) {
             JOptionPane.showMessageDialog(null, "No se pudo obtener el email del cliente.");

@@ -54,10 +54,10 @@ public class PantallaInicio extends JWindow {
         setAlwaysOnTop(true);
     }
 
-    /**
-     * Muestra el splash y lanza tareas en segundo plano.
-     * Al finalizar abre LoginForm.
-     */
+    
+    //Muestra el splash y lanza tareas en segundo plano.
+    //Al finalizar abre LoginForm.
+    
     public void showSplashAndInit() {
         setVisible(true);
 

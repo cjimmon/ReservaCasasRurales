@@ -310,7 +310,6 @@ public class PanelInformes extends javax.swing.JPanel {
         LabelFechaFinInformes = new javax.swing.JLabel();
         ID = new javax.swing.JTextField();
         BotonPDF = new javax.swing.JButton();
-        btnEnviarEmail = new javax.swing.JButton();
         SeparadorInformes = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -318,6 +317,9 @@ public class PanelInformes extends javax.swing.JPanel {
         AreaInformacion = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         AreaInformacion2 = new javax.swing.JTextArea();
+        btnEnviarEmail = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -328,7 +330,7 @@ public class PanelInformes extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        ComboBoxInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reserva", "Factura", "Cliente" }));
+        ComboBoxInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Reserva", "Factura", "Cliente", "Huespedes" }));
         ComboBoxInformes.setToolTipText("Selecciona el tipo de informe");
         ComboBoxInformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -372,15 +374,6 @@ public class PanelInformes extends javax.swing.JPanel {
             }
         });
 
-        btnEnviarEmail.setBackground(new java.awt.Color(241, 253, 241));
-        btnEnviarEmail.setForeground(new java.awt.Color(51, 102, 0));
-        btnEnviarEmail.setText("Enviar EMAIL");
-        btnEnviarEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviarEmailActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -401,16 +394,13 @@ public class PanelInformes extends javax.swing.JPanel {
                 .addGap(107, 107, 107)
                 .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEnviarEmail)
-                    .addComponent(BotonPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(BotonPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addComponent(btnEnviarEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ComboBoxInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FechaInicioInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -439,42 +429,79 @@ public class PanelInformes extends javax.swing.JPanel {
         AreaInformacion2.setRows(5);
         jScrollPane3.setViewportView(AreaInformacion2);
 
+        btnEnviarEmail.setBackground(new java.awt.Color(241, 253, 241));
+        btnEnviarEmail.setForeground(new java.awt.Color(51, 102, 0));
+        btnEnviarEmail.setText("Enviar EMAIL");
+        btnEnviarEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarEmailActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("TOTALES POR AÑO VIGENTE");
+
+        jLabel2.setText("TOTALES POR PERIODO SELECCIONADO");
+
         javax.swing.GroupLayout PanelInformesLayout = new javax.swing.GroupLayout(PanelInformes);
         PanelInformes.setLayout(PanelInformesLayout);
         PanelInformesLayout.setHorizontalGroup(
             PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInformesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LabelInformes)
+                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelInformesLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
-                    .addComponent(SeparadorInformes))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(btnEnviarEmail))
+                    .addComponent(LabelInformes)
+                    .addComponent(SeparadorInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 1688, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelInformesLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelInformesLayout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(PanelInformesLayout.createSequentialGroup()
+                                .addGap(149, 149, 149)
+                                .addComponent(jLabel1)))))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         PanelInformesLayout.setVerticalGroup(
             PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInformesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(LabelInformes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SeparadorInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addGap(16, 16, 16))
+                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelInformesLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SeparadorInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelInformesLayout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(btnEnviarEmail)))
+                .addGroup(PanelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelInformesLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(42, Short.MAX_VALUE))
+                    .addGroup(PanelInformesLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(148, 148, 148))))
         );
 
-        add(PanelInformes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1130, 710));
+        add(PanelInformes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 1710, 880));
     }// </editor-fold>//GEN-END:initComponents
 
     private void ComboBoxInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxInformesActionPerformed
@@ -622,6 +649,8 @@ public class PanelInformes extends javax.swing.JPanel {
     private javax.swing.JPanel PanelInformes;
     private javax.swing.JSeparator SeparadorInformes;
     private javax.swing.JButton btnEnviarEmail;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

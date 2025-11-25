@@ -216,7 +216,7 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                     .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(botonVerReservas)))
-                .addGap(0, 212, Short.MAX_VALUE))
+                .addGap(0, 712, Short.MAX_VALUE))
             .addGroup(PanelBuscarReservaLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(PanelBuscarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,11 +245,11 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(SeparadorBuscarReseva, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addComponent(scrollTablaReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
-        add(PanelBuscarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        add(PanelBuscarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 870));
     }// </editor-fold>//GEN-END:initComponents
 
     private void campoBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoBusquedaActionPerformed
