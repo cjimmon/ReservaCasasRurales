@@ -44,7 +44,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="btnEnviarEmail" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnEnviarEmail" min="-2" pref="190" max="-2" attributes="0"/>
                       </Group>
                       <Component id="LabelInformes" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="SeparadorInformes" min="-2" pref="1688" max="-2" attributes="0"/>
@@ -143,7 +143,7 @@
                       <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                       <Component id="ID" min="-2" pref="99" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="BotonPDF" min="-2" pref="104" max="-2" attributes="0"/>
+                      <Component id="BotonPDF" min="-2" pref="127" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -305,7 +305,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="66" red="33" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Enviar EMAIL"/>
+            <Property name="text" type="java.lang.String" value="Enviar factura al Cliente"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarEmailActionPerformed"/>

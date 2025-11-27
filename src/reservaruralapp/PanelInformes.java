@@ -294,7 +294,46 @@ public class PanelInformes extends javax.swing.JPanel {
     }
 }
 
-   
+    private void generarInformeHuespedes(String FechaInicioInformes, String FechaFinInformes) {
+     String sql = "SELECT id_huesped, id_reserva, nombre_completo, tipo_documento, numero_documento, sexo, " +
+                 "fecha_nacimiento, nacionalidad, domicilio, fecha_entrada, fecha_salida " +
+                 "FROM Huespedes " +
+                 "WHERE (substr(fecha_entrada, 7, 4) || '-' || substr(fecha_entrada, 4, 2) || '-' || substr(fecha_entrada, 1, 2)) " +
+                 "BETWEEN ? AND ? " +
+                 "ORDER BY fecha_entrada";
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, convertirFechaISO(FechaInicioInformes));
+        ps.setString(2, convertirFechaISO(FechaFinInformes));
+
+        ResultSet rs = ps.executeQuery();
+
+        jTextArea1.append("=== INFORME DE HUESPEDES EN EL PERIODO ===\n\n");
+
+        while (rs.next()) {
+            jTextArea1.append(
+               
+                "ID Reserva: " + rs.getInt("id_reserva") + "\n" +
+                "Nombre Completo: " + rs.getString("nombre_completo") + "\n" +
+                "Tipo Documento: " + rs.getString("tipo_documento") + "\n" +
+                "Número Documento: " + rs.getString("numero_documento") + "\n" +
+                "Sexo: " + rs.getString("sexo") + "\n" +
+                "Fecha Nacimiento: " + rs.getString("fecha_nacimiento") + "\n" +
+                "Nacionalidad: " + rs.getString("nacionalidad") + "\n" +
+                "Domicilio: " + rs.getString("domicilio") + "\n" +
+                "Fecha Entrada: " + rs.getString("fecha_entrada") + "\n" +
+                "Fecha Salida: " + rs.getString("fecha_salida") + "\n" +
+                "----------------------------------------\n"
+            );
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al generar informe de huespedes: " + ex.getMessage());
+    }
+}
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -394,7 +433,7 @@ public class PanelInformes extends javax.swing.JPanel {
                 .addGap(107, 107, 107)
                 .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BotonPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BotonPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -431,7 +470,7 @@ public class PanelInformes extends javax.swing.JPanel {
 
         btnEnviarEmail.setBackground(new java.awt.Color(241, 253, 241));
         btnEnviarEmail.setForeground(new java.awt.Color(51, 102, 0));
-        btnEnviarEmail.setText("Enviar EMAIL");
+        btnEnviarEmail.setText("Enviar factura al Cliente");
         btnEnviarEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarEmailActionPerformed(evt);
@@ -452,7 +491,7 @@ public class PanelInformes extends javax.swing.JPanel {
                     .addGroup(PanelInformesLayout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
-                        .addComponent(btnEnviarEmail))
+                        .addComponent(btnEnviarEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(LabelInformes)
                     .addComponent(SeparadorInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 1688, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PanelInformesLayout.createSequentialGroup()
@@ -553,6 +592,9 @@ public class PanelInformes extends javax.swing.JPanel {
                case "Factura":
                    generarInformeFacturas(fechaInicio, fechaFin);
                    break;
+               case "Huespedes":
+                   generarInformeHuespedes(fechaInicio, fechaFin);
+                   break;
                default:
                    JOptionPane.showMessageDialog(this, "Tipo de informe desconocido.");
            }
@@ -605,6 +647,20 @@ public class PanelInformes extends javax.swing.JPanel {
                 convertirFechaISO(fechaFinReserva)
             );
             break;
+            
+        case "Huespedes":
+            String fechaInicioHuesped = FechaInicioInformes.getText().trim();
+            String fechaFinHuesped = FechaFinalInformes.getText().trim();
+            if (fechaInicioHuesped.isEmpty() || fechaFinHuesped.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debes introducir fecha inicio y fecha fin.");
+                return;
+            }
+            new GenerarListadoHuespedes().generarPDFHuespedes(
+                convertirFechaISO(fechaInicioHuesped),
+                convertirFechaISO(fechaFinHuesped)
+            );
+            break;
+            
     }
     }//GEN-LAST:event_BotonPDFActionPerformed
 
