@@ -44,13 +44,12 @@ public class GenerarFactura {
                 if (resp != JOptionPane.YES_OPTION) return;
             }
 
-            InputStream plantillaStream = GenerarFactura.class.getResourceAsStream("plantilla.pdf");
-                if (plantillaStream == null) {
-                    System.err.println("No se encontró la plantilla");
-                } else {
-                    System.out.println("Plantilla encontrada correctamente");
-                }
-
+            InputStream plantillaStream = GenerarFactura.class.getResourceAsStream("/plantilla/plantilla.pdf");
+            if (plantillaStream == null) {
+                System.err.println("No se encontró la plantilla");
+            } else {
+                System.out.println("Plantilla encontrada correctamente");
+            }
 
             PDDocument doc = PDDocument.load(plantillaStream);
             PDPage page = doc.getPage(0);

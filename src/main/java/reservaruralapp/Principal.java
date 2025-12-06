@@ -101,7 +101,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        logo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo2.png"))); // NOI18N
+        logo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logo2.png"))); // NOI18N
 
         botonBuscarReserva.setBackground(new java.awt.Color(233, 250, 233));
         botonBuscarReserva.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

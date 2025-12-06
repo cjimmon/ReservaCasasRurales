@@ -47,12 +47,12 @@ public class EnvioEmailConAdjunto {
     //Genera PDF en memoria siguiendo el estilo de GenerarFactura (con colores, márgenes y espaciado)
      
     public byte[] generarFacturaEnMemoria(int idFactura) {
-        try {
-            InputStream plantillaStream = GenerarFactura.class.getResourceAsStream("plantilla.pdf");
-            if (plantillaStream == null) {
-                JOptionPane.showMessageDialog(null, "No se encontró la plantilla PDF");
-                return null;
-            }
+    try {
+        InputStream plantillaStream = GenerarFactura.class.getResourceAsStream("/plantilla/plantilla.pdf");
+        if (plantillaStream == null) {
+            JOptionPane.showMessageDialog(null, "No se encontró la plantilla PDF");
+            return null;
+        }
 
             PDDocument doc = PDDocument.load(plantillaStream);
             PDPage page = doc.getPage(0);
