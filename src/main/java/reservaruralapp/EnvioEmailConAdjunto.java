@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -180,53 +181,76 @@ public class EnvioEmailConAdjunto {
     //Envía PDF por email
     
     public void enviarFacturaPorEmail(String emailCliente, byte[] pdfBytes, String nombreArchivo) {
-        if (emailCliente == null || emailCliente.isBlank()) {
-            JOptionPane.showMessageDialog(null, "No se pudo obtener el email del cliente.");
+         if (emailCliente == null || emailCliente.isBlank()) {
+        JOptionPane.showMessageDialog(null, "No se pudo obtener el email del cliente.");
+        return;
+    }
+
+    // Variables para SMTP
+    String remitente = "";
+    String passwordApp = "";
+
+    // Cargar datos SMTP desde la base de datos
+    try (Connection conn = DBConnection.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT correoRemitente, passwordApp FROM OpcionesEmail LIMIT 1")) {
+
+        if (rs.next()) {
+            remitente = rs.getString("correoRemitente");
+            passwordApp = rs.getString("passwordApp");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontraron datos SMTP en la base de datos.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        String remitente = "carlosjimenezmontalvo@gmail.com";
-        String passwordApp = "safh kvnr ftie qewj";
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al cargar SMTP: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+    // Configuración del servidor SMTP
+    Properties props = new Properties();
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.smtp.host", "smtp.gmail.com");
+    props.put("mail.smtp.port", "587");
+
+    final String remitenteFinal = remitente;
+        final String passwordAppFinal = passwordApp;
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(remitente, passwordApp);
+                return new PasswordAuthentication(remitenteFinal, passwordAppFinal);
             }
         });
 
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(remitente));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailCliente));
-            message.setSubject("Factura");
+    try {
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(remitente));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailCliente));
+        message.setSubject("Factura");
 
-            MimeBodyPart texto = new MimeBodyPart();
-            texto.setText("Adjunto encontrará su factura.");
+        MimeBodyPart texto = new MimeBodyPart();
+        texto.setText("Adjunto encontrará su factura.");
 
-            MimeBodyPart adjunto = new MimeBodyPart();
-            adjunto.setFileName(nombreArchivo);
-            DataSource dataSource = new ByteArrayDataSource(pdfBytes, "application/pdf");
-            adjunto.setDataHandler(new DataHandler(dataSource));
+        MimeBodyPart adjunto = new MimeBodyPart();
+        adjunto.setFileName(nombreArchivo);
+        DataSource dataSource = new ByteArrayDataSource(pdfBytes, "application/pdf");
+        adjunto.setDataHandler(new DataHandler(dataSource));
 
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(texto);
-            multipart.addBodyPart(adjunto);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(texto);
+        multipart.addBodyPart(adjunto);
 
-            message.setContent(multipart);
-            Transport.send(message);
+        message.setContent(multipart);
+        Transport.send(message);
 
-            JOptionPane.showMessageDialog(null, "Factura enviada correctamente a " + emailCliente);
+        JOptionPane.showMessageDialog(null, "Factura enviada correctamente a " + emailCliente);
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al enviar email: " + e.getMessage());
-            e.printStackTrace();
-        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al enviar email: " + e.getMessage());
+        e.printStackTrace();
     }
+}
 }

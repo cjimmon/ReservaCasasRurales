@@ -47,6 +47,7 @@ reservaruralapp\GenerarListadoClientes.class
 reservaruralapp\PanelBuscarReserva.class
 reservaruralapp\GenerarListadoReservas.class
 reservaruralapp\PanelInformes$5.class
+reservaruralapp\PanelOpciones$10.class
 reservaruralapp\Principal$6.class
 reservaruralapp\EnvioEmailConAdjunto.class
 reservaruralapp\PanelClientes$5.class
@@ -65,6 +66,7 @@ reservaruralapp\GenerarListadoHuespedes.class
 reservaruralapp\PanelOpciones$2.class
 reservaruralapp\PanelInformes$4.class
 reservaruralapp\PanelHuespedes$5.class
+reservaruralapp\PanelOpciones$9.class
 reservaruralapp\PanelCasas$3.class
 reservaruralapp\PanelClientes$6.class
 reservaruralapp\ControlAcceso.class
