@@ -25,8 +25,6 @@ public class EnvioEmailConAdjunto {
         return (pageWidth - (font.getStringWidth(text) / 1000 * fontSize)) / 2;
     }
 
-    //Obtiene el email del cliente a partir del id de la factura
-    
     public String obtenerEmailClientePorFactura(int idFactura) {
         String email = null;
         String sql = "SELECT c.email FROM cliente c " +
@@ -44,9 +42,6 @@ public class EnvioEmailConAdjunto {
         return email;
     }
 
-    
-    //Genera PDF en memoria siguiendo el estilo de GenerarFactura (con colores, márgenes y espaciado)
-     
     public byte[] generarFacturaEnMemoria(int idFactura) {
     try {
         InputStream plantillaStream = GenerarFactura.class.getResourceAsStream("/plantilla/plantilla.pdf");
@@ -97,10 +92,10 @@ public class EnvioEmailConAdjunto {
 
                 PDPageContentStream cs = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true);
 
-                // Encabezado centrado
+              
                 cs.beginText();
                 cs.setFont(fontBold, fontSize + 2);
-                cs.setNonStrokingColor(0, 0, 0); // negro
+                cs.setNonStrokingColor(0, 0, 0); 
                 cs.newLineAtOffset(getXCenter("FACTURA Nº " + idFact, fontBold, pageWidth, fontSize + 2), y);
                 cs.showText("FACTURA Nº " + idFact);
                 cs.endText();
@@ -108,7 +103,6 @@ public class EnvioEmailConAdjunto {
                 y -= 25;
                 y -= 40;
 
-                // Datos del cliente
                 cs.beginText();
                 cs.setFont(fontBold, fontSize);
                 cs.newLineAtOffset(marginLeft, y);
@@ -130,7 +124,6 @@ public class EnvioEmailConAdjunto {
 
                 y -= 60;
 
-                // Datos de la reserva
                 cs.beginText();
                 cs.setFont(fontBold, fontSize);
                 cs.newLineAtOffset(marginLeft, y);
@@ -151,7 +144,6 @@ public class EnvioEmailConAdjunto {
                             + " | Personas: " + numPersonas + " | Estado: " + estado);
                 cs.endText();
 
-                // Total
                 float yTotal = 50;
                 String textTotal = "TOTAL: " + String.format("%.2f €", total);
                 float textWidth = fontBold.getStringWidth(textTotal) / 1000 * fontSize;
@@ -177,20 +169,15 @@ public class EnvioEmailConAdjunto {
         return null;
     }
 
-    
-    //Envía PDF por email
-    
     public void enviarFacturaPorEmail(String emailCliente, byte[] pdfBytes, String nombreArchivo) {
          if (emailCliente == null || emailCliente.isBlank()) {
         JOptionPane.showMessageDialog(null, "No se pudo obtener el email del cliente.");
         return;
     }
 
-    // Variables para SMTP
     String remitente = "";
     String passwordApp = "";
 
-    // Cargar datos SMTP desde la base de datos
     try (Connection conn = DBConnection.getConnection();
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery("SELECT correoRemitente, passwordApp FROM OpcionesEmail LIMIT 1")) {
@@ -208,7 +195,6 @@ public class EnvioEmailConAdjunto {
         return;
     }
 
-    // Configuración del servidor SMTP
     Properties props = new Properties();
     props.put("mail.smtp.auth", "true");
     props.put("mail.smtp.starttls.enable", "true");

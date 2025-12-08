@@ -15,7 +15,7 @@ public class PanelCasas extends javax.swing.JPanel {
 }
     public void cargarCasas() {
         DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
-        modelo.setRowCount(0); // Limpiar tabla
+        modelo.setRowCount(0); 
 
         String sql = "SELECT * FROM casa";
 
@@ -239,7 +239,7 @@ public class PanelCasas extends javax.swing.JPanel {
     }
 
     DefaultTableModel modelo = (DefaultTableModel) TableCasas.getModel();
-    modelo.setRowCount(0); // Limpiar la tabla antes de mostrar resultados
+    modelo.setRowCount(0); 
 
     String sql = "SELECT * FROM casa WHERE "
                + "nombre LIKE ? OR "
@@ -250,8 +250,7 @@ public class PanelCasas extends javax.swing.JPanel {
 
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
-
-        // Añadimos el comodín %texto%
+ 
         for (int i = 1; i <= 5; i++) {
             ps.setString(i, "%" + InputUtils.normalizarMayusculas(textoBusqueda) + "%");
 
@@ -301,7 +300,6 @@ public class PanelCasas extends javax.swing.JPanel {
             String descripcion = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 5).toString());
 
             if (id == 0) {
-                // Insertar nueva casa
                 String sql = "INSERT INTO casa(nombre, ubicacion, capacidad, precio_noche, descripcion) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, nombre);
@@ -312,7 +310,6 @@ public class PanelCasas extends javax.swing.JPanel {
                     ps.executeUpdate();
                 }
             } else {
-                // Actualizar casa existente
                 String sql = "UPDATE casa SET nombre=?, ubicacion=?, capacidad=?, precio_noche=?, descripcion=? WHERE id_casa=?";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, nombre);

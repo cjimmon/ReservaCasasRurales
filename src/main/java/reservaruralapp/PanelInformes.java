@@ -21,7 +21,7 @@ public class PanelInformes extends javax.swing.JPanel {
     private void generarResumenAnual() {
     try (Connection conn = DBConnection.getConnection()) {
 
-        // Año vigente
+   
         java.time.Year yearActual = java.time.Year.now();
         String inicioAnio = yearActual + "-01-01";
         String finAnio = yearActual + "-12-31";
@@ -606,13 +606,13 @@ public class PanelInformes extends javax.swing.JPanel {
     switch (tipo) {
         case "Factura":
             try {
-                String idFacturaStr = ID.getText().trim(); // Campo donde introduces el nº de factura
+                String idFacturaStr = ID.getText().trim(); 
                 if (idFacturaStr.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Introduce un ID de factura.");
                     return;
                 }
                 int idFactura = Integer.parseInt(idFacturaStr);
-                GenerarFactura.generarFacturaConDialogo(idFactura); // Solo usa el número de factura
+                GenerarFactura.generarFacturaConDialogo(idFactura); 
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Introduce un ID de factura válido.");
             } catch (Exception e) {
@@ -621,7 +621,7 @@ public class PanelInformes extends javax.swing.JPanel {
             break;
 
         case "Cliente":
-            // Para clientes sí necesitamos fechas
+            
             String fechaInicioCliente = FechaInicioInformes.getText().trim();
             String fechaFinCliente = FechaFinalInformes.getText().trim();
             if (fechaInicioCliente.isEmpty() || fechaFinCliente.isEmpty()) {
@@ -635,7 +635,7 @@ public class PanelInformes extends javax.swing.JPanel {
             break;
 
         case "Reserva":
-            // Para reservas también necesitamos fechas
+           
             String fechaInicioReserva = FechaInicioInformes.getText().trim();
             String fechaFinReserva = FechaFinalInformes.getText().trim();
             if (fechaInicioReserva.isEmpty() || fechaFinReserva.isEmpty()) {
@@ -667,14 +667,11 @@ public class PanelInformes extends javax.swing.JPanel {
     private void btnEnviarEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarEmailActionPerformed
            try {
         int idFactura = Integer.parseInt(ID.getText().trim());
-
-        // Creamos objeto de envío
+       
         EnvioEmailConAdjunto envio = new EnvioEmailConAdjunto();
-
-        // Generamos PDF en memoria
+      
         byte[] pdfBytes = envio.generarFacturaEnMemoria(idFactura);
-
-        // Obtenemos email del cliente
+       
         String emailCliente = envio.obtenerEmailClientePorFactura(idFactura);
 
         if (emailCliente != null && pdfBytes != null) {

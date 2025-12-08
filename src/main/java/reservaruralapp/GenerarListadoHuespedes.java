@@ -19,7 +19,6 @@ public class GenerarListadoHuespedes {
     public static void generarPDFHuespedes(String inicioSQL, String finSQL) {
         try (Connection con = DBConnection.getConnection()) {
 
-            // Elegir ruta donde guardar
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle("Guardar listado de huéspedes...");
             chooser.setSelectedFile(new File("Listado_Huespedes_" + inicioSQL + "_a_" + finSQL + ".pdf"));
@@ -31,7 +30,6 @@ public class GenerarListadoHuespedes {
             if (!rutaFinal.toLowerCase().endsWith(".pdf"))
                 rutaFinal += ".pdf";
 
-            // Consulta SQL
             String sql = "SELECT id_huesped, id_reserva, nombre_completo, tipo_documento, numero_documento, sexo, " +
                          "fecha_nacimiento, nacionalidad, domicilio, fecha_entrada, fecha_salida " +
                          "FROM Huespedes " +
@@ -45,7 +43,6 @@ public class GenerarListadoHuespedes {
 
             ResultSet rs = ps.executeQuery();
 
-            // Crear PDF
             PDDocument pdf = new PDDocument();
             PDPage page = new PDPage();
             pdf.addPage(page);
@@ -77,7 +74,7 @@ public class GenerarListadoHuespedes {
 
                 for (String[] campo : campos) {
                     cs.beginText();
-                    cs.setFont(PDType1Font.HELVETICA, 10); // etiqueta normal
+                    cs.setFont(PDType1Font.HELVETICA, 10); 
                     cs.newLineAtOffset(40, y);
                     cs.showText(campo[0]);
                     cs.endText();
@@ -85,14 +82,14 @@ public class GenerarListadoHuespedes {
                     float offsetX = 40 + PDType1Font.HELVETICA.getStringWidth(campo[0]) / 1000 * 10;
 
                     cs.beginText();
-                    cs.setFont(PDType1Font.HELVETICA_BOLD, 10); // valor en negrita
+                    cs.setFont(PDType1Font.HELVETICA_BOLD, 10); 
                     cs.newLineAtOffset(offsetX, y);
                     cs.showText(campo[1]);
                     cs.endText();
 
                     y -= 15;
 
-                    if (y < 50) { // Nueva página si se acaba el espacio
+                    if (y < 50) { 
                         cs.close();
                         page = new PDPage();
                         pdf.addPage(page);
@@ -101,9 +98,8 @@ public class GenerarListadoHuespedes {
                     }
                 }
 
-                y -= 10; // Espacio extra entre huéspedes
+                y -= 10; 
             }
-
 
             cs.close();
             pdf.save(rutaFinal);

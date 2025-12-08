@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package reservaruralapp;
 
 import util.DBConnection;
@@ -89,7 +86,7 @@ private void cargarClientes() {
             }
         });
 
-        BotonVerDetalles.setBackground(new java.awt.Color(241, 250, 241));
+        BotonVerDetalles.setBackground(new java.awt.Color(237, 252, 237));
         BotonVerDetalles.setForeground(new java.awt.Color(51, 102, 0));
         BotonVerDetalles.setText("Ver Clientes");
         BotonVerDetalles.addActionListener(new java.awt.event.ActionListener() {
@@ -236,10 +233,10 @@ private void cargarClientes() {
 
     private void BotonNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevoClienteActionPerformed
      DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel();
-    // Agrega una fila vacía con todos los valores null (ID se asignará al guardar)
+   
     modelo.addRow(new Object[]{null, null, null, null, null, null, null});
     
-    // Selecciona automáticamente la fila recién agregada
+  
     int fila = modelo.getRowCount() - 1;
     TablaClientes.setRowSelectionInterval(fila, fila);
     }//GEN-LAST:event_BotonNuevoClienteActionPerformed
@@ -252,13 +249,13 @@ private void cargarClientes() {
             Object idObj = modelo.getValueAt(i, 0);
             int id = (idObj instanceof Integer) ? (Integer) idObj : 0;
 
-            // Normalización a MAYÚSCULAS
+
             String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 1) != null ? modelo.getValueAt(i, 1).toString() : null);
             String apellidos = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2) != null ? modelo.getValueAt(i, 2).toString() : null);
             String dni = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 3) != null ? modelo.getValueAt(i, 3).toString() : null);
                 if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
                     JOptionPane.showMessageDialog(this, "El DNI de la fila " + (i+1) + " no es válido: " + dni);
-                    return; // no guarda si algún DNI es incorrecto
+                    return; 
                 }
             String telefono = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 4) != null 
                         ? modelo.getValueAt(i, 4).toString() 
@@ -379,7 +376,7 @@ private void cargarClientes() {
         return;
     }
 
-    int id = (int) TablaClientes.getValueAt(fila, 0); // eliminar por ID
+    int id = (int) TablaClientes.getValueAt(fila, 0); 
     int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que quieres eliminar este cliente?", "Confirmar", JOptionPane.YES_NO_OPTION);
     if (confirmar != JOptionPane.YES_OPTION) return;
 

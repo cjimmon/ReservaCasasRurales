@@ -134,8 +134,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_TextoUsuarioActionPerformed
 
     private void BotonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonConectarActionPerformed
-        // TODO add your handling code here:
-          // Normalizar entradas (mayúsculas, trim…)
+
     String usuario = InputUtils.normalizarMayusculas(TextoUsuario.getText());
     String password = InputUtils.normalizarMayusculas(new String(TextoContraseña.getPassword()));
 
@@ -157,7 +156,7 @@ public class Login extends javax.swing.JFrame {
             String rol = rs.getString("rol");
             JOptionPane.showMessageDialog(this, "Bienvenido " + usuario + " (" + rol + ")");
 
-            // Abrir pantalla principal
+            
             Principal principal = new Principal(usuario, rol);
             principal.setVisible(true);
             this.dispose();

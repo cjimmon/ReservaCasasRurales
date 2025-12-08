@@ -20,8 +20,6 @@ public class GenerarListadoClientes {
         try (Connection con = DBConnection.getConnection()) {
 
             
-            // Elegir ruta donde guardar
-            
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle("Guardar listado de clientes...");
             chooser.setSelectedFile(new File("Listado_Clientes_" + inicioSQL + "_a_" + finSQL + ".pdf"));
@@ -33,8 +31,6 @@ public class GenerarListadoClientes {
             if (!rutaFinal.toLowerCase().endsWith(".pdf"))
                 rutaFinal += ".pdf";
 
-            
-            // Consulta SQL
             
             String sql = "SELECT c.nombre, c.apellidos, c.DNI, c.telefono, c.email " +
                          "FROM cliente c " +
@@ -51,17 +47,13 @@ public class GenerarListadoClientes {
             ResultSet rs = ps.executeQuery();
 
             
-            // Crear PDF
-            
             PDDocument pdf = new PDDocument();
             PDPage page = new PDPage();
             pdf.addPage(page);
 
             PDPageContentStream cs = new PDPageContentStream(pdf, page);
 
-            
-            
-            
+           
             cs.beginText();
             cs.setFont(PDType1Font.HELVETICA_BOLD, 18);
             cs.newLineAtOffset(40, 750);
@@ -109,8 +101,7 @@ public class GenerarListadoClientes {
 
                     y -= 25;
                 }
-
-                
+               
                 if (y < 50) {
                     cs.close();
                     page = new PDPage();

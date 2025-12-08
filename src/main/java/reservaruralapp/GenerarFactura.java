@@ -20,7 +20,6 @@ public class GenerarFactura {
         return (pageWidth - (font.getStringWidth(text) / 1000 * fontSize)) / 2;
     }
 
-    // Método para generar factura con plantilla y diálogo de guardado
     public static void generarFacturaConDialogo(int idFacturaSeleccionada) {
         try {
            
@@ -89,7 +88,7 @@ public class GenerarFactura {
             PDPageContentStream cs = new PDPageContentStream(doc, page,
             PDPageContentStream.AppendMode.APPEND, true);
 
-            float y = page.getMediaBox().getHeight() * 2 / 3f; // altura de inicio
+            float y = page.getMediaBox().getHeight() * 2 / 3f; 
             PDType1Font fontBold = PDType1Font.HELVETICA_BOLD;
             PDType1Font fontNormal = PDType1Font.HELVETICA;
             float fontSize = 12;
@@ -99,7 +98,7 @@ public class GenerarFactura {
             String textFactura = "FACTURA Nº " + idFactura;
             cs.beginText();
             cs.setFont(fontBold, fontSize + 2);
-            cs.setNonStrokingColor(0, 0, 0); // negro
+            cs.setNonStrokingColor(0, 0, 0); 
             cs.newLineAtOffset(getXCenter(textFactura, fontBold, pageWidth, fontSize + 2), y);
             cs.showText(textFactura);
             cs.endText();

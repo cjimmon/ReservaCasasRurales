@@ -15,11 +15,11 @@ public class PantallaInicio extends JWindow {
     }
 
     private void initUI() {
-        // Panel principal
+        
         JPanel content = new JPanel(new BorderLayout());
         content.setBackground(Color.WHITE);
 
-        // Cargar logo desde recursos
+        
         java.net.URL imgUrl = getClass().getResource("/resources/logo.png");
         if (imgUrl != null) {
             ImageIcon icon = new ImageIcon(imgUrl);
@@ -31,16 +31,16 @@ public class PantallaInicio extends JWindow {
             lblLogo.setFont(new Font("SansSerif", Font.BOLD, 24));
         }
 
-        // Barra de progreso
+        
         progressBar.setStringPainted(true);
         progressBar.setPreferredSize(new Dimension(WIDTH, 24));
         progressBar.setValue(0);
 
-        // Pie con texto de estado opcional
+       
         JLabel lblStatus = new JLabel("Iniciando...");
         lblStatus.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
 
-        // Montar layout
+        
         content.add(lblLogo, BorderLayout.CENTER);
         JPanel south = new JPanel(new BorderLayout());
         south.add(progressBar, BorderLayout.CENTER);
@@ -54,27 +54,22 @@ public class PantallaInicio extends JWindow {
     }
 
     
-    //Muestra el splash y lanza tareas en segundo plano.
-    //Al finalizar abre LoginForm.
-    
     public void showSplashAndInit() {
         setVisible(true);
 
-        // SwingWorker para no bloquear el EDT
         SwingWorker<Void, Integer> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
-                // Simulación de pasos de inicialización.
-                // Reemplaza/añade las tareas reales: abrir BD, leer config, cargar recursos...
+               
                 for (int i = 0; i <= 100; i++) {
-                    Thread.sleep(25);            // simula trabajo
-                    publish(i);                 // actualiza barra
+                    Thread.sleep(25);            
+                    publish(i);                 
                     if (i == 10) {
-                        // Ejemplo: intentar conexión a BD (no bloqueante)
+                   
                         try {
                             util.DBConnection.getConnection();
                         } catch (Exception ex) {
-                            // registrar/loggear si hace falta
+                            
                         }
                     }
                 }
@@ -90,7 +85,7 @@ public class PantallaInicio extends JWindow {
 
             @Override
             protected void done() {
-                // Cerrar splash y abrir login en el EDT
+             
                 SwingUtilities.invokeLater(() -> {
                     dispose();
                     new Login().setVisible(true);

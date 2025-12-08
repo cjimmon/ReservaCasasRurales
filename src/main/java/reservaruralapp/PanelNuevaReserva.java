@@ -17,15 +17,15 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
     }
 
     private void configurarSpinnersFecha() {
-        // Configurar jSpinnerFechaInicio
+        
         jSpinnerFechaInicio.setModel(new SpinnerDateModel());
         jSpinnerFechaInicio.setEditor(new JSpinner.DateEditor(jSpinnerFechaInicio, "dd/MM/yyyy"));
-        jSpinnerFechaInicio.setValue(new java.util.Date()); // fecha actual por defecto
+        jSpinnerFechaInicio.setValue(new java.util.Date()); 
 
-        // Configurar jSpinnerFechaFin
+        
         jSpinnerFechaFin.setModel(new SpinnerDateModel());
         jSpinnerFechaFin.setEditor(new JSpinner.DateEditor(jSpinnerFechaFin, "dd/MM/yyyy"));
-        jSpinnerFechaFin.setValue(new java.util.Date()); // fecha actual por defecto
+        jSpinnerFechaFin.setValue(new java.util.Date()); 
     }
     private int obtenerIdCasa(String nombreCasa) {
     String sql = "SELECT id_casa FROM casa WHERE nombre = ?";
@@ -53,7 +53,7 @@ public class PanelNuevaReserva extends javax.swing.JPanel {
 }
 
 
-//Comprueba si una casa está disponible entre dos fechas.
+
 
 private boolean estaDisponible(int idCasa, String fechaInicio, String fechaFin) {
     String sql = "SELECT COUNT(*) FROM reserva " +
@@ -73,7 +73,7 @@ private boolean estaDisponible(int idCasa, String fechaInicio, String fechaFin) 
 
         rs = ps.executeQuery();
         if (rs.next()) {
-            return rs.getInt(1) == 0; // disponible si no hay reservas superpuestas
+            return rs.getInt(1) == 0; 
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, "Error comprobando disponibilidad: " + e.getMessage());
@@ -86,7 +86,7 @@ private boolean estaDisponible(int idCasa, String fechaInicio, String fechaFin) 
 }
 
 
-//Carga los nombres de todas las casas en el JComboBox.
+
 
 private void cargarCasasEnComboBox() {
     DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
@@ -105,7 +105,7 @@ private void cargarCasasEnComboBox() {
         e.printStackTrace();
     }
 
-    // Finalmente, asignamos el modelo al combo
+    
     casaReserva.setModel(model);
 }
 
@@ -426,16 +426,12 @@ private void cargarCasasEnComboBox() {
         comentarioReserva.setText("");
         numeroPersonasReserva.setValue(1);
 
-        // Poner los calendarios a la fecha actual
         jSpinnerFechaInicio.setValue(new java.util.Date());
         jSpinnerFechaFin.setValue(new java.util.Date());
 
-        // Seleccionar el primer elemento del combo de casas
         if (casaReserva.getItemCount() > 0) {
             casaReserva.setSelectedIndex(0);
         }
-
-        // Seleccionar el primer estado (pendiente)
         if (estadoReserva.getItemCount() > 0) {
             estadoReserva.setSelectedIndex(0);
         }
@@ -452,7 +448,7 @@ private void cargarCasasEnComboBox() {
         String dni = InputUtils.normalizarMayusculas(DNIReserva.getText().trim());
         if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
             JOptionPane.showMessageDialog(this, "El DNI no es válido: " + dni);
-            return; // no guarda si el DNI es incorrecto
+            return; 
         }
         String telefono = InputUtils.normalizarMayusculas(telefonoReserva.getText().trim());
         if (telefono != null && !telefono.isEmpty() && !InputUtils.validaTelefonoE164(telefono)) {
@@ -462,7 +458,7 @@ private void cargarCasasEnComboBox() {
         String email = InputUtils.normalizarMayusculas(emailReserva.getText().trim());
         if (!InputUtils.validaEmail(email)) {
             JOptionPane.showMessageDialog(this, "El email no es válido: " + email);
-            return; // no guarda si el email es incorrecto
+            return; 
         }
         String comentarios = InputUtils.normalizarMayusculas(comentarioReserva.getText().trim());
         String casaSeleccionada = InputUtils.normalizarMayusculas((String) casaReserva.getSelectedItem());
@@ -474,7 +470,7 @@ private void cargarCasasEnComboBox() {
             return;
         }
 
-        // Obtener fechas de los JSpinner
+        
         java.util.Date utilFechaInicio = (java.util.Date) jSpinnerFechaInicio.getValue();
         java.util.Date utilFechaFin = (java.util.Date) jSpinnerFechaFin.getValue();
 
@@ -483,7 +479,6 @@ private void cargarCasasEnComboBox() {
             return;
         }
 
-        // Formatear fechas como texto dd/MM/yyyy
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String fechaInicioStr = sdf.format(utilFechaInicio);
         String fechaFinStr = sdf.format(utilFechaFin);
@@ -492,7 +487,7 @@ private void cargarCasasEnComboBox() {
             conn.setAutoCommit(false);
 
             int idCliente = 0;
-            // Verificar si el cliente ya existe por DNI
+           
             String sqlBuscarCliente = "SELECT id_cliente FROM cliente WHERE DNI = ?";
             try (PreparedStatement psBuscar = conn.prepareStatement(sqlBuscarCliente)) {
                 psBuscar.setString(1, dni);
@@ -503,7 +498,7 @@ private void cargarCasasEnComboBox() {
                 }
             }
 
-            // Si no existe, insertamos el cliente
+       
             if (idCliente == 0) {
                 String sqlCliente = "INSERT INTO cliente(nombre, apellidos, DNI, telefono, email, comentarios) VALUES (?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement psCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS)) {
@@ -524,7 +519,6 @@ private void cargarCasasEnComboBox() {
                 }
             }
 
-            // Obtener id_casa
             String sqlCasa = "SELECT id_casa FROM casa WHERE nombre = ?";
             int idCasa;
             try (PreparedStatement psCasa = conn.prepareStatement(sqlCasa)) {
@@ -537,7 +531,6 @@ private void cargarCasasEnComboBox() {
                 }
             }
 
-            // Insertar reserva
             String sqlReserva = "INSERT INTO reserva(id_cliente, id_casa, fecha_inicio, fecha_fin, estado, num_personas) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement psReserva = conn.prepareStatement(sqlReserva)) {
                 psReserva.setInt(1, idCliente);

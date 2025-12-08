@@ -14,15 +14,15 @@ public class Principal extends javax.swing.JFrame {
     
     
     private void configurarVentana() {
-        // Cambiar título dinámicamente
+        
         setTitle("Reservas Rurales - Usuario: " + usuario + " (" + rol + ")");
         
-        // Cambiar etiqueta de bienvenida
+        
         Bienvenida.setText("Bienvenido " + usuario + " (" + rol + ")");
     }
     
     
-        // Método para mostrar un panel según el botón pulsado
+        
     private void mostrarPanel(String nombrePanel) {
         CardLayout layout = (CardLayout) jPanel3.getLayout();
         layout.show(jPanel3, nombrePanel);

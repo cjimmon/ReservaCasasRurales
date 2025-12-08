@@ -2,6 +2,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
@@ -14,15 +15,20 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <!-- ===================== -->
+    <!--      DEPENDENCIAS     -->
+    <!-- ===================== -->
+
     <dependencies>
-        <!-- Jakarta Activation API (válida en Maven Central) -->
+
+        <!-- Jakarta Activation API -->
         <dependency>
             <groupId>com.sun.activation</groupId>
             <artifactId>jakarta.activation</artifactId>
             <version>1.2.2</version>
         </dependency>
 
-        <!-- Jakarta Mail API (válida en Maven Central) -->
+        <!-- Jakarta Mail API -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
@@ -42,26 +48,64 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.43.0.0</version>
         </dependency>
+
     </dependencies>
 
+    <!-- ===================== -->
+    <!--       BUILD           -->
+    <!-- ===================== -->
     <build>
         <plugins>
-            <!-- Ejecutar la clase principal desde Maven -->
+
+            <!-- ================================ -->
+            <!-- 1) Plugin para ejecutar desde NetBeans -->
+            <!-- ================================ -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <mainClass>reservaruralapp.Main</mainClass>
                 </configuration>
             </plugin>
+
+            <!-- ============================================ -->
+            <!-- 2) SHADE PLUGIN → CREA EL JAR CON TODO DENTRO -->
+            <!-- ============================================ -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+
+                        <configuration>
+
+                            <!-- Necesario para que el fat-jar sea ejecutable -->
+                            <transformers>
+                                <transformer 
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <!-- ⚠️ Cambia ESTA línea si tu clase Main es diferente -->
+                                    <mainClass>reservaruralapp.Main</mainClass>
+                                </transformer>
+                            </transformers>
+
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>shaded</shadedClassifierName>
+
+                        </configuration>
+
+                    </execution>
+                </executions>
+
+            </plugin>
+
         </plugins>
     </build>
 

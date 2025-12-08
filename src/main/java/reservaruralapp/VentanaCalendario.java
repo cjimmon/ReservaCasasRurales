@@ -9,7 +9,7 @@ public class VentanaCalendario extends javax.swing.JFrame {
       public VentanaCalendario() {
         setTitle("Calendario de Ocupación");
         setSize(1200, 700);
-        setLocationRelativeTo(null); // Centrar la ventana
+        setLocationRelativeTo(null); 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
 
         CalendarioOcupacion panel = new CalendarioOcupacion();

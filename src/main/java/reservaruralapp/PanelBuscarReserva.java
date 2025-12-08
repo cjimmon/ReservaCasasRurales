@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +20,7 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
     initComponents();
     
     tablaReservas.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {}, // Sin filas al inicio
+        new Object [][] {}, 
         new String [] { "Nº Factura", "ID", "Nombre", "Apellidos", "DNI", "Teléfono", "Email", "Casa", "Personas", "Inicio", "Fin", "Estado" }
     ));
     
@@ -84,7 +86,7 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
 
             while (rs.next()) {
                 model.addRow(new Object[]{
-                    rs.getObject("id_factura"), // Puede ser null si no hay factura
+                    rs.getObject("id_factura"), 
                     rs.getInt("id_reserva"),
                     rs.getString("nombre_cliente"),
                     rs.getString("apellidos_cliente"),
@@ -102,7 +104,14 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
         }
-    }
+            String[] estados = {"Pendiente", "Confirmada", "Cancelada"};
+           JComboBox<String> comboEstado = new JComboBox<>(estados);
+
+           int colEstado = tablaReservas.getColumnCount() - 1;
+           tablaReservas.getColumnModel()
+                        .getColumn(colEstado)
+                        .setCellEditor(new DefaultCellEditor(comboEstado));
+       }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -327,14 +336,14 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                 int idCliente = obtenerIdClienteDesdeReserva(idReserva, conn);
                 int idCasa = obtenerIdCasaDesdeReserva(idReserva, conn);
 
-                // Datos del cliente
+                
                 String nombre = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 2).toString());
                 String apellidos = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 3).toString());
                 String dni = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 4).toString());
 
             if (dni != null && !dni.isEmpty() && !InputUtils.validaDNI(dni)) {
                 JOptionPane.showMessageDialog(this, "El DNI no es válido: " + dni);
-                return; // no guarda si el DNI es incorrecto
+                return; 
             }
                 String telefono = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 5) != null 
                     ? modelo.getValueAt(i, 5).toString() 
@@ -347,13 +356,11 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                 String email = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 6).toString());
             if (!InputUtils.validaEmail(email)) {
                 JOptionPane.showMessageDialog(this, "El email no es válido: " + email);
-                return; // no guarda si el email es incorrecto
+                return; 
             }
 
-                // Datos de la casa
                 String nombreCasa = InputUtils.normalizarMayusculas(modelo.getValueAt(i, 7).toString());
 
-                // Datos de la reserva
                 int numPersonas = Integer.parseInt(modelo.getValueAt(i, 8).toString());
                 String fechaInicio = modelo.getValueAt(i, 9).toString();
                 String fechaFin = modelo.getValueAt(i, 10).toString();
@@ -367,7 +374,6 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                     return;
 }
 
-                // Guardar como texto directamente
                 String sqlCliente = "UPDATE cliente SET nombre=?, apellidos=?, DNI=?, telefono=?, email=? WHERE id_cliente=?";
                 try (PreparedStatement ps = conn.prepareStatement(sqlCliente)) {
                     ps.setString(1, nombre);
@@ -410,9 +416,8 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                     ps.executeUpdate();
                 }
 
-                // --- GENERAR FACTURA SI SE CONFIRMA LA RESERVA ---
                 if ("CONFIRMADA".equalsIgnoreCase(estado)) {
-                    // Comprobar si ya existe factura para esta reserva
+         
                     String sqlCheck = "SELECT id_factura, importe_total FROM factura WHERE id_reserva = ?";
                     Integer idFacturaExistente = null;
                     double importeActualFactura = 0;
@@ -421,12 +426,11 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                         psCheck.setInt(1, idReserva);
                         ResultSet rsCheck = psCheck.executeQuery();
                         if (rsCheck.next()) {
-                            idFacturaExistente = rsCheck.getInt("id_factura"); // Guardamos el id de la factura
-                            importeActualFactura = rsCheck.getDouble("importe_total"); // Guardamos el importe actual
+                            idFacturaExistente = rsCheck.getInt("id_factura"); 
+                            importeActualFactura = rsCheck.getDouble("importe_total"); 
                         }
                     }
 
-                    // Calcular importe_total basado en fechas y precio_noche
                     String sqlImporte = "SELECT (julianday(substr(r.fecha_fin, 7, 4) || '-' || substr(r.fecha_fin, 4, 2) || '-' || substr(r.fecha_fin, 1, 2)) " +
                                         "- julianday(substr(r.fecha_inicio, 7, 4) || '-' || substr(r.fecha_inicio, 4, 2) || '-' || substr(r.fecha_inicio, 1, 2))) " +
                                         "* c.precio_noche AS total " +
@@ -446,7 +450,7 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                     java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
                     if (idFacturaExistente == null) {
-                        // No existe factura → INSERT
+  
                         String sqlFactura = "INSERT INTO factura(id_reserva, fecha_emision, importe_total) VALUES(?, ?, ?)";
                         try (PreparedStatement psFac = conn.prepareStatement(sqlFactura)) {
                             psFac.setInt(1, idReserva);
@@ -454,12 +458,11 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                             psFac.setDouble(3, importeTotal);
                             psFac.executeUpdate();
 
-                            // Mensaje de creación
                             JOptionPane.showMessageDialog(this,
                                 "Reserva confirmada: factura creada correctamente.\nFecha emisión: " + hoy.format(formatter));
                         }
                     } else if (importeActualFactura != importeTotal) {
-                        // Ya existe factura → UPDATE solo si cambió el importe
+    
                         String sqlFacturaUpdate = "UPDATE factura SET fecha_emision = ?, importe_total = ? WHERE id_factura = ?";
                         try (PreparedStatement psFac = conn.prepareStatement(sqlFacturaUpdate)) {
                             psFac.setString(1, hoy.format(formatter));
@@ -467,7 +470,6 @@ public class PanelBuscarReserva extends javax.swing.JPanel {
                             psFac.setInt(3, idFacturaExistente);
                             psFac.executeUpdate();
 
-                            // Mensaje de actualización solo si cambió importe
                             JOptionPane.showMessageDialog(this,
                                 "La factura existente se ha actualizado debido a cambios en las fechas o importe.\nNueva fecha emisión: " + hoy.format(formatter));
                         }

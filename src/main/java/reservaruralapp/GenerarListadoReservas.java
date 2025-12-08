@@ -19,7 +19,6 @@ public class GenerarListadoReservas {
     public static void generarPDFreservas(String inicioSQL, String finSQL) {
         try (Connection con = DBConnection.getConnection()) {
 
-            // Elegir ruta donde guardar el PDF
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle("Guardar listado de reservas...");
             chooser.setSelectedFile(new File("Listado_Reservas_" + inicioSQL + "_a_" + finSQL + ".pdf"));
@@ -30,7 +29,6 @@ public class GenerarListadoReservas {
             if (!rutaFinal.toLowerCase().endsWith(".pdf"))
                 rutaFinal += ".pdf";
 
-            // Consulta SQL: LEFT JOIN para incluir reservas sin factura
             String sql = """
                 SELECT 
                     r.id_reserva,
@@ -56,13 +54,11 @@ public class GenerarListadoReservas {
             ps.setString(2, inicioSQL);
             ResultSet rs = ps.executeQuery();
 
-            // Crear PDF
             PDDocument pdf = new PDDocument();
             PDPage page = new PDPage();
             pdf.addPage(page);
             PDPageContentStream cs = new PDPageContentStream(pdf, page);
 
-            // Título con fechas
             cs.beginText();
             cs.setFont(PDType1Font.HELVETICA_BOLD, 18);
             cs.newLineAtOffset(40, 750);
@@ -73,7 +69,6 @@ public class GenerarListadoReservas {
 
             while (rs.next()) {
 
-                // Leer total y manejar null
                 double total = rs.getDouble("importe_total");
                 if (rs.wasNull()) total = 0.0;
 
@@ -88,7 +83,6 @@ public class GenerarListadoReservas {
                         " | Estado: " + rs.getString("estado") +
                         " | Total: " + total + " €";
 
-                // Escribir en PDF
                 cs.beginText();
                 cs.setFont(PDType1Font.HELVETICA, 10);
                 cs.newLineAtOffset(40, y);
@@ -110,7 +104,6 @@ public class GenerarListadoReservas {
                 cs.endText();
                 y -= 18;
 
-                // Nueva página si es necesario
                 if (y < 50) {
                     cs.close();
                     page = new PDPage();

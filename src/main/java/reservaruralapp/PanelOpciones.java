@@ -307,7 +307,7 @@ private void cargarOpciones() {
         ResultSet rs = psCheck.executeQuery();
 
         if (rs.next()) {
-            // UPDATE
+            
             String sqlUpdate = "UPDATE usuario SET password = ?, rol = ? WHERE UPPER(username) = UPPER(?)";
 
             try (PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate)) {
@@ -320,7 +320,7 @@ private void cargarOpciones() {
             }
 
         } else {
-            // INSERT
+            
             String sqlInsert = "INSERT INTO usuario(username, password, rol) VALUES(?,?,?)";
 
             try (PreparedStatement psInsert = conn.prepareStatement(sqlInsert)) {
@@ -339,7 +339,7 @@ private void cargarOpciones() {
 
         if (!correoSMTP.isEmpty() && !contrasenaSMTP.isEmpty()) {
 
-            // Comprobar si existe registro en la tabla opciones
+            
             String checkOpciones = "SELECT COUNT(*) FROM opciones";
             PreparedStatement psOpcCheck = conn.prepareStatement(checkOpciones);
             ResultSet rsOpc = psOpcCheck.executeQuery();
@@ -347,14 +347,14 @@ private void cargarOpciones() {
             boolean existe = rsOpc.getInt(1) > 0;
 
             if (existe) {
-                // UPDATE
+                
                 String updateOpc = "UPDATE opciones SET correoRemitente=?, contrasenaApp=? WHERE id=1";
                 PreparedStatement psUpdateOpc = conn.prepareStatement(updateOpc);
                 psUpdateOpc.setString(1, correoSMTP);
                 psUpdateOpc.setString(2, contrasenaSMTP);
                 psUpdateOpc.executeUpdate();
             } else {
-                // INSERT
+                
                 String insertOpc = "INSERT INTO opciones(correoRemitente, contrasenaApp) VALUES (?,?)";
                 PreparedStatement psInsertOpc = conn.prepareStatement(insertOpc);
                 psInsertOpc.setString(1, correoSMTP);
@@ -533,7 +533,7 @@ private void cargarOpciones() {
 
     try (Connection conn = DBConnection.getConnection()) {
 
-        // Comprobar si ya existe un registro
+        
         String checkSql = "SELECT COUNT(*) FROM OpcionesEmail";
         PreparedStatement psCheck = conn.prepareStatement(checkSql);
         ResultSet rsCheck = psCheck.executeQuery();
@@ -541,14 +541,14 @@ private void cargarOpciones() {
         boolean existe = rsCheck.getInt(1) > 0;
 
         if (existe) {
-            // UPDATE
+            
             String updateSql = "UPDATE OpcionesEmail SET correoRemitente = ?, passwordApp = ? WHERE id = 1";
             PreparedStatement psUpdate = conn.prepareStatement(updateSql);
             psUpdate.setString(1, nuevoCorreo);
             psUpdate.setString(2, nuevaContrasena);
             psUpdate.executeUpdate();
         } else {
-            // INSERT
+            
             String insertSql = "INSERT INTO OpcionesEmail(correoRemitente, passwordApp) VALUES(?, ?)";
             PreparedStatement psInsert = conn.prepareStatement(insertSql);
             psInsert.setString(1, nuevoCorreo);

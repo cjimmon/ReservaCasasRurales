@@ -77,18 +77,15 @@ public class CalendarioOcupacion extends javax.swing.JPanel {
         int diaSemana = primero.getDayOfWeek().getValue(); 
         int numDias = primero.lengthOfMonth();
 
-        // --- Redimensionar filas según el mes ---
         int filasNecesarias = (int) Math.ceil((numDias + diaSemana - 1) / 7.0);
         if (modeloTabla.getRowCount() < filasNecesarias) {
             modeloTabla.setRowCount(filasNecesarias);
         }
 
-        // Limpiar tabla
         for (int i = 0; i < modeloTabla.getRowCount(); i++)
             for (int j = 0; j < modeloTabla.getColumnCount(); j++)
                 modeloTabla.setValueAt(null, i, j);
 
-        // Obtener días ocupados de la BBDD
         List<Integer> diasOcupados = new ArrayList<>();
 
         try (Connection conn = DBConnection.getConnection();
@@ -104,7 +101,6 @@ public class CalendarioOcupacion extends javax.swing.JPanel {
                 LocalDate inicio = LocalDate.parse(rs.getString("fecha_inicio"), df);
                 LocalDate fin = LocalDate.parse(rs.getString("fecha_fin"), df);
 
-         // Día final realmente ocupado (excluye día de salida)
                 LocalDate ultimoDiaOcupado = fin.minusDays(1);
 
                 LocalDate temp = inicio;
@@ -120,7 +116,6 @@ public class CalendarioOcupacion extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
         }
 
-        // Rellenar tabla con botones
         int col = diaSemana - 1;
         int fila = 0;
 
@@ -246,12 +241,12 @@ public class CalendarioOcupacion extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         cambiarMes(1); // Mes siguiente
+         cambiarMes(1);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       
-        cambiarMes(-1); // Mes anterior// Mes siguiente
+        cambiarMes(-1); 
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

@@ -4,8 +4,6 @@ import javax.swing.JButton;
 
 public class ControlAcceso {
 
-    //Control de usuario por sesion
-    
     private static String rolActual = "admin";
 
     public static void setRol(String rol) {
@@ -16,8 +14,6 @@ public class ControlAcceso {
         return rolActual;
     }
 
-    //Gestion de permisos por usuario
-    
     public static void aplicarPermisos(JButton... botones) {
 
         switch (rolActual) {

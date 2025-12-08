@@ -233,18 +233,16 @@ public class PanelHuespedes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonNuevoHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonNuevoHuespedActionPerformed
-        DefaultTableModel modelo = (DefaultTableModel) tablaHuespedes.getModel();
-        // Agrega una fila vacía con todos los valores null (ID se asignará al guardar)
+        DefaultTableModel modelo = (DefaultTableModel) tablaHuespedes.getModel();  
         modelo.addRow(new Object[]{null, null, null, null, null, null, null});
-
-        // Selecciona automáticamente la fila recién agregada
+   
         int fila = modelo.getRowCount() - 1;
         tablaHuespedes.setRowSelectionInterval(fila, fila);
     }//GEN-LAST:event_BotonNuevoHuespedActionPerformed
 
     private void GuardarHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarHuespedActionPerformed
         DefaultTableModel modelo = (DefaultTableModel) tablaHuespedes.getModel();
-    boolean todoCorrecto = true; // bandera para controlar errores
+    boolean todoCorrecto = true; 
 
     try (Connection conn = DBConnection.getConnection()) {
         for (int i = 0; i < modelo.getRowCount(); i++) {
@@ -258,8 +256,7 @@ public class PanelHuespedes extends javax.swing.JPanel {
             }
 
             int idReserva = Integer.parseInt(idReservaObj.toString());
-
-            // Comprobar si la reserva existe y obtener datos
+         
             String sqlReserva = "SELECT num_personas, fecha_inicio, fecha_fin FROM Reserva WHERE id_reserva=?";
             try (PreparedStatement psReserva = conn.prepareStatement(sqlReserva)) {
                 psReserva.setInt(1, idReserva);
@@ -274,14 +271,13 @@ public class PanelHuespedes extends javax.swing.JPanel {
                 String fechaInicio = rsReserva.getString("fecha_inicio");
                 String fechaFin = rsReserva.getString("fecha_fin");
 
-                // Contar huespedes ya guardados de esa reserva
                 String sqlCount = "SELECT COUNT(*) AS total FROM Huespedes WHERE id_reserva=?";
                 try (PreparedStatement psCount = conn.prepareStatement(sqlCount)) {
                     psCount.setInt(1, idReserva);
                     ResultSet rsCount = psCount.executeQuery();
                     rsCount.next();
                     int totalHuespedes = rsCount.getInt("total");
-                    if (idObj == null) totalHuespedes++; // sumamos el que se está agregando ahora
+                    if (idObj == null) totalHuespedes++; 
 
                     if (totalHuespedes > numPersonas) {
                         JOptionPane.showMessageDialog(this, "No se puede agregar más huéspedes de los permitidos en la reserva " + idReserva);
@@ -290,7 +286,6 @@ public class PanelHuespedes extends javax.swing.JPanel {
                     }
                 }
 
-                // Datos del huésped
                 String nombreCompleto = modelo.getValueAt(i, 2).toString().toUpperCase();
                 String tipoDocumento = modelo.getValueAt(i, 3).toString().toUpperCase();
                 String numeroDocumento = modelo.getValueAt(i, 4).toString().toUpperCase();
@@ -300,7 +295,6 @@ public class PanelHuespedes extends javax.swing.JPanel {
                 String domicilio = modelo.getValueAt(i, 8).toString().toUpperCase();
 
                 if (idObj == null || idObj.toString().isEmpty()) {
-                    // INSERT
                     String sqlInsert = "INSERT INTO Huespedes(id_reserva, nombre_completo, tipo_documento, numero_documento, sexo, fecha_nacimiento, nacionalidad, domicilio, fecha_entrada, fecha_salida) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     try (PreparedStatement psInsert = conn.prepareStatement(sqlInsert)) {
                         psInsert.setInt(1, idReserva);
@@ -316,7 +310,6 @@ public class PanelHuespedes extends javax.swing.JPanel {
                         psInsert.executeUpdate();
                     }
                 } else {
-                    // UPDATE
                     int idHuesped = Integer.parseInt(idObj.toString());
                     String sqlUpdate = "UPDATE Huespedes SET nombre_completo=?, tipo_documento=?, numero_documento=?, sexo=?, fecha_nacimiento=?, nacionalidad=?, domicilio=?, fecha_entrada=?, fecha_salida=? WHERE id_huesped=?";
                     try (PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate)) {
