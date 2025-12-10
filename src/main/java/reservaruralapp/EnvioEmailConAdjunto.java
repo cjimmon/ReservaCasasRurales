@@ -195,23 +195,28 @@ public class EnvioEmailConAdjunto {
         return;
     }
 
-    Properties props = new Properties();
-    props.put("mail.smtp.auth", "true");
-    props.put("mail.smtp.starttls.enable", "true");
-    props.put("mail.smtp.host", "smtp.gmail.com");
-    props.put("mail.smtp.port", "587");
-
-    final String remitenteFinal = remitente;
-        final String passwordAppFinal = passwordApp;
-
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(remitenteFinal, passwordAppFinal);
-            }
-        });
-
     try {
+  
+        Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true"); // activa STARTTLS
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587"); // puerto para STARTTLS
+            props.put("mail.smtp.ssl.trust", "smtp.gmail.com"); // confiar en Gmail
+
+            final String remitenteFinal = remitente;
+            final String passwordAppFinal = passwordApp;
+
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(remitenteFinal, passwordAppFinal);
+                }
+            });
+
+
+    
+    
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(remitente));
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailCliente));

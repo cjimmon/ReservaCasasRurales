@@ -500,24 +500,27 @@ private void cargarCasasEnComboBox() {
 
        
             if (idCliente == 0) {
-                String sqlCliente = "INSERT INTO cliente(nombre, apellidos, DNI, telefono, email, comentarios) VALUES (?, ?, ?, ?, ?, ?)";
-                try (PreparedStatement psCliente = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS)) {
-                    psCliente.setString(1, InputUtils.normalizarMayusculas(nombre));
-                    psCliente.setString(2, InputUtils.normalizarMayusculas(apellidos));
-                    psCliente.setString(3, InputUtils.normalizarMayusculas(dni));
-                    psCliente.setString(4, InputUtils.normalizarMayusculas(telefono));
-                    psCliente.setString(5, InputUtils.normalizarMayusculas(email));
-                    psCliente.setString(6, InputUtils.normalizarMayusculas(comentarios));
-                    psCliente.executeUpdate();
+                    String sqlCliente = "INSERT INTO cliente(nombre, apellidos, DNI, telefono, email, comentarios) VALUES (?, ?, ?, ?, ?, ?)";
+                    try (PreparedStatement psCliente = conn.prepareStatement(sqlCliente)) {
+                        psCliente.setString(1, InputUtils.normalizarMayusculas(nombre));
+                        psCliente.setString(2, InputUtils.normalizarMayusculas(apellidos));
+                        psCliente.setString(3, InputUtils.normalizarMayusculas(dni));
+                        psCliente.setString(4, InputUtils.normalizarMayusculas(telefono));
+                        psCliente.setString(5, InputUtils.normalizarMayusculas(email));
+                        psCliente.setString(6, InputUtils.normalizarMayusculas(comentarios));
+                        psCliente.executeUpdate();
 
-                    ResultSet rs = psCliente.getGeneratedKeys();
-                    if (rs.next()) {
-                        idCliente = rs.getInt(1);
-                    } else {
-                        throw new SQLException("No se pudo obtener el ID del cliente.");
+                        // Obtener el ID generado en SQLite
+                        try (Statement stmt = conn.createStatement();
+                             ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()")) {
+                            if (rs.next()) {
+                                idCliente = rs.getInt(1);
+                            } else {
+                                throw new SQLException("No se pudo obtener el ID del cliente.");
+                            }
+                        }
                     }
                 }
-            }
 
             String sqlCasa = "SELECT id_casa FROM casa WHERE nombre = ?";
             int idCasa;

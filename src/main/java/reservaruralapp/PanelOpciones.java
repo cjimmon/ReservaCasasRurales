@@ -333,38 +333,6 @@ private void cargarOpciones() {
             }
         }
 
-      
-        String correoSMTP = TextoNombreOpciones.getText().trim();
-        String contrasenaSMTP = TextoContraseñaOpciones.getText().trim();
-
-        if (!correoSMTP.isEmpty() && !contrasenaSMTP.isEmpty()) {
-
-            
-            String checkOpciones = "SELECT COUNT(*) FROM opciones";
-            PreparedStatement psOpcCheck = conn.prepareStatement(checkOpciones);
-            ResultSet rsOpc = psOpcCheck.executeQuery();
-            rsOpc.next();
-            boolean existe = rsOpc.getInt(1) > 0;
-
-            if (existe) {
-                
-                String updateOpc = "UPDATE opciones SET correoRemitente=?, contrasenaApp=? WHERE id=1";
-                PreparedStatement psUpdateOpc = conn.prepareStatement(updateOpc);
-                psUpdateOpc.setString(1, correoSMTP);
-                psUpdateOpc.setString(2, contrasenaSMTP);
-                psUpdateOpc.executeUpdate();
-            } else {
-                
-                String insertOpc = "INSERT INTO opciones(correoRemitente, contrasenaApp) VALUES (?,?)";
-                PreparedStatement psInsertOpc = conn.prepareStatement(insertOpc);
-                psInsertOpc.setString(1, correoSMTP);
-                psInsertOpc.setString(2, contrasenaSMTP);
-                psInsertOpc.executeUpdate();
-            }
-        }
-
-        JOptionPane.showMessageDialog(this, "Datos de correo SMTP guardados correctamente.");
-
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
@@ -445,8 +413,8 @@ private void cargarOpciones() {
 
     private void CopiaSeguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CopiaSeguridadActionPerformed
         try {
-        
-        String nombreOriginal = "C:\\Users\\jimen\\Documents\\NetBeansProjects\\ReservaCasasRurales\\reservas_rurales.db"; 
+            
+        String nombreOriginal = System.getProperty("user.dir") + "\\reservas_rurales.db"; 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
         String fecha = LocalDateTime.now().format(dtf);
         String nombreBackup = "backup_reservaRural_" + fecha + ".db";
@@ -477,23 +445,23 @@ private void cargarOpciones() {
         }
 
         
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+       Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true"); // activa STARTTLS
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587"); // puerto para STARTTLS
+            props.put("mail.smtp.ssl.trust", "smtp.gmail.com"); // confiar en Gmail
 
-        final String remitenteFinal = remitente;
-        final String passwordAppFinal = passwordApp;
+            final String remitenteFinal = remitente;
+            final String passwordAppFinal = passwordApp;
 
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(remitenteFinal, passwordAppFinal);
-            }
-        });
-
-        
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(remitenteFinal, passwordAppFinal);
+                }
+            });
+ 
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(remitente));
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
