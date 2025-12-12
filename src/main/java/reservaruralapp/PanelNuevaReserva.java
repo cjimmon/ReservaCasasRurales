@@ -88,7 +88,7 @@ private boolean estaDisponible(int idCasa, String fechaInicio, String fechaFin) 
 
 
 
-private void cargarCasasEnComboBox() {
+public void cargarCasasEnComboBox() {
     DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
     String sql = "SELECT nombre FROM casa";
 
