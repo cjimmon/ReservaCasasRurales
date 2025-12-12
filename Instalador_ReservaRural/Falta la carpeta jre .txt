@@ -1,0 +1,1 @@
+falta la carpeta jre de java21 . no se podía subir a git por tamaño
